@@ -199,6 +199,21 @@ public class Lexer {
 					+ input.charAt(currentPosition) + "'");
 		}
 
+		// Chars
+		if (match('\'')) {
+			currentPosition++;
+			if (Character.isAlphabetic(input.charAt(currentPosition))) {
+				char value = input.charAt(currentPosition);
+				currentPosition++;
+				if (match('\'')) {
+					currentPosition++;
+					return new TokenChar(value);
+				}
+			}
+			return new TokenError("Unknown character in input: '"
+					+ input.charAt(currentPosition) + "'");
+		}
+
 		// End of statement
 		if (match(';')) {
 			currentPosition++;
