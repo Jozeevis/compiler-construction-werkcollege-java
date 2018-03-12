@@ -1,5 +1,8 @@
 package parser;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
@@ -7,6 +10,7 @@ import lexer.TokenType;
 public class Parser {
 	private Lexer lexer;
 	private Token currentToken;
+	private List<Token> tokenList;
 
 	// =========================================================
 	// Constructors
@@ -14,12 +18,19 @@ public class Parser {
 
 	public Parser(Lexer l) {
 		lexer = l;
-		next();
+		tokenList = new LinkedList<>();
+		while(true) {
+			Token token = next();
+			if (token.getTokenType() == TokenType.TOK_EOF)
+				break;
+			else
+				tokenList.add(token);
+		}
+		
 	}
 
 	public Parser(String input) {
-		lexer = new Lexer(input);
-		next();
+		this(new Lexer(input));
 	}
 
 	// =========================================================
