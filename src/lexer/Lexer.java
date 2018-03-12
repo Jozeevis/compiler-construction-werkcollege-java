@@ -277,6 +277,9 @@ public class Lexer {
 			return new Token(TokenType.TOK_KW_ELSE);
 		}
 		
+		if (result.equals("while"))
+			return new Token(TokenType.TOK_KW_WHILE);
+		
 		if (result.equals("return")) {
 			return new Token(TokenType.TOK_KW_RETURN);
 		}
