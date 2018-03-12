@@ -26,6 +26,11 @@ public class Parser {
 			else
 				tokenList.add(token);
 		}
+		try {
+			SPLExpressionParser.packExpressions(tokenList);
+		} catch (ParsingException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
