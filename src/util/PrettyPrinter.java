@@ -1,14 +1,25 @@
 package util;
 
-import lexer.TokenType;
-import parser.AstExprBool;
-import parser.AstExprBinOp;
-import parser.AstExprInteger;
+import java.util.List;
+import java.util.ListIterator;
+import lexer.Token;
 
-public class PrettyPrinter implements Visitor {
+import lexer.TokenBool;
+import lexer.TokenChar;
+import lexer.TokenInteger;
+
+import lexer.TokenPrimitiveType;
+import lexer.TokenListFunction;
+import lexer.TokenTupleFunction;
+import lexer.TokenIdentifier;
+
+public class PrettyPrinter {
 	StringBuilder result;
 
-	public String getResultString() {
+	public String getResultString(List<Token> input) {
+		ListIterator<Token> li = input.listIterator();
+		while(li.hasNext())
+			printToken(li.next());
 		return result.toString();
 	}
 
@@ -122,7 +133,7 @@ public class PrettyPrinter implements Visitor {
 		case TOK_MAPSTO:
 			result.append(" -> ");
 		break;
-		case TOK_FUNTYOE:
+		case TOK_FUNTYPE:
 			result.append(" :: ");
 		break;
 		case TOK_DOT:
@@ -134,58 +145,55 @@ public class PrettyPrinter implements Visitor {
 
 		// Primitive types instances
 		case TOK_BOOL:
-			result.append(t.getValue() ? "true" : "false");
+			result.append(((TokenBool)t).getValue() ? "true" : "false");
 		break;
 		case TOK_INT:
-			result.append(t.getValue());
+			result.append(((TokenInteger)t).getValue());
 		break;
 		case TOK_CHAR:
-			result.append("'" + t.getValue() + "'");
+			result.append("'" + ((TokenChar)t).getValue() + "'");
 		break;
 
 		// Primitive type token
 		case TOK_PRIM_TYPE:
-			String output = '';
-			switch(t.getType()): {
+			String output = "";
+			switch(((TokenPrimitiveType)t).getType()) {
 				case PRIMTYPE_BOOL: output = "Bool "; break;
 				case PRIMTYPE_CHAR: output = "Char "; break;
 				case PRIMTYPE_INT: output = "Int "; break;
 				default:
 					throw new Error("PrettyPrinter: cannot print token " + t);
-				}
 			}
 			result.append(output);
 		break;
 
 		// Primitive list functions
 		case TOK_PRIM_FUNC_LIST:
-			String output = '';
-			switch(t.getType()): {
+			output = "";
+			switch(((TokenListFunction)t).getType()) {
 				case LISTFUNC_HEAD: output = "hd"; break;
 				case LISTFUNC_TAIL: output = "tl"; break;
 				default:
 					throw new Error("PrettyPrinter: cannot print token " + t);
-				}
 			}
 			result.append(output);
 		break;
 
 		// Primitive tuple functions
 		case TOK_PRIM_FUNC_TUPLE:
-			String output = '';
-			switch(t.getType()): {
+			output = "";
+			switch(((TokenTupleFunction)t).getType()) {
 				case TUPLEFUNC_FIRST: output = "fst"; break;
 				case TUPLEFUNC_SECOND: output = "snd"; break;
 				default:
 					throw new Error("PrettyPrinter: cannot print token " + t);
-				}
 			}
 			result.append(output);
 		break;
 
 		// Identifier
 		case TOK_IDENTIFIER:
-			result.append(t.getValue());
+			result.append(((TokenIdentifier)t).getValue());
 		break;
 
 		default:
@@ -193,20 +201,5 @@ public class PrettyPrinter implements Visitor {
 		}
 	}
 
-	@Override
-	public void visit(AstExprInteger i) {
-		result.append(i.getValue());
-	}
 
-	@Override
-	public void visit(AstExprBinOp e) {
-		e.getLeft().accept(this);
-		printToken(e.getOperator());
-		e.getRight().accept(this);
-	}
-
-	@Override
-	public void visit(AstExprBool astBool) {
-		// TODO Auto-generated method stub		
-	}
 }

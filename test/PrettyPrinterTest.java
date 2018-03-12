@@ -3,8 +3,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import parser.AstNode;
-import parser.Parser;
+import lexer.Token;
+import lexer.TokenInteger;
+import lexer.TokenType;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import util.PrettyPrinter;
 
 public class PrettyPrinterTest {
@@ -15,29 +20,20 @@ public class PrettyPrinterTest {
 
 	@Test
 	public void testInteger() {
-		Parser p = new Parser("42");
-		AstNode ast = p.pExpr();
+		List<Token> tokens = new ArrayList<Token>();
+		tokens.add(new TokenInteger(42));
 		PrettyPrinter pp = new PrettyPrinter();
-		ast.accept(pp);
-		assertEquals("42", pp.getResultString());
+		assertEquals("42", pp.getResultString(tokens));
 	}
 
 	@Test
 	public void testPlus() {
-		Parser p = new Parser("4   + 2");
-		AstNode ast = p.pExpr();
+		List<Token> tokens = new ArrayList<Token>();
+		tokens.add(new TokenInteger(4));
+		tokens.add(new Token(TokenType.TOK_PLUS));
+		tokens.add(new TokenInteger(2));
 		PrettyPrinter pp = new PrettyPrinter();
-		ast.accept(pp);
-		assertEquals("4+2", pp.getResultString());
-	}
-
-	@Test
-	public void testPlusMult() {
-		Parser p = new Parser("4   + 2*3\n+7* 8 \t  *9");
-		AstNode ast = p.pExpr();
-		PrettyPrinter pp = new PrettyPrinter();
-		ast.accept(pp);
-		assertEquals("4+2*3+7*8*9", pp.getResultString());
+		assertEquals("4 + 2", pp.getResultString(tokens));
 	}
 
 }
