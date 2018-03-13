@@ -9,8 +9,8 @@ import java.util.List;
  * @author Flip van Spaendonck
  */
 public class Node {
-	/** The */
-	protected final List<Expression> expressions;
+	/** The List of expressions, TODO: improve encapsulation of the list.*/
+	public final List<Expression> expressions;
 	/** The name/id used by this node.*/
 	public final String id;
 	

@@ -11,10 +11,18 @@ import java.util.List;
 public class Expression {
 
 	/** The array representing the expression */
-	final Object[] expression;
+	public final Object[] expression;
+	/** The amount of Nodes in this expression */
+	public final int nrOfNodes;
 	
 	public Expression(Object[] expression) {
 		this.expression = expression;
+		int n=0;
+		for(Object o : expression) {
+			if (o instanceof Node)
+				n++;
+		}
+		nrOfNodes = n;
 	}
 	
 	/**
@@ -29,12 +37,14 @@ public class Expression {
 		List<Object> array = new LinkedList<>();
 		int front=0;
 		int end=0;
+		int n=0;
 		while(front<expression.length()) {
 			if(expression.charAt(front) == '~') {
 				end = front+1;
 				while(end < expression.length() && expression.charAt(end) != ' ')
 					end++;
 				array.add(syntax.getNode(expression.substring(front+1, end)));
+				n++;
 				end++;
 				front = end;
 				continue;
@@ -52,8 +62,7 @@ public class Expression {
 				front++;
 			}
 		}
-		
-		
 		this.expression = array.toArray();
+		nrOfNodes = n;
 	}
 }
