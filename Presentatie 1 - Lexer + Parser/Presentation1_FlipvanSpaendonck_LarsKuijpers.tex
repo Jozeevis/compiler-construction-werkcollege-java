@@ -1,0 +1,92 @@
+\documentclass{beamer}
+\usepackage{ru}
+\author{Flip van Spaendonck \& Lars Kuijpers}
+\title{Compiler Construction \\ Under 12 parsers}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+%\institute{} 
+%\date{} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Parser Structure}
+\begin{itemize}
+\item Bottom-up
+\item Separate lexer and parser
+\item Written in Java
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Grammar Transformation}
+FArgs = id [',' FArgs]\\
+Field = [('.hd' $|$ '.tl' $|$ '.fst' $|$ '.snd') Field]\\
+Exp == id Field \\
+$|$ BoolExp2\\
+$|$ NumRng\\
+$|$ FunCall\\
+$|$ '[]'\\
+$|$ '(' Exp')'\\
+$|$ '(' Exp, Exp')'
+\end{frame}
+
+\begin{frame}
+\frametitle{Grammar Transformation}
+BoolExp2 = BoolExp1 \&\& BoolExp2\\
+$|$ BoolExp1 $||$ BoolExp2\\
+$|$ NumRng == NumRng\\
+$|$ NumRng $!=$ NumRng\\
+$|$ NumRng $<$ NumRng\\
+$|$ NumRng $>$ NumRng\\
+$|$ NumRng $<=$ NumRng\\
+$|$ NumRng $>=$ NumRng\\
+\quad\\
+BoolExp1 = ['!'] BoolExp0\\
+\quad\\
+BoolExp0 = 'True'\\
+$|$ 'False'\\
+$|$ '(' BoolExp2')'
+\end{frame}
+
+\begin{frame}
+\frametitle{Grammar Transformation}
+NumRng = NumFld '\%' NumRng\\
+$|$ NumFld '/' NumRng\\
+$|$ NumFld '*' NumRng\\
+$|$ NumFld\\
+\quad\\
+NumFld = NumSng '+' NumFld\\
+$|$ NumSng '-' NumFld\\
+$|$ NumSng\\
+\quad\\
+NumSng = int\\
+$|$ ' $'$ ' char ' $'$ '\\
+$|$ '(' NumRng ')'\\
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Difficulties}
+\begin{itemize}
+\item Input "4 -5" is recognized a two digits, resulting in error
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Extensions}
+\begin{itemize}
+\item Higher level tokens for expressions
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\center{\Huge{Questions ?}}
+\end{frame}
+
+\end{document}
