@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  13 MAR 2018 17:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 MAR 2018 20:53
 entering extended mode
-**./Presentation1_FlipvanSpaendonck_LarsKuijpers.tex
-(Presentation1_FlipvanSpaendonck_LarsKuijpers.tex
+**./Presentation1_LarsKuijpers_FlipVanSpaendonck.tex
+(Presentation1_LarsKuijpers_FlipVanSpaendonck.tex
 LaTeX2e <2017-04-15>
 Babel <3.15> and hyphenation patterns for 75 language(s) loaded.
 (C:\Users\Lars\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\beamer.cls
@@ -672,8 +672,9 @@ ded.sty)
 (C:\Users\Lars\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\beamercolorthemeorch
 id.sty)
 (C:\Users\Lars\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\beamercolorthemestru
-cture.sty)) (Presentation1_FlipvanSpaendonck_LarsKuijpers.aux)
-\openout1 = `Presentation1_FlipvanSpaendonck_LarsKuijpers.aux'.
+cture.sty))
+No file Presentation1_LarsKuijpers_FlipVanSpaendonck.aux.
+\openout1 = `Presentation1_LarsKuijpers_FlipVanSpaendonck.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
@@ -689,7 +690,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -765,11 +765,8 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 11.
 LaTeX Info: Redefining \pageref on input line 11.
 LaTeX Info: Redefining \nameref on input line 11.
-
-(Presentation1_FlipvanSpaendonck_LarsKuijpers.out)
-(Presentation1_FlipvanSpaendonck_LarsKuijpers.out)
 \@outlinefile=\write5
-\openout5 = `Presentation1_FlipvanSpaendonck_LarsKuijpers.out'.
+\openout5 = `Presentation1_LarsKuijpers_FlipVanSpaendonck.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 11.
@@ -847,109 +844,75 @@ Dictionary: translator-numbers-dictionary, Language: English
 (C:\Users\Lars\AppData\Roaming\MiKTeX\2.9\tex\latex\translator\translator-theor
 em-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
-) (Presentation1_FlipvanSpaendonck_LarsKuijpers.nav)
-Overfull \hbox (8.2565pt too wide) in paragraph at lines 11--11
- [][]  
- []
-
-
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
-
+)
+No file Presentation1_LarsKuijpers_FlipVanSpaendonck.nav.
 [1
 
 {C:/Users/Lars/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./ru_backgro
 und.pdf>]
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+LaTeX Font Info:    Try loading font information for U+msa on input line 27.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 27.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 24.
+line 27.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\sansmathaccent\ot1mathkerncmss.fd"
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
-
 [2
 
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
+] [3
 
-[3
+] [4
 
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
+] [5
 
-[4
+] [6
 
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
+] [7
 
-[5
-
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
-
-[6
-
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
-
-[7
-
-]
-Overfull \hbox (8.2565pt too wide) has occurred while \output is active
- [][]  
- []
-
-[8
+] [8
 
 ]
 \tf@nav=\write6
-\openout6 = `Presentation1_FlipvanSpaendonck_LarsKuijpers.nav'.
+\openout6 = `Presentation1_LarsKuijpers_FlipVanSpaendonck.nav'.
 
 \tf@toc=\write7
-\openout7 = `Presentation1_FlipvanSpaendonck_LarsKuijpers.toc'.
+\openout7 = `Presentation1_LarsKuijpers_FlipVanSpaendonck.toc'.
 
 \tf@snm=\write8
-\openout8 = `Presentation1_FlipvanSpaendonck_LarsKuijpers.snm'.
+\openout8 = `Presentation1_LarsKuijpers_FlipVanSpaendonck.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 92.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 92.
- (Presentation1_FlipvanSpaendonck_LarsKuijpers.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 92.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 92.
-Package rerunfilecheck Info: File `Presentation1_FlipvanSpaendonck_LarsKuijpers
-.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 103.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 103.
+ (Presentation1_LarsKuijpers_FlipVanSpaendonck.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 103.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 103.
+
+
+Package rerunfilecheck Warning: File `Presentation1_LarsKuijpers_FlipVanSpaendo
+nck.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Presentation1_LarsKuijpers_FlipVanS
+paendonck.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 17013 strings out of 493312
- 326913 string characters out of 3138903
- 393798 words of memory out of 3000000
- 20154 multiletter control sequences out of 15000+200000
- 10696 words of font info for 39 fonts, out of 3000000 for 9000
+ 17027 strings out of 493312
+ 327302 string characters out of 3138903
+ 393527 words of memory out of 3000000
+ 20174 multiletter control sequences out of 15000+200000
+ 14490 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,55p,828b,515s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Pr
@@ -959,8 +922,8 @@ eX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Program Files/MiKTeX 2.9/f
 onts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmsy8.pfb>
-Output written on Presentation1_FlipvanSpaendonck_LarsKuijpers.pdf (8 pages, 12
-5344 bytes).
+Output written on Presentation1_LarsKuijpers_FlipVanSpaendonck.pdf (8 pages, 12
+5139 bytes).
 PDF statistics:
  115 PDF objects out of 1000 (max. 8388607)
  17 named destinations out of 1000 (max. 500000)
