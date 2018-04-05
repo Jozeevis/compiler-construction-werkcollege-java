@@ -1,5 +1,6 @@
 package grammar;
 
+
 /**
  * A singleton class representing the SPL grammar's ExpressionTree.
  * @author Flip van Spaendonck

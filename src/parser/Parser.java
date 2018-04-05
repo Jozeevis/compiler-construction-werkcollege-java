@@ -1,7 +1,5 @@
 package parser;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +10,9 @@ import grammar.SPL;
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
+import tree.SyntaxKnot;
+import tree.SyntaxLeaf;
+import tree.SyntaxTree;
 
 public class Parser {
 	private Lexer lexer;
@@ -37,7 +38,7 @@ public class Parser {
 			e.printStackTrace();
 		}
 
-		explorino(SPL.INSTANCE, tokenList);
+		convertZambinos(explorino(SPL.INSTANCE, tokenList));
 
 	}
 
@@ -74,6 +75,15 @@ public class Parser {
 		return legalZambinos;
 	}
 
+	private static SyntaxTree convertZambinos(List<Zambino> zambinos) {
+		SyntaxTree tree = new SyntaxTree();
+		tree.root = new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null);
+		for(Zambino currentZambino : zambinos) {
+			currentZambino.affixTo(tree);
+		}
+		
+		return tree;
+	}
 	private static class Zambino {
 		/** The token this Zambino represents */
 		private Token token;
@@ -132,6 +142,17 @@ public class Parser {
 			return out;
 		}
 		
+		public void affixTo(SyntaxTree tree) {
+			for(int d=tree.frontier.depth+1; d < expressions.size(); d++) {
+				SyntaxKnot currentNode = new SyntaxKnot(expressions.get(d).expression, tree.frontier) ;
+				tree.frontier.add(currentNode);
+				tree.frontier = currentNode;
+			}
+			tree.frontier.add(new SyntaxLeaf(token, tree.frontier));
+			while(tree.frontier != null && tree.frontier.isComplete()) {
+				tree.frontier = tree.frontier.parent;
+			}
+		}
 		
 		
 		
@@ -150,35 +171,6 @@ public class Parser {
 		  public boolean isLast() {
 			  return (index >= expression.expression.length-1);
 		  }
-	}
-
-	// ==========================================================
-	// Legacy code TODO: Phase out code
-	// ==========================================================
-
-	@Deprecated
-	public AstExpr pExpr() {
-		return null;
-	}
-
-	@Deprecated
-	public AstExpr pExpr_(AstExpr lhs) {
-		return null;
-	}
-
-	@Deprecated
-	public AstExpr pTerm() {
-		return null;
-	}
-
-	@Deprecated
-	private AstExpr pTerm_(AstExpr lhs) {
-		return null;
-	}
-
-	@Deprecated
-	public AstExpr pFactor() {
-		return null;
 	}
 
 }
