@@ -1,5 +1,9 @@
 package tree;
 
+/**
+ * @author Flip van Spaendonck
+ *
+ */
 public abstract class SyntaxNode {
 
 	public final int depth;

@@ -14,6 +14,10 @@ import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
 import tree.SyntaxTree;
 
+/**
+ * @author Flip van Spaendonck
+ *
+ */
 public class Parser {
 	private Lexer lexer;
 	private List<Token> tokenList;

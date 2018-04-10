@@ -2,6 +2,10 @@ package tree;
 
 import grammar.Expression;
 
+/**
+ * @author Flip van Spaendonck
+ *
+ */
 public class SyntaxKnot extends SyntaxNode {
 
 	public Expression expression;
