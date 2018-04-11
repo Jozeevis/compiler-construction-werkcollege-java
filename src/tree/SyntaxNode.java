@@ -3,12 +3,15 @@ package tree;
 import lexer.Token;
 
 /**
+ * An abstract class describing all nodes that are used in the syntax-tree data structure.
  * @author Flip van Spaendonck
  *
  */
 public abstract class SyntaxNode {
 
+	/** The depth at which this node is placed in the syntax-tree **/
 	public final int depth;
+	/** The syntax-knot above this node, is null when this node is the tree's root**/
 	public final SyntaxKnot parent;
 	
 	protected SyntaxNode(SyntaxKnot parent) {
@@ -21,6 +24,10 @@ public abstract class SyntaxNode {
 		}
 	}
 	
+	/**
+	 * This method descends through this node and its most left child until a SyntaxLeaf is found, and its token is returned.
+	 * @return the token held by the bottom-left-most syntax-leaf
+	 */
 	public Token reduceToToken() {
 		SyntaxNode node = this;
 		while(node instanceof SyntaxKnot) {

@@ -15,6 +15,10 @@ import tree.SyntaxLeaf;
  */
 public abstract class Type {
 
+	
+	/**
+	 * A factory function that infers a Type from the given SyntaxKnot
+	 */
 	public static Type inferType(SyntaxKnot node) {
 		if (node.expression instanceof ExpressionWithAST) {
 			switch (((ExpressionWithAST) node.expression).id) {

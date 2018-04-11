@@ -42,6 +42,7 @@ public class Parser {
 			e.printStackTrace();
 		}
 
+		//Parses the list of tokens and turns it into a syntax tree.
 		convertZambinos(explorino(SPL.INSTANCE, tokenList));
 
 	}
@@ -79,6 +80,9 @@ public class Parser {
 		return legalZambinos;
 	}
 
+	/**
+	 * Transforms a list of Zambinos into a syntax tree.
+	 */
 	private static SyntaxTree convertZambinos(List<Zambino> zambinos) {
 		SyntaxTree tree = new SyntaxTree( new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null));
 		for(Zambino currentZambino : zambinos) {
@@ -87,6 +91,13 @@ public class Parser {
 		
 		return tree;
 	}
+	
+	/**
+	 * I don't even know if I can explain this XD.
+	 * 
+	 * @author Vizu
+	 *
+	 */
 	private static class Zambino {
 		/** The token this Zambino represents */
 		private Token token;
@@ -142,6 +153,9 @@ public class Parser {
 			return out;
 		}
 		
+		/**
+		 * Affixes the list of expressions to the current tree.
+		 */
 		public void affixTo(SyntaxTree tree) {
 			for(int d=tree.frontier.depth+1; d < expressions.size(); d++) {
 				SyntaxKnot currentNode = new SyntaxKnot(expressions.get(d).expression, tree.frontier) ;

@@ -16,6 +16,11 @@ import tree.ast.VarDeclKnot;
  */
 public final class TreeProcessing {
 
+	/**
+	 * Tries to detect knots with an expression that has an abstract syntax tree equivallent and converts does knots into ASyntaxKnots.
+	 * @param tree the tree that is used to create a converted copy. This tree is not altered in any way.
+	 * @return a new tree with all possible knots converted into ASyntaxKnots, inconvertible knots are still present and are represented by a SyntaxKnot.
+	 */
 	public static SyntaxTree processIntoAST(SyntaxTree tree) {
 		List<SyntaxKnot> frontier = new LinkedList<>();
 		SyntaxTree asTree = new SyntaxTree(new SyntaxKnot(tree.root.expression, null));

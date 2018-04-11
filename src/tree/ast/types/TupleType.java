@@ -4,8 +4,8 @@
 package tree.ast.types;
 
 /**
+ * A Type object used to represent a tuple of two possibly different types.
  * @author Flip van Spaendonck
- *
  */
 public class TupleType extends Type {
 

@@ -12,13 +12,15 @@ import tree.SyntaxNode;
 import tree.ast.types.Type;
 
 /**
+ * An abstract syntax knot representing a variable declaration/initialization.
  * @author Flip van Spaendonck
- *
  */
 public class VarDeclKnot extends ASyntaxKnot {
-
+	/** The type of the variable **/
 	public final Type type;
+	/** The identifier of the variable **/
 	public final String id;
+	/** The TokenExpression that holds the value of the variable**/
 	public final TokenExpression body;
 	
 	

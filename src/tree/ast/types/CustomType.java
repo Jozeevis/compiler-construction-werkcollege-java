@@ -4,8 +4,8 @@
 package tree.ast.types;
 
 /**
+ * A Type object used to represent custom types.
  * @author Flip van Spaendonck
- *
  */
 public class CustomType extends Type {
 
