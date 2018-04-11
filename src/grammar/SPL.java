@@ -21,7 +21,6 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("FunType"));
 		addNode(new Node("Type"));
 		addNode(new StarNode("Type", this));
-		addNode(new Node("BasicType"));
 		addNode(new Node("FArgs"));
 		addNode(new Node("Stmt"));
 		addNode(new PlusNode("Stmt", this));
@@ -30,9 +29,6 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("Field"));
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
-		addNode(new Node("Op2"));
-		addNode(new Node("Op1"));
-		addNode(new Node("int"));
 		addNode(new Node("id"));
 		
 		addExpressionTo("~DeclPlus", "SPL");
@@ -56,15 +52,10 @@ public class SPL extends ExpressionTree {
 		
 		addExpressionTo("~TypeStar '->' ~RetType","FunType");
 		
-		addExpressionTo("~BasicType", "BaseType", "Type");
+		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
 		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
 		addExpressionTo("'['~Type ']'", "ListType", "Type");
 		addExpressionTo("~id", "CustomType","Type");
-		
-		addExpressionTo("'Int'","BasicType");
-		addExpressionTo("'Bool'","BasicType");
-		addExpressionTo("'Char'","BasicType");
-		
 		addExpressionTo("~id","FArgs");
 		addExpressionTo("~id ','~FArgs","FArgs");
 		
@@ -77,12 +68,8 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'return'~Exp ';'","Stmt");
 		
 		//TODO: Decide on what to do with the following 6 expressions, probably check for an expression token, so expression optimalization can be handled by the lexer
-		addExpressionTo("","Exp");
-		addExpressionTo("","Field");
-		addExpressionTo("","Op2");
-		addExpressionTo("","Op1");
-		addExpressionTo("","int");
-		addExpressionTo("","id");
+		addExpressionTo(".TOK_EXP ","Exp");
+		addExpressionTo(".TOK_IDENTIFIER ","id");
 		
 		
 		addExpressionTo("~id '('')'","FunCall");

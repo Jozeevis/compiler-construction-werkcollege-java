@@ -26,7 +26,7 @@ public abstract class Type {
 			case "ListType":
 				return new ListType(inferType((SyntaxKnot) node.children[1]));
 			case "CustomType":
-				return new CustomType(((TokenIdentifier) ((SyntaxLeaf) node.children[0]).leaf).getValue());
+				return new CustomType(((TokenIdentifier) node.children[0].reduceToToken()).getValue());
 			}
 		}
 		return null;

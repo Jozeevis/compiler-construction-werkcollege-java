@@ -3,12 +3,18 @@ package grammar;
 import java.util.LinkedList;
 import java.util.List;
 
+import lexer.Lexer;
+import lexer.Token;
+import lexer.TokenType;
+
 /**
  * 
  * @author Flip van Spaendonck
  *
  */
 public class Expression {
+	
+	private static final Lexer tokenizer = new Lexer("");
 
 	/** The array representing the expression */
 	public final Object[] expression;
@@ -47,12 +53,20 @@ public class Expression {
 				n++;
 				end++;
 				front = end;
-				continue;
+			} else if(expression.charAt(front) == '.') {
+				end = front+1;
+				while(end < expression.length() && expression.charAt(end) != ' ')
+					end++;
+				array.add(new Token(TokenType.valueOf(expression.substring(front+1, end))));
+				n++;
+				end++;
+				front = end;
 			} else if(expression.charAt(front) == '\'') {
 				end = front+1;
 				while(expression.charAt(end) != '\'')
 					end++;
-				array.add(expression.substring(front+1, end));
+				tokenizer.input = expression.substring(front+1, end);
+				array.add(tokenizer.nextToken());
 				end++;
 				front = end;
 			} else if(expression.substring(front, front+4).equals("null")) {

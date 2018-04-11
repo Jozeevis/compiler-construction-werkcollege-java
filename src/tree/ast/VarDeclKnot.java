@@ -6,6 +6,7 @@ package tree.ast;
 import grammar.Expression;
 import lexer.TokenExpression;
 import lexer.TokenIdentifier;
+import lexer.TokenType;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.ast.types.Type;
@@ -28,7 +29,6 @@ public class VarDeclKnot extends ASyntaxKnot {
 		type = Type.inferType((SyntaxKnot)oldKnot.children[0]);
 		id = ((TokenIdentifier) oldKnot.children[1].reduceToToken()).getValue();
 		body = (TokenExpression) oldKnot.children[3].reduceToToken();
-		
 	}
 
 }

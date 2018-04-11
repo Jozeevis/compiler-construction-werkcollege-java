@@ -1,7 +1,7 @@
 package lexer;
 
 public class Lexer {
-	String input = null;
+	public String input = null;
 	int currentPosition = 0;
 
 	public Lexer(String inp) {
