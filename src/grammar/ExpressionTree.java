@@ -24,20 +24,6 @@ public abstract class ExpressionTree {
 	/**
 	 * Adds an expression to one of the nodes in this syntax.
 	 */
-	protected void addExpressionTo(Expression expression, String parentID) {
-		// TODO: If no matching nodes are found, the method should throw a custom
-		// exception.
-
-		for (Node node : nodes) {
-			if (node.id.equals(parentID)) {
-				node.expressions.add(expression);
-			}
-		}
-	}
-
-	/**
-	 * Adds an expression to one of the nodes in this syntax.
-	 */
 	protected final void addExpressionTo(String expression, String parentID) {
 
 		Expression expr = new Expression(expression, this);
@@ -49,6 +35,19 @@ public abstract class ExpressionTree {
 			}
 		}
 	}
+	
+	protected final void addExpressionTo(String expression, String expressionID, String parentID) {
+
+		Expression expr = new ExpressionWithAST(expression, expressionID,this);
+		// TODO: If no matching nodes are found, the method should throw a custom
+		// exception.
+		for (Node node : nodes) {
+			if (node.id.equals(parentID)) {
+				node.expressions.add(expr);
+			}
+		}
+	}
+	
 
 	/**
 	 * Adds a node to the list of possible nodes.

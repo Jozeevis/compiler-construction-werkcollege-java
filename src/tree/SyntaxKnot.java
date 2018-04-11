@@ -16,7 +16,7 @@ public class SyntaxKnot extends SyntaxNode {
 		super(parent);
 		
 		this.expression = expression;
-		children = new SyntaxKnot[expression.nrOfNodes];
+		children = new SyntaxKnot[expression.expression.length];
 	}
 
 	public void add(SyntaxNode child) {

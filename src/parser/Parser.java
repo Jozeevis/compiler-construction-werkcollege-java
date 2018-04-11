@@ -80,8 +80,7 @@ public class Parser {
 	}
 
 	private static SyntaxTree convertZambinos(List<Zambino> zambinos) {
-		SyntaxTree tree = new SyntaxTree();
-		tree.root = new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null);
+		SyntaxTree tree = new SyntaxTree( new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null));
 		for(Zambino currentZambino : zambinos) {
 			currentZambino.affixTo(tree);
 		}
@@ -93,8 +92,6 @@ public class Parser {
 		private Token token;
 		/** The expression it is part of */
 		private List<Pair> expressions;
-		/** The list of explorations this Zambino is in */
-		private Zambino prev;
 
 		public Zambino(Token token, List<Pair> newExpressions, Zambino prev) {
 			this.token = token;
@@ -103,7 +100,6 @@ public class Parser {
 			} else {
 				expressions = new LinkedList<>();
 			}
-			this.prev = prev;
 		}
 		
 		public List<Zambino> next() {

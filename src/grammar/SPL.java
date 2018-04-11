@@ -43,8 +43,8 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("~VarDecl","Decl");
 		addExpressionTo("~FunDecl","Decl");
 		
-		addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl");
-		addExpressionTo("~Type ~id '=' ~Exp ';'","VarDecl");
+		// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not be allowed in our grandma
+		addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit","VarDecl");
 		
 		addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
 		addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
@@ -56,10 +56,10 @@ public class SPL extends ExpressionTree {
 		
 		addExpressionTo("~TypeStar '->' ~RetType","FunType");
 		
-		addExpressionTo("~BasicType", "Type");
-		addExpressionTo("'('~Type ',' ~Type ')'", "Type");
-		addExpressionTo("'['~Type ']'", "Type");
-		addExpressionTo("~id", "Type");
+		addExpressionTo("~BasicType", "BaseType", "Type");
+		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
+		addExpressionTo("'['~Type ']'", "ListType", "Type");
+		addExpressionTo("~id", "CustomType","Type");
 		
 		addExpressionTo("'Int'","BasicType");
 		addExpressionTo("'Bool'","BasicType");

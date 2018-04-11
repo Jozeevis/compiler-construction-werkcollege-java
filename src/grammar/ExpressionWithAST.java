@@ -1,18 +1,18 @@
 package grammar;
 
-import tree.ASyntaxKnot;
+import tree.ast.ASyntaxKnot;
 
 /**
  * @author Flip van Spaendonck
  *
  */
-public abstract class ExpressionWithAST extends Expression {
+public class ExpressionWithAST extends Expression {
 
-	public ExpressionWithAST(Object[] expression) {
-		super(expression);
-		// TODO Auto-generated constructor stub
-	}
+	public final String id;
 	
-	public abstract ASyntaxKnot toAST();
+	public ExpressionWithAST(String expression, String id, ExpressionTree syntax) {
+		super(expression, syntax);
+		this.id = id;
+	}
 
 }

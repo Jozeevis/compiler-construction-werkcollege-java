@@ -6,7 +6,12 @@ package tree;
  */
 public class SyntaxTree {
 
-	public SyntaxNode root;
+	public final SyntaxKnot root;
 	
 	public SyntaxKnot frontier;
+	
+	public SyntaxTree(SyntaxKnot root) {
+		this.root = root;
+		frontier = root;
+	}
 }
