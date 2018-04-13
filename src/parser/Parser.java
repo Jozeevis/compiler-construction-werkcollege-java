@@ -64,6 +64,13 @@ public class Parser {
 				break;
 			newZambinos = new LinkedList<>();
 			for(Zambino zambino : currentZambinos) {
+				if(zambino.token.getTokenType() == TokenType.TOK_NIL) {
+					for(Zambino next : zambino.next()) {
+						if(next.token.getTokenType() == token.getTokenType()) {
+							newZambinos.addAll(next.next());
+						}
+					}
+				}
 				if(zambino.token.getTokenType() == token.getTokenType()) {
 					newZambinos.addAll(zambino.next());
 				} else {
@@ -74,10 +81,19 @@ public class Parser {
 		}
 		List<Zambino> legalZambinos = new LinkedList<>();
 		for(Zambino zambino : currentZambinos) {
-			if (zambino.token.getTokenType() == TokenType.TOK_EOF)
-				legalZambinos.add(zambino);
+			if (zambino.token.getTokenType() == TokenType.TOK_EOF) {
+				Zambino current = zambino;
+				legalZambinos.add(current);
+				while(current.leftZambino != null) {
+					current = current.leftZambino;
+					legalZambinos.add(0, current);
+					
+				}
+				return legalZambinos;
+			}
+			
 		}
-		return legalZambinos;
+		return null;
 	}
 
 	/**
@@ -103,6 +119,8 @@ public class Parser {
 		private Token token;
 		/** The expression it is part of */
 		private List<Pair> expressions;
+		/** The zambino holding the token left of this one.**/
+		private final Zambino leftZambino;
 
 		public Zambino(Token token, List<Pair> newExpressions, Zambino prev) {
 			this.token = token;
@@ -111,6 +129,7 @@ public class Parser {
 			} else {
 				expressions = new LinkedList<>();
 			}
+			leftZambino = prev;
 		}
 		
 		public List<Zambino> next() {
