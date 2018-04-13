@@ -9,6 +9,7 @@ import java.util.List;
 import grammar.Expression;
 import grammar.ExpressionWithAST;
 import tree.ast.VarDeclKnot;
+import tree.ast.FunDeclKnot;
 
 /**
  * A class containing utility functions for processing syntax trees.
@@ -35,6 +36,9 @@ public final class TreeProcessing {
 				switch (((ExpressionWithAST) current.expression).id) {
 					case "VarInit":
 						asTree.frontier.add(new VarDeclKnot(current, asTree.frontier));
+						break;
+					case "FunDecl":
+						asTree.frontier.add(new FunDeclKnot(current, asTree.frontier));
 						break;
 					//TODO: Add other Expressions that can be converted to AST Nodes.
 				}

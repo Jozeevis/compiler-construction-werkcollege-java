@@ -42,13 +42,13 @@ public class SPL extends ExpressionTree {
 		// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not be allowed in our grandma
 		addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit","VarDecl");
 		
-		addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
-		addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
+		//addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
+		//addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
 		addExpressionTo("~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl");
 		addExpressionTo("~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl");
 		
 		addExpressionTo("~Type","RetType");
-		addExpressionTo("null","RetType");
+		addExpressionTo("Void","RetType");
 		
 		addExpressionTo("~TypeStar '->' ~RetType","FunType");
 		
@@ -56,6 +56,7 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
 		addExpressionTo("'['~Type ']'", "ListType", "Type");
 		addExpressionTo("~id", "CustomType","Type");
+		
 		addExpressionTo("~id","FArgs");
 		addExpressionTo("~id ','~FArgs","FArgs");
 		
@@ -71,17 +72,10 @@ public class SPL extends ExpressionTree {
 		addExpressionTo(".TOK_EXP ","Exp");
 		addExpressionTo(".TOK_IDENTIFIER ","id");
 		
-		
 		addExpressionTo("~id '('')'","FunCall");
 		addExpressionTo("~id '('~ActArgs ')'","FunCall");
 		
 		addExpressionTo("~Exp","ActArgs");
-		addExpressionTo("~Exp ','~ActArgs","ActArgs");
-		
-		
-		
-		
-		
-		
+		addExpressionTo("~Exp ','~ActArgs","ActArgs");	
 	}
 }
