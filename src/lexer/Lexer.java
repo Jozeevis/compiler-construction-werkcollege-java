@@ -1,7 +1,7 @@
 package lexer;
 
 public class Lexer {
-	String input = null;
+	public String input = null;
 	int currentPosition = 0;
 
 	public Lexer(String inp) {
@@ -276,6 +276,9 @@ public class Lexer {
 		if (result.equals("else")) {
 			return new Token(TokenType.TOK_KW_ELSE);
 		}
+		
+		if (result.equals("while"))
+			return new Token(TokenType.TOK_KW_WHILE);
 		
 		if (result.equals("return")) {
 			return new Token(TokenType.TOK_KW_RETURN);

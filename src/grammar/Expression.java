@@ -3,18 +3,32 @@ package grammar;
 import java.util.LinkedList;
 import java.util.List;
 
+import lexer.Lexer;
+import lexer.Token;
+import lexer.TokenType;
+
 /**
  * 
  * @author Flip van Spaendonck
  *
  */
 public class Expression {
+	
+	private static final Lexer tokenizer = new Lexer("");
 
 	/** The array representing the expression */
-	final Object[] expression;
+	public final Object[] expression;
+	/** The amount of Nodes in this expression */
+	public final int nrOfNodes;
 	
 	public Expression(Object[] expression) {
 		this.expression = expression;
+		int n=0;
+		for(Object o : expression) {
+			if (o instanceof Node)
+				n++;
+		}
+		nrOfNodes = n;
 	}
 	
 	/**
@@ -29,20 +43,30 @@ public class Expression {
 		List<Object> array = new LinkedList<>();
 		int front=0;
 		int end=0;
+		int n=0;
 		while(front<expression.length()) {
 			if(expression.charAt(front) == '~') {
 				end = front+1;
 				while(end < expression.length() && expression.charAt(end) != ' ')
 					end++;
 				array.add(syntax.getNode(expression.substring(front+1, end)));
+				n++;
 				end++;
 				front = end;
-				continue;
+			} else if(expression.charAt(front) == '.') {
+				end = front+1;
+				while(end < expression.length() && expression.charAt(end) != ' ')
+					end++;
+				array.add(new Token(TokenType.valueOf(expression.substring(front+1, end))));
+				n++;
+				end++;
+				front = end;
 			} else if(expression.charAt(front) == '\'') {
 				end = front+1;
 				while(expression.charAt(end) != '\'')
 					end++;
-				array.add(expression.substring(front+1, end));
+				tokenizer.input = expression.substring(front+1, end);
+				array.add(tokenizer.nextToken());
 				end++;
 				front = end;
 			} else if(expression.substring(front, front+4).equals("null")) {
@@ -52,8 +76,7 @@ public class Expression {
 				front++;
 			}
 		}
-		
-		
 		this.expression = array.toArray();
+		nrOfNodes = n;
 	}
 }

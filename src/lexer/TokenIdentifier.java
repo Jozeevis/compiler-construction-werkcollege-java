@@ -1,8 +1,9 @@
 package lexer;
 
 public class TokenIdentifier extends Token {
-	final String value;
+	public final String value;
 
+	//TODO: phase out getValue, it is now a public final variable.
 	public String getValue() {
 		return value;
 	}

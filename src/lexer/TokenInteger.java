@@ -1,7 +1,7 @@
 package lexer;
 
 public class TokenInteger extends Token {
-	int value;
+	public final int value;
 
 	public int getValue() {
 		return value;

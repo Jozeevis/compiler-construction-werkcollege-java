@@ -1,5 +1,6 @@
 package grammar;
 
+
 /**
  * A singleton class representing the SPL grammar's ExpressionTree.
  * @author Flip van Spaendonck
@@ -20,7 +21,6 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("FunType"));
 		addNode(new Node("Type"));
 		addNode(new StarNode("Type", this));
-		addNode(new Node("BasicType"));
 		addNode(new Node("FArgs"));
 		addNode(new Node("Stmt"));
 		addNode(new PlusNode("Stmt", this));
@@ -29,9 +29,6 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("Field"));
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
-		addNode(new Node("Op2"));
-		addNode(new Node("Op1"));
-		addNode(new Node("int"));
 		addNode(new Node("id"));
 		
 		addExpressionTo("~DeclPlus", "SPL");
@@ -42,58 +39,43 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("~VarDecl","Decl");
 		addExpressionTo("~FunDecl","Decl");
 		
-		addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl");
-		addExpressionTo("~Type ~id '=' ~Exp ';'","VarDecl");
+		// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not be allowed in our grandma
+		addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit","VarDecl");
 		
-		addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
-		addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
+		//addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
+		//addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
 		addExpressionTo("~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl");
 		addExpressionTo("~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl");
 		
 		addExpressionTo("~Type","RetType");
-		addExpressionTo("null","RetType");
+		addExpressionTo("Void","RetType");
 		
 		addExpressionTo("~TypeStar '->' ~RetType","FunType");
 		
-		addExpressionTo("~BasicType", "Type");
-		addExpressionTo("'('~Type ',' ~Type ')'", "Type");
-		addExpressionTo("'['~Type ']'", "Type");
-		addExpressionTo("~id", "Type");
-		
-		addExpressionTo("'Int'","BasicType");
-		addExpressionTo("'Bool'","BasicType");
-		addExpressionTo("'Char'","BasicType");
+		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
+		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
+		addExpressionTo("'['~Type ']'", "ListType", "Type");
+		addExpressionTo("~id", "CustomType","Type");
 		
 		addExpressionTo("~id","FArgs");
 		addExpressionTo("~id ','~FArgs","FArgs");
 		
-		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'","Stmt");
-		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'","Stmt");
-		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'","Stmt");
+		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'","IfElseStmt","Stmt");
+		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'","IfElseStmt","Stmt");
+		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'","WhileStmt","Stmt");
 		addExpressionTo("~id ~Field '=' ~Exp ';'","Stmt");
 		addExpressionTo("~FunCall ';'","Stmt");
 		addExpressionTo("'return;'","Stmt");
 		addExpressionTo("'return'~Exp ';'","Stmt");
 		
 		//TODO: Decide on what to do with the following 6 expressions, probably check for an expression token, so expression optimalization can be handled by the lexer
-		addExpressionTo("","Exp");
-		addExpressionTo("","Field");
-		addExpressionTo("","Op2");
-		addExpressionTo("","Op1");
-		addExpressionTo("","int");
-		addExpressionTo("","id");
-		
+		addExpressionTo(".TOK_EXP ","Exp");
+		addExpressionTo(".TOK_IDENTIFIER ","id");
 		
 		addExpressionTo("~id '('')'","FunCall");
 		addExpressionTo("~id '('~ActArgs ')'","FunCall");
 		
 		addExpressionTo("~Exp","ActArgs");
-		addExpressionTo("~Exp ','~ActArgs","ActArgs");
-		
-		
-		
-		
-		
-		
+		addExpressionTo("~Exp ','~ActArgs","ActArgs");	
 	}
 }
