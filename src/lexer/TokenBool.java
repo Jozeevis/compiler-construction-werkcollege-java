@@ -1,7 +1,7 @@
 package lexer;
 
 public class TokenBool extends Token {
-	boolean value;
+	public final boolean value;
 
 	public boolean getValue() {
 		return value;

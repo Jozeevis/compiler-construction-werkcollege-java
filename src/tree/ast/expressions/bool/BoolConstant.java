@@ -3,6 +3,9 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
+import tree.IDDeclaration;
 import tree.ast.expressions.NoArg;
 
 /**
@@ -15,5 +18,10 @@ public class BoolConstant extends NoArg {
 	
 	public BoolConstant(boolean constant) {
 		this.constant = constant;
+	}
+
+	@Override
+	public boolean checkTypes(List<IDDeclaration> domain) {
+		return true;
 	}
 }

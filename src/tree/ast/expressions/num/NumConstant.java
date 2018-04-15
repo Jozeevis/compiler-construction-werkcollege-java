@@ -1,7 +1,9 @@
 package tree.ast.expressions.num;
 
+import java.util.List;
 import java.util.Map;
 
+import tree.IDDeclaration;
 import tree.ast.expressions.NoArg;
 
 /**
@@ -19,6 +21,11 @@ public class NumConstant extends NoArg{
     public String toString() {
         return ""+ constant;
     }
+
+	@Override
+	public boolean checkTypes(List<IDDeclaration> domain) {
+		return true;
+	}
     
     
 }

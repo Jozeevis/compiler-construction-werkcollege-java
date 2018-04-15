@@ -9,6 +9,8 @@ import java.util.List;
 import grammar.ExpressionWithAST;
 import tree.ast.VarDeclNode;
 import tree.ast.FunDeclNode;
+import tree.ast.IDeclarable;
+import tree.ast.ITypeCheckable;
 
 /**
  * A class containing utility functions for processing syntax trees.
@@ -54,6 +56,28 @@ public final class TreeProcessing {
 			}
 		}
 		return tree;
+	}
+	
+	public static boolean checkWellTyped(SyntaxTree tree) {
+		List<SyntaxNode> frontier = new LinkedList<>();
+		List<IDDeclaration> declarations = new LinkedList<>();
+		frontier.add(tree.root);
+		while(!frontier.isEmpty()) {
+			SyntaxNode current = frontier.remove(0);
+			if (current instanceof ITypeCheckable) {
+				if (!((ITypeCheckable)current).checkTypes(declarations))
+					return false;
+			}
+			if (current instanceof IDeclarable) {
+				declarations.add(((IDeclarable)current).getDeclaration());
+			}
+			if (current instanceof SyntaxKnot) {
+				for (SyntaxNode node  :((SyntaxKnot) current).children) {
+					frontier.add(node);
+				}
+			}
+		}
+		return true;
 	}
 	
 }

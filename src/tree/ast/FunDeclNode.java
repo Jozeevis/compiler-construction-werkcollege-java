@@ -1,9 +1,13 @@
 package tree.ast;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import lexer.Token;
 import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import lexer.TokenType;
+import tree.IDDeclaration;
 import tree.SyntaxKnot;
 import tree.ast.types.Type;
 import tree.ast.types.VoidType;
@@ -13,7 +17,7 @@ import tree.ast.types.FunctionType;
  * An abstract syntax knot representing a function declaration.
  * @author Lars Kuijpers
  */
-public class FunDeclNode extends ASyntaxNode {
+public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeCheckable {
 	
 	/** The identifier of the function **/
 	public final String id;
@@ -102,6 +106,26 @@ public class FunDeclNode extends ASyntaxNode {
 			currentKnot = (SyntaxKnot)currentKnot.children[2];
 		}
 		return variables;
+	}
+
+	/**
+	 * @author Flip van Spaendonck
+	 */
+	@Override
+	public IDDeclaration getDeclaration() {
+		return new IDDeclaration(funtype,id);
+	}
+
+	/**
+	 * @author Flip van Spaendonck
+	 */
+	@Override
+	public boolean checkTypes(List<IDDeclaration> domain) {
+		List<IDDeclaration> newDomain = new LinkedList<>(domain);
+		for(VarDeclNode varDecl :  vardecls) {
+			newDomain.add(varDecl.getDeclaration());
+		}
+		return body.expression.checkTypes(newDomain);
 	}
 
 }
