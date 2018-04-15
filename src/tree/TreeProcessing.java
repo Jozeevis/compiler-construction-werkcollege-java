@@ -10,6 +10,8 @@ import grammar.Expression;
 import grammar.ExpressionWithAST;
 import tree.ast.VarDeclKnot;
 import tree.ast.FunDeclKnot;
+import tree.ast.IfElseStmtKnot;
+import tree.ast.WhileStmtKnot;
 
 /**
  * A class containing utility functions for processing syntax trees.
@@ -39,6 +41,12 @@ public final class TreeProcessing {
 						break;
 					case "FunDecl":
 						asTree.frontier.add(new FunDeclKnot(current, asTree.frontier));
+						break;
+					case "IfElseStmt":
+						asTree.frontier.add(new IfElseStmtKnot(current, asTree.frontier));
+						break;
+					case "WhileStmt":
+						asTree.frontier.add(new WhileStmtKnot(current, asTree.frontier));
 						break;
 					//TODO: Add other Expressions that can be converted to AST Nodes.
 				}
