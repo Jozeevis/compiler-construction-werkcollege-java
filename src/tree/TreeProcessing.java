@@ -7,8 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import grammar.ExpressionWithAST;
-import tree.ast.VarDeclNode;
-import tree.ast.FunDeclNode;
+import tree.ast.VarDeclKnot;
+import tree.ast.FunDeclKnot;
+import tree.ast.IfElseStmtKnot;
+import tree.ast.WhileStmtKnot;
 import tree.ast.IDeclarable;
 import tree.ast.ITypeCheckable;
 
@@ -40,6 +42,12 @@ public final class TreeProcessing {
 						break;
 					case "FunDecl":
 						asTree.frontier.add(new FunDeclNode(current, asTree.frontier));
+						break;
+					case "IfElseStmt":
+						asTree.frontier.add(new IfElseStmtKnot(current, asTree.frontier));
+						break;
+					case "WhileStmt":
+						asTree.frontier.add(new WhileStmtKnot(current, asTree.frontier));
 						break;
 					//TODO: Add other Expressions that can be converted to AST Nodes.
 				}
