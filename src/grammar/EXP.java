@@ -21,6 +21,7 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("NumFld"));
 		addNode(new Node("NumSng"));
 		addNode(new Node("Type"));
+		addNode(new Node("FunCall"));
 		
 		addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 		addExpressionTo("~NumRng", "NumExp","Exp");
@@ -47,8 +48,8 @@ public class EXP extends ExpressionTree {
 		addExpressionTo("'!' ~BoolExp0 ", "BoolExp1");
 		
 		addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
-		addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "BoolExp0");
-		addExpressionTo(" ~FunCall", "funcall", "BoolExp0");
+		addExpressionTo(".TOK_IDENTIFIER ~Field", "variableBool", "BoolExp0");
+		addExpressionTo(" ~FunCall", "funcallBool", "BoolExp0");
 		addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 		
 		addExpressionTo(" ~NumFld '%' ~NumRng ", "modulo", "NumRng");
@@ -62,9 +63,14 @@ public class EXP extends ExpressionTree {
 		
 		addExpressionTo(" .TOK_INT ", "int", "NumSng");
 		addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
-		addExpressionTo(" ~FunCall", "funcall", "NumSng");
-		addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");
+		addExpressionTo(" ~FunCall", "funcallNum", "NumSng");
+		addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variableNum", "NumSng");
 		addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
+		
+		addExpressionTo("~id '('')'","FunCall");
+		addExpressionTo("~id '('~ActArgs ')'","FunCall");
+		addExpressionTo("~Exp","ActArgs");
+		addExpressionTo("~Exp ','~ActArgs","ActArgs");	
 		
 		
 		

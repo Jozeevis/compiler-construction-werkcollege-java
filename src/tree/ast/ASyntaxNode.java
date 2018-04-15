@@ -2,6 +2,7 @@ package tree.ast;
 
 import grammar.Expression;
 import tree.SyntaxKnot;
+import tree.SyntaxLeaf;
 import tree.SyntaxNode;
 
 /**
@@ -9,10 +10,10 @@ import tree.SyntaxNode;
  * This class is currently a placeholder for later additions.
  * @author Flip van Spaendonck
  */
-public class ASyntaxKnot extends SyntaxKnot{
+public class ASyntaxNode extends SyntaxNode{
 
-	public ASyntaxKnot(Expression expression, SyntaxKnot parent) {
-		super(expression, parent);
+	public ASyntaxNode(SyntaxKnot parent) {
+		super(parent);
 	}
 
 	

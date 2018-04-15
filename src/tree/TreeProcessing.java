@@ -6,12 +6,13 @@ package tree;
 import java.util.LinkedList;
 import java.util.List;
 
-import grammar.Expression;
 import grammar.ExpressionWithAST;
 import tree.ast.VarDeclKnot;
 import tree.ast.FunDeclKnot;
 import tree.ast.IfElseStmtKnot;
 import tree.ast.WhileStmtKnot;
+import tree.ast.IDeclarable;
+import tree.ast.ITypeCheckable;
 
 /**
  * A class containing utility functions for processing syntax trees.
@@ -37,10 +38,10 @@ public final class TreeProcessing {
 			if (current.expression instanceof ExpressionWithAST) {
 				switch (((ExpressionWithAST) current.expression).id) {
 					case "VarInit":
-						asTree.frontier.add(new VarDeclKnot(current, asTree.frontier));
+						asTree.frontier.add(new VarDeclNode(current, asTree.frontier));
 						break;
 					case "FunDecl":
-						asTree.frontier.add(new FunDeclKnot(current, asTree.frontier));
+						asTree.frontier.add(new FunDeclNode(current, asTree.frontier));
 						break;
 					case "IfElseStmt":
 						asTree.frontier.add(new IfElseStmtKnot(current, asTree.frontier));
@@ -63,6 +64,28 @@ public final class TreeProcessing {
 			}
 		}
 		return tree;
+	}
+	
+	public static boolean checkWellTyped(SyntaxTree tree) {
+		List<SyntaxNode> frontier = new LinkedList<>();
+		List<IDDeclaration> declarations = new LinkedList<>();
+		frontier.add(tree.root);
+		while(!frontier.isEmpty()) {
+			SyntaxNode current = frontier.remove(0);
+			if (current instanceof ITypeCheckable) {
+				if (!((ITypeCheckable)current).checkTypes(declarations))
+					return false;
+			}
+			if (current instanceof IDeclarable) {
+				declarations.add(((IDeclarable)current).getDeclaration());
+			}
+			if (current instanceof SyntaxKnot) {
+				for (SyntaxNode node  :((SyntaxKnot) current).children) {
+					frontier.add(node);
+				}
+			}
+		}
+		return true;
 	}
 	
 }
