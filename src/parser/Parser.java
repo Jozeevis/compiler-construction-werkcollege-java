@@ -99,7 +99,7 @@ public class Parser {
 	/**
 	 * Transforms a list of Zambinos into a syntax tree.
 	 */
-	private static SyntaxTree convertZambinos(List<Zambino> zambinos) {
+	public static SyntaxTree convertZambinos(List<Zambino> zambinos) {
 		SyntaxTree tree = new SyntaxTree( new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null));
 		for(Zambino currentZambino : zambinos) {
 			currentZambino.affixTo(tree);
@@ -114,7 +114,7 @@ public class Parser {
 	 * @author Vizu
 	 *
 	 */
-	private static class Zambino {
+	public static class Zambino {
 		/** The token this Zambino represents */
 		private Token token;
 		/** The expression it is part of */
