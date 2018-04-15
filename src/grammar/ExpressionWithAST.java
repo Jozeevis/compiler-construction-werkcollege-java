@@ -1,7 +1,5 @@
 package grammar;
 
-import tree.ast.ASyntaxKnot;
-
 /**
  * An expression that has a special equivallent in the syntax-tree.
  * @author Flip van Spaendonck

@@ -15,7 +15,7 @@ import tree.ast.types.Type;
  * An abstract syntax knot representing a variable declaration/initialization.
  * @author Flip van Spaendonck
  */
-public class VarDeclKnot extends ASyntaxKnot {
+public class VarDeclNode extends ASyntaxNode {
 	/** The type of the variable **/
 	public final Type type;
 	/** The identifier of the variable **/
@@ -25,8 +25,8 @@ public class VarDeclKnot extends ASyntaxKnot {
 	
 	
 	
-	public VarDeclKnot(SyntaxKnot oldKnot, SyntaxKnot parent) {
-		super(null /*TODO remove this entirely*/, parent);
+	public VarDeclNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
+		super(parent);
 		
 		type = Type.inferType((SyntaxKnot)oldKnot.children[0]);
 		id = ((TokenIdentifier) oldKnot.children[1].reduceToToken()).getValue();

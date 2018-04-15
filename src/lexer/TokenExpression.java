@@ -11,7 +11,6 @@ import parser.Parser;
 import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
 import tree.SyntaxTree;
-import tree.ast.ASyntaxKnot;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.EmptyList;
 import tree.ast.expressions.FunCall;
@@ -43,7 +42,7 @@ import tree.ast.types.Type;
  */
 public class TokenExpression extends Token {
 
-	private BaseExpr expression;
+	public final BaseExpr expression;
 	public final Type type;
 	
 	public TokenExpression(List<Token> list) {

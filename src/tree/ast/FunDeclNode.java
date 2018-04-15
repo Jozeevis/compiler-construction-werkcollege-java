@@ -13,7 +13,8 @@ import tree.ast.types.FunctionType;
  * An abstract syntax knot representing a function declaration.
  * @author Lars Kuijpers
  */
-public class FunDeclKnot extends ASyntaxKnot {
+public class FunDeclNode extends ASyntaxNode {
+	
 	/** The identifier of the function **/
 	public final String id;
 	/** The identifiers of the arguments of the function **/
@@ -21,12 +22,12 @@ public class FunDeclKnot extends ASyntaxKnot {
 	/** The type of the function **/
 	public final FunctionType funtype;
 	/** The variables that are declared at the start of the function body **/
-	public final VarDeclKnot[] vardecls;
+	public final VarDeclNode[] vardecls;
 	/** The TokenExpression that denotes the function body **/
 	public final TokenExpression body;
 	
-	public FunDeclKnot(SyntaxKnot oldKnot, SyntaxKnot parent) {
-		super(null /*TODO remove this entirely*/, parent);
+	public FunDeclNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
+		super(parent);
 
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
 		if (oldKnot.children.length == 4) { // Function declaration without Function arguments
@@ -91,12 +92,12 @@ public class FunDeclKnot extends ASyntaxKnot {
 	/**
 	 * Extracts all variable declarations out of the given syntax knot and returns them as an array
 	 */
-	private VarDeclKnot[] ExtractVariables(SyntaxKnot vardecls) {
-		VarDeclKnot[] variables = {};
+	private static VarDeclNode[] ExtractVariables(SyntaxKnot vardecls) {
+		VarDeclNode[] variables = {};
 		int counter = 0;
 		SyntaxKnot currentKnot = vardecls;
 		while (currentKnot.children.length == 2) {
-			variables[counter] = new VarDeclKnot((SyntaxKnot)currentKnot.children[1], currentKnot);
+			variables[counter] = new VarDeclNode((SyntaxKnot)currentKnot.children[1], currentKnot);
 			counter++;
 			currentKnot = (SyntaxKnot)currentKnot.children[2];
 		}
