@@ -8,6 +8,7 @@ import java.util.List;
 
 import grammar.ExpressionWithAST;
 import tree.ast.IfElseStmtKnot;
+import tree.ast.ReturnNode;
 import tree.ast.VarDeclNode;
 import tree.ast.WhileStmtKnot;
 import tree.ast.AssignmentNode;
@@ -57,6 +58,9 @@ public final class TreeProcessing {
 					case "Assign":
 						asTree.frontier.add(new AssignmentNode(current, asTree.frontier));
 						break;
+					case "Return":
+						asTree.frontier.add(new ReturnNode(current, asTree.frontier));
+						break;
 					//TODO: Add other Expressions that can be converted to AST Nodes.
 				}
 			} else {
@@ -87,8 +91,8 @@ public final class TreeProcessing {
 			if (current instanceof IDeclarable) {
 				declarations.add(((IDeclarable)current).getDeclaration());
 			}
-			if (current instanceof SyntaxKnot) {
-				for (SyntaxNode node  :((SyntaxKnot) current).children) {
+			if (current instanceof IKnot) {
+				for (SyntaxNode node  :((IKnot) current).getChildren()) {
 					frontier.add(node);
 				}
 			}

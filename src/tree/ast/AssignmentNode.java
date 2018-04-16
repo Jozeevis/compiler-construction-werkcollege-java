@@ -9,14 +9,13 @@ import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import tree.IDDeclaration;
 import tree.SyntaxKnot;
-import tree.SyntaxNode;
 import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck
  *
  */
-public class AssignmentNode extends SyntaxNode implements ITypeCheckable{
+public class AssignmentNode extends ASyntaxNode implements ITypeCheckable{
 
 	public final String id;
 	
