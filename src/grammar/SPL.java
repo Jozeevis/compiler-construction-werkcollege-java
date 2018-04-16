@@ -63,8 +63,8 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'","IfElseStmt","Stmt");
 		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'","IfElseStmt","Stmt");
 		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'","WhileStmt","Stmt");
-		addExpressionTo("~id ~Field '=' ~Exp ';'","Stmt");
-		addExpressionTo("~FunCall ';'","Stmt");
+		addExpressionTo("~id ~Field '=' ~Exp ';'", "Assign","Stmt");
+		addExpressionTo("~FunCall ';'", "FunCall" ,"Stmt");
 		addExpressionTo("'return;'","Stmt");
 		addExpressionTo("'return'~Exp ';'","Stmt");
 		

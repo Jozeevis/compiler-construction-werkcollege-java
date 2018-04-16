@@ -10,6 +10,8 @@ import grammar.ExpressionWithAST;
 import tree.ast.IfElseStmtKnot;
 import tree.ast.VarDeclNode;
 import tree.ast.WhileStmtKnot;
+import tree.ast.AssignmentNode;
+import tree.ast.FunCallNode;
 import tree.ast.FunDeclNode;
 import tree.ast.IDeclarable;
 import tree.ast.ITypeCheckable;
@@ -48,6 +50,12 @@ public final class TreeProcessing {
 						break;
 					case "WhileStmt":
 						asTree.frontier.add(new WhileStmtKnot(current, asTree.frontier));
+						break;
+					case "FunCall":
+						asTree.frontier.add(new FunCallNode(current, asTree.frontier));
+						break;
+					case "Assign":
+						asTree.frontier.add(new AssignmentNode(current, asTree.frontier));
 						break;
 					//TODO: Add other Expressions that can be converted to AST Nodes.
 				}
