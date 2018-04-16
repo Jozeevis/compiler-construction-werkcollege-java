@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import grammar.ExpressionWithAST;
-import tree.ast.VarDeclKnot;
-import tree.ast.FunDeclKnot;
 import tree.ast.IfElseStmtKnot;
+import tree.ast.VarDeclNode;
 import tree.ast.WhileStmtKnot;
+import tree.ast.FunDeclNode;
 import tree.ast.IDeclarable;
 import tree.ast.ITypeCheckable;
 
