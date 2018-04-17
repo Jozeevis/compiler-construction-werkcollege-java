@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.2.21)  17 APR 2018 01:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.2.21)  17 APR 2018 16:26
 entering extended mode
 **./Presentation2_LarsKuijpers_FlipVanSpaendonck.tex
 (Presentation2_LarsKuijpers_FlipVanSpaendonck.tex
@@ -917,22 +917,71 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 
 {C:/Users/Jozeevis/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./ru_bac
 kground.pdf>]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 23.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 24.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 23.
+LaTeX Font Info:    No file OMScmss.fd. on input line 24.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 23.
+(Font)              for symbol `textbullet' on input line 24.
 
 [2
 
-] [3
+] <TokenTraces.png, id=42, 360.59718pt x 174.6525pt>
+File: TokenTraces.png Graphic file (type png)
+ <use TokenTraces.png>
+Package pdftex.def Info: TokenTraces.png used on input line 35.
+(pdftex.def)             Requested size: 180.29814pt x 87.32603pt.
 
-] [4
+<TokenTree.png, id=43, 169.38281pt x 152.82094pt>
+File: TokenTree.png Graphic file (type png)
+ <use TokenTree.png>
+Package pdftex.def Info: TokenTree.png used on input line 35.
+(pdftex.def)             Requested size: 84.6912pt x 76.41026pt.
+ [3
+
+ <./TokenTraces.png> <./TokenTree.png>]
+File: TokenTraces.png Graphic file (type png)
+ <use TokenTraces.png>
+Package pdftex.def Info: TokenTraces.png used on input line 35.
+(pdftex.def)             Requested size: 180.29814pt x 87.32603pt.
+File: TokenTree.png Graphic file (type png)
+ <use TokenTree.png>
+Package pdftex.def Info: TokenTree.png used on input line 35.
+(pdftex.def)             Requested size: 84.6912pt x 76.41026pt.
+
+[4
 
 ] [5
+
+] [6
+
+] [7
+
+] [8
+
+]
+LaTeX Font Info:    Try loading font information for U+msa on input line 96.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 96.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
+line 96.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\sansmathaccent\ot1mathkerncmss.fd
+"
+File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
+thkerncmss.
+) [9
+
+] [10
 
 ]
 \tf@nav=\write6
@@ -944,11 +993,11 @@ LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 \tf@snm=\write8
 \openout8 = `Presentation2_LarsKuijpers_FlipVanSpaendonck.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 37.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 37.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 102.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 102.
  (Presentation2_LarsKuijpers_FlipVanSpaendonck.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 37.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 37.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 102.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 102.
 Package rerunfilecheck Info: File `Presentation2_LarsKuijpers_FlipVanSpaendonck
 .out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -960,25 +1009,27 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 37.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 102.
  ) 
 Here is how much of TeX's memory you used:
- 16555 strings out of 493634
- 321771 string characters out of 3141305
- 386603 words of memory out of 3000000
- 19555 multiletter control sequences out of 15000+200000
- 6063 words of font info for 22 fonts, out of 3000000 for 9000
+ 16708 strings out of 493634
+ 325184 string characters out of 3141305
+ 388604 words of memory out of 3000000
+ 19671 multiletter control sequences out of 15000+200000
+ 12163 words of font info for 44 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 56i,16n,55p,442b,515s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,16n,55p,442b,539s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/
 Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Pro
-gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Presentation2_LarsKuijpers_FlipVanSpaendonck.pdf (5 pages, 10
-0034 bytes).
+gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Pro
+gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
+Output written on Presentation2_LarsKuijpers_FlipVanSpaendonck.pdf (10 pages, 1
+44278 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 11 named destinations out of 1000 (max. 500000)
- 90 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 137 PDF objects out of 1000 (max. 8388607)
+ 21 named destinations out of 1000 (max. 500000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
 
