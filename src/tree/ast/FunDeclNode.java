@@ -8,7 +8,9 @@ import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import lexer.TokenType;
 import tree.IDDeclaration;
+import tree.IKnot;
 import tree.SyntaxKnot;
+import tree.SyntaxNode;
 import tree.ast.types.Type;
 import tree.ast.types.VoidType;
 import tree.ast.types.FunctionType;
@@ -17,7 +19,7 @@ import tree.ast.types.FunctionType;
  * An abstract syntax knot representing a function declaration.
  * @author Lars Kuijpers
  */
-public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeCheckable {
+public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
 	
 	/** The identifier of the function **/
 	public final String id;
@@ -28,7 +30,7 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeChecka
 	/** The variables that are declared at the start of the function body **/
 	public final VarDeclNode[] vardecls;
 	/** The TokenExpression that denotes the function body **/
-	public final TokenExpression body;
+	public final SyntaxNode body;
 	
 	public FunDeclNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
 		super(parent);
@@ -38,7 +40,7 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeChecka
 			//"~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 			funtype = ExtractFunctionType((SyntaxKnot)oldKnot.children[1]);
 			vardecls = ExtractVariables((SyntaxKnot)oldKnot.children[2]);
-			body = (TokenExpression) oldKnot.children[3].reduceToToken();
+			body = oldKnot.children[3];
 		}
 		else { // Function declaration with Function arguments
 			//"~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
@@ -50,7 +52,7 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeChecka
 			}
 			funtype = ExtractFunctionType((SyntaxKnot)oldKnot.children[2]);
 			vardecls = ExtractVariables((SyntaxKnot)oldKnot.children[3]);
-			body = (TokenExpression) oldKnot.children[4].reduceToToken();
+			body = oldKnot.children[4];
 		}
 	}
 	
@@ -116,16 +118,9 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, ITypeChecka
 		return new IDDeclaration(funtype,id);
 	}
 
-	/**
-	 * @author Flip van Spaendonck
-	 */
 	@Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
-		List<IDDeclaration> newDomain = new LinkedList<>(domain);
-		for(VarDeclNode varDecl :  vardecls) {
-			newDomain.add(varDecl.getDeclaration());
-		}
-		return body.expression.checkTypes(newDomain);
+	public SyntaxNode[] getChildren() {
+		return new SyntaxNode[] {body};
 	}
 
 }

@@ -6,7 +6,7 @@ import grammar.Expression;
  * A knot in the syntax-tree data structure.
  * @author Flip van Spaendonck
  */
-public class SyntaxKnot extends SyntaxNode {
+public class SyntaxKnot extends SyntaxNode implements IKnot{
 
 	/** The expression that this node represents**/
 	public Expression expression;
@@ -35,5 +35,10 @@ public class SyntaxKnot extends SyntaxNode {
 	 */
 	public boolean isComplete() {
 		return (arrayIndex == children.length);
+	}
+
+	@Override
+	public SyntaxNode[] getChildren() {
+		return children;
 	}
 }

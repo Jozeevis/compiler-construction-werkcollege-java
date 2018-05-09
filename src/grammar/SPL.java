@@ -63,10 +63,10 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'","IfElseStmt","Stmt");
 		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'","IfElseStmt","Stmt");
 		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'","WhileStmt","Stmt");
-		addExpressionTo("~id ~Field '=' ~Exp ';'","Stmt");
-		addExpressionTo("~FunCall ';'","Stmt");
-		addExpressionTo("'return;'","Stmt");
-		addExpressionTo("'return'~Exp ';'","Stmt");
+		addExpressionTo("~id ~Field '=' ~Exp ';'", "Assign","Stmt");
+		addExpressionTo("~FunCall ';'", "FunCall" ,"Stmt");
+		addExpressionTo("'return' ';'", "Return", "Stmt");
+		addExpressionTo("'return'~Exp ';'", "Return","Stmt");
 		
 		//TODO: Decide on what to do with the following 6 expressions, probably check for an expression token, so expression optimalization can be handled by the lexer
 		addExpressionTo(".TOK_EXP ","Exp");
