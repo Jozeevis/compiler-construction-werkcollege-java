@@ -26,6 +26,11 @@ public class NumConstant extends NoArg{
 	public boolean checkTypes(List<IDDeclaration> domain) {
 		return true;
 	}
+
+	@Override
+	public String getCode() {
+		return "ldc "+constant;
+	}
     
     
 }

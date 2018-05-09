@@ -35,4 +35,9 @@ public class Divide extends TwoArg {
         	return this;
         }
     }
+
+	@Override
+	public String getCode() {
+		return "div";
+	}
 }

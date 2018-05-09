@@ -35,4 +35,9 @@ public class Modulo extends TwoArg {
         	return this;
         }
     }
+
+	@Override
+	public String getCode() {
+		return "mod";
+	}
 }

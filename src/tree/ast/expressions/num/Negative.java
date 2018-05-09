@@ -31,4 +31,9 @@ public class Negative extends OneArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "neg";
+	}
+
 }

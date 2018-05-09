@@ -41,4 +41,9 @@ public class Minus extends TwoArg {
             return this;
         }
     }
+
+	@Override
+	public String getCode() {
+		return "sub";
+	}
 }

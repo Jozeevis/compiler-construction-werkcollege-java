@@ -34,4 +34,10 @@ public class Variable extends NoArg {
 		return false;
 	}
 
+	@Override
+	public String getCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

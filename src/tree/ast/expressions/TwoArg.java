@@ -22,4 +22,11 @@ public abstract class TwoArg extends BaseExpr{
 		return left.checkTypes(domain) & right.checkTypes(domain);
 	}
     
+    public BaseExpr getLeft() {
+    	return left;
+    }
+    public BaseExpr getRight() {
+    	return right;
+    }
+    
 }

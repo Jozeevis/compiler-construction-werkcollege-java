@@ -47,4 +47,9 @@ public class Multiply extends TwoArg {
             return this;
         }
     }
+
+	@Override
+	public String getCode() {
+		return "mul";
+	}
 }

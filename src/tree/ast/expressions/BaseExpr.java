@@ -36,6 +36,7 @@ public abstract class BaseExpr implements ITypeCheckable{
 
     public abstract BaseExpr optimize();
 
+    public abstract String getCode();
 
     /**
      * A factory function that converts a knot in the EXP syntax into a BaseExpr

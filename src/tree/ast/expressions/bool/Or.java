@@ -33,4 +33,9 @@ public class Or extends TwoArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "or";
+	}
+
 }

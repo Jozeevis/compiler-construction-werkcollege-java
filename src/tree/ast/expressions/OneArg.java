@@ -6,7 +6,7 @@ import tree.IDDeclaration;
 
 /**
  *
- * @author Loes Kruger s1001459 and Geertje Peters Rit s1000509
+ * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
 public abstract class OneArg extends BaseExpr{
     protected BaseExpr val;
@@ -20,5 +20,8 @@ public abstract class OneArg extends BaseExpr{
 		return val.checkTypes(domain);
 	}
 
+    public BaseExpr getValue() {
+    	return val;
+    }
     
 }

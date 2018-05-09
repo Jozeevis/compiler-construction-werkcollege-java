@@ -20,6 +20,13 @@ public class TupleExp extends TwoArg {
 	 */
 	@Override
 	public BaseExpr optimize() {
+		left.optimize();
+		right.optimize();
+		return this;
+	}
+
+	@Override
+	public String getCode() {
 		// TODO Auto-generated method stub
 		return null;
 	}

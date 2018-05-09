@@ -30,4 +30,9 @@ public class Equality extends TwoArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "eq";
+	}
+
 }

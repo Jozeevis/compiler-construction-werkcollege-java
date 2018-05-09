@@ -24,4 +24,9 @@ public class BoolConstant extends NoArg {
 	public boolean checkTypes(List<IDDeclaration> domain) {
 		return true;
 	}
+
+	@Override
+	public String getCode() {
+		return "ldc "+ (constant? 1:0);
+	}
 }

@@ -28,4 +28,9 @@ public class Negate extends OneArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "not";
+	}
+
 }

@@ -18,4 +18,10 @@ public class EmptyList extends NoArg {
 		return true;
 	}
 
+	@Override
+	public String getCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

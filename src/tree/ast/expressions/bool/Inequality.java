@@ -30,4 +30,9 @@ public class Inequality extends TwoArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "ne";
+	}
+
 }

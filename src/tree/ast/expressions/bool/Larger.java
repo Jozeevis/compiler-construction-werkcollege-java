@@ -30,4 +30,9 @@ public class Larger extends TwoArg {
 		return this;
 	}
 
+	@Override
+	public String getCode() {
+		return "gt";
+	}
+
 }

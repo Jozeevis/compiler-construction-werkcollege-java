@@ -91,4 +91,10 @@ public class FunCall extends BaseExpr {
 		return false;
 	}
 
+	@Override
+	public String getCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
