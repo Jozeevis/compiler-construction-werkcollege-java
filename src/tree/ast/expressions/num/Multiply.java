@@ -7,7 +7,7 @@ import tree.ast.expressions.TwoArg;
 
 /**
  *
- * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
+ * @author Loes Kruger, Geertje Peters Rit, Flip van Spaendonck and Lars Kuijpers
  */
 public class Multiply extends TwoArg {
 
@@ -20,30 +20,31 @@ public class Multiply extends TwoArg {
         return "(" + left + " * " + right + ")";
     }
 
-    /**
-     * n * m = n*m with n, m being constant
-     * 0 * y = 0 
-     * 1 * y = y 
-     * x * 0 = 0 
-     * x * 1 = x
-     *
-     * @return BaseExpr
-     */
     @Override
     public BaseExpr optimize() {
         left = left.optimize();
         right = right.optimize();
-        if (left instanceof NumConstant && right instanceof NumConstant) {
-            return new NumConstant( ((NumConstant)left).constant + ((NumConstant)right).constant);
-        } else if (right instanceof NumConstant && ((NumConstant)right).constant == 0) {
+        // x * 0 = 0
+        if (right instanceof NumConstant && ((NumConstant)right).constant == 0) {
             return new NumConstant(0);
-        } else if (left instanceof NumConstant && ((NumConstant)left).constant == 0) {
+        } 
+        // 0 * x = 0
+        else if (left instanceof NumConstant && ((NumConstant)left).constant == 0) {
             return new NumConstant(0);
-        } else if (right instanceof NumConstant && ((NumConstant)right).constant == 1) {
+        } 
+        // x * 1 = x
+        else if (right instanceof NumConstant && ((NumConstant)right).constant == 1) {
             return left;
-        } else if (left instanceof NumConstant && ((NumConstant)left).constant == 1) {
+        } 
+        // 1 * x = x
+        else if (left instanceof NumConstant && ((NumConstant)left).constant == 1) {
             return right;
-        } else {
+        }
+        // x * y = x*y if x,y are constants
+        else if (left instanceof NumConstant && right instanceof NumConstant) {
+            return new NumConstant( ((NumConstant)left).constant + ((NumConstant)right).constant);
+        } 
+        else {
             return this;
         }
     }

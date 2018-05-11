@@ -25,6 +25,7 @@ public class BoolConstant extends NoArg {
 
 	@Override
 	public String getCode() {
+		// TODO: why not use 1 here? - Lars
 		return "ldc "+ (constant? 0xFFFFFFFF:0);
 	}
 }

@@ -4,7 +4,7 @@ import tree.ast.IDDeclarationBlock;
 
 /**
  *
- * @author Loes Kruger s1001459 and Geertje Peters Rit s1000509
+ * @author Loes Kruger and Geertje Peters Rit
  */
 public abstract class TwoArg extends BaseExpr{
     protected BaseExpr left;

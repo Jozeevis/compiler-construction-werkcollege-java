@@ -7,7 +7,7 @@ import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class And extends TwoArg {
@@ -23,12 +23,17 @@ public class And extends TwoArg {
 	public BaseExpr optimize() {
 		left.optimize();
 		right.optimize();
-		if (left instanceof BoolConstant & right instanceof BoolConstant) {
+		// false && x = false
+		if (left instanceof BoolConstant && ((BoolConstant)left).constant == false) {
+			return new BoolConstant(false);
+		} 
+		// x && false = false
+		else if (right instanceof BoolConstant && ((BoolConstant)right).constant == false) {
+			return new BoolConstant(false);
+		}
+		// x && y = x&&y if x,y are constants
+		else if (left instanceof BoolConstant & right instanceof BoolConstant) {
 			return new BoolConstant(((BoolConstant)left).constant && ((BoolConstant)right).constant);
-		} else if (left instanceof BoolConstant && ((BoolConstant)left).constant == false) {
-			return new BoolConstant(false);
-		} else if (right instanceof BoolConstant && ((BoolConstant)right).constant == false) {
-			return new BoolConstant(false);
 		}
 		return this;
 	}

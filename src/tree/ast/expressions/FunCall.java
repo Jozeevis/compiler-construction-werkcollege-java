@@ -12,7 +12,7 @@ import tree.ast.types.FunctionType;
 import tree.ast.types.Type;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class FunCall extends BaseExpr {
@@ -73,6 +73,7 @@ public class FunCall extends BaseExpr {
 			if (declaration.id.equals(id)) {
 				if (!(declaration.type instanceof FunctionType))
 					return false;
+				// TODO: Flip can you explain to me what this does please
 				linkNumber = i + 1;
 				type = (FunctionType) declaration.type;
 				break;
@@ -93,10 +94,33 @@ public class FunCall extends BaseExpr {
 		return false;
 	}
 
+	/**
+	 * Returns the link number for this function, which is the heap offset to the id where the last of its arguments
+	 */
+	public int getLinkNumber() {
+		return linkNumber;
+	}
+
 	@Override
 	public String getCode() {
-		// TODO Auto-generated method stub
-		return null;
+		// Follow a function call, evaluating its arguments and saving them as local variables and jumping to the label of the function itself.
+		String s = "";
+		// If the function has any arguments
+		if (this.arguments.length > 0) {
+			// Make space on the stack for these arguments
+			s = s + "\nlink " + this.arguments.length;
+			// For every argument
+			for (int i = 0; i < this.arguments.length; i++) {
+				// Add the code to evaluate the argument
+				s = s + "\n" + this.arguments[i].getCode();
+				// Save the result to the space freed by the link function
+				s = s + "\nstl " + i;
+			}
+		}
+		// Jump to the label of the function where the function code will be executed
+		// TODO: currently doesn't work for overloaded functions (should probably be fixed in function declarations rather than here)
+		s = s + "bsr " + id;
+		return s;
 	}
 
 }

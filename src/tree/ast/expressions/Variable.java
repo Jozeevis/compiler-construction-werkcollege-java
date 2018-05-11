@@ -7,7 +7,7 @@ import tree.ast.IDDeclarationBlock;
 import tree.ast.types.Type;
 
 /**
- *@author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
+ * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
 public class Variable extends NoArg {
 
