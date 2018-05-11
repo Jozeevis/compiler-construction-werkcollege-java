@@ -1,9 +1,8 @@
 package tree.ast.expressions.num;
 
-import java.util.List;
 import java.util.Map;
 
-import tree.IDDeclaration;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.expressions.NoArg;
 
 /**
@@ -23,7 +22,7 @@ public class NumConstant extends NoArg{
     }
 
 	@Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		return true;
 	}
 

@@ -7,7 +7,7 @@ import lexer.PrimitiveType;
 import lexer.TokenBool;
 import lexer.TokenIdentifier;
 import lexer.TokenInteger;
-import tree.SyntaxKnot;
+import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.ITypeCheckable;
 import tree.ast.expressions.bool.And;
@@ -43,65 +43,65 @@ public abstract class BaseExpr implements ITypeCheckable{
      * @param knot
      * @return
      */
-    public final static BaseExpr convertToExpr(SyntaxKnot knot) {
+    public final static BaseExpr convertToExpr(SyntaxExpressionKnot knot) {
 		switch (((ExpressionWithAST)knot.expression).id) {
 		//BaseExp
 		case "SetExp":
 			return new EmptyList();
 		case "TupleExp":
-			return new TupleExp(convertToExpr((SyntaxKnot) knot.children[1]), convertToExpr((SyntaxKnot) knot.children[3]));
+			return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]), convertToExpr((SyntaxExpressionKnot) knot.children[3]));
 		//BoolExp2
 		case "and":
-			return new And(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new And(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "or":
-			return new Or(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Or(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "eq":
-			return new Equality(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Equality(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "neq":
-			return new Inequality(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Inequality(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "smaller":
-			return new Smaller(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Smaller(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "larger":
-			return new Larger(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Larger(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "smallerEq":
-			return new SmallerEq(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new SmallerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "largerEq":
-			return new LargerEq(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new LargerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		//BoolExp1
 		case "negation":
-			return new Negate(convertToExpr((SyntaxKnot) knot.children[1]));
+			return new Negate(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
 		//BoolExp0
 		case "variableBool":
 			return new Variable(((TokenIdentifier)((SyntaxLeaf)knot.children[0]).leaf).value, new BaseType(PrimitiveType.PRIMTYPE_BOOL));
 		case "funcallBool":
-			return new FunCall((SyntaxKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_BOOL));
+			return new FunCall((SyntaxExpressionKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_BOOL));
 		case "boolean":
 			return new BoolConstant(((TokenBool)((SyntaxLeaf)knot.children[0]).leaf).value);
 		//NumRng
 		case "modulo":
-			return new Modulo(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Modulo(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "divide":
-			return new Divide(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Divide(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "multiply":
-			return new Multiply(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Multiply(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		//NumFld
 		case "plus":
-			return new Add(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Add(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		case "minus":
-			return new Minus(convertToExpr((SyntaxKnot) knot.children[0]), convertToExpr((SyntaxKnot) knot.children[2]));
+			return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]), convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 		//NumSng
 		case "variableNum":
 			return new Variable(((TokenIdentifier)((SyntaxLeaf)knot.children[0]).leaf).value, new BaseType(PrimitiveType.PRIMTYPE_INT));
 		case "funcallNum":
-			return new FunCall((SyntaxKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_INT));
+			return new FunCall((SyntaxExpressionKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_INT));
 		case "int":
 		case "char":
 			return new NumConstant(((TokenInteger)((SyntaxLeaf)knot.children[0]).leaf).value);
 		//Mixed
 		case "brackets":
-			return convertToExpr((SyntaxKnot) knot.children[1]);
+			return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
 		default:
-			return convertToExpr((SyntaxKnot) knot.children[0]);
+			return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 		}
 	}
 }

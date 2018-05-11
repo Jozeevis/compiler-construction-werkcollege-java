@@ -3,12 +3,11 @@
  */
 package tree.ast.expressions;
 
-import java.util.List;
-
 import lexer.TokenIdentifier;
 import tree.IDDeclaration;
-import tree.SyntaxKnot;
+import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.types.FunctionType;
 import tree.ast.types.Type;
 
@@ -20,11 +19,12 @@ public class FunCall extends BaseExpr {
 	
 	public final Type expectedType;
 	public final String id;
+	private int linkNumber;
 	
 	public final BaseExpr[] arguments;
 	public final Type[] argumentTypes;
 
-	public FunCall(SyntaxKnot funcall, Type expectedType) {
+	public FunCall(SyntaxExpressionKnot funcall, Type expectedType) {
 		this.expectedType = expectedType;
 		id = ((TokenIdentifier)((SyntaxLeaf)funcall.children[0]).leaf).value;
 		
@@ -33,20 +33,20 @@ public class FunCall extends BaseExpr {
 			argumentTypes = new Type[0];
 		} else {
 			int n=0;
-			SyntaxKnot currentArgument = (SyntaxKnot) funcall.children[3];
+			SyntaxExpressionKnot currentArgument = (SyntaxExpressionKnot) funcall.children[3];
 			while(currentArgument.children.length == 3) {
-				currentArgument = (SyntaxKnot) currentArgument.children[2];
+				currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
 				n++;
 			}
 			arguments = new BaseExpr[n];
 			argumentTypes = new Type[n];
-			currentArgument = (SyntaxKnot) funcall.children[3];
+			currentArgument = (SyntaxExpressionKnot) funcall.children[3];
 			int i = 0;
 			while(true) {
-				arguments[i] = BaseExpr.convertToExpr((SyntaxKnot) currentArgument.children[0]);
-				argumentTypes[i] = Type.inferExpressionType((SyntaxKnot) currentArgument.children[0]);
+				arguments[i] = BaseExpr.convertToExpr((SyntaxExpressionKnot) currentArgument.children[0]);
+				argumentTypes[i] = Type.inferExpressionType((SyntaxExpressionKnot) currentArgument.children[0]);
 				if (currentArgument.children.length == 3) {
-					currentArgument = (SyntaxKnot) currentArgument.children[2];
+					currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
 					i++;
 				} else {
 					break;
@@ -66,12 +66,14 @@ public class FunCall extends BaseExpr {
 	}
 	
 	@Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		FunctionType type = null;
-		for(IDDeclaration declaration : domain) {
+		for(int i=0; i<domain.block.length; i++) {
+			IDDeclaration declaration = domain.block[i];
 			if (declaration.id.equals(id)) {
 				if (!(declaration.type instanceof FunctionType))
 					return false;
+				linkNumber = i + 1;
 				type = (FunctionType) declaration.type;
 				break;
 			}

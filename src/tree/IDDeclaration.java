@@ -14,6 +14,8 @@ public class IDDeclaration {
 	public final Type type;
 	
 	public final String id;
+	
+	
 	/**
 	 * 
 	 */

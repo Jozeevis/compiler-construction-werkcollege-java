@@ -10,7 +10,7 @@ import grammar.SPL;
 import lexer.Lexer;
 import lexer.Token;
 import lexer.TokenType;
-import tree.SyntaxKnot;
+import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.SyntaxTree;
 
@@ -100,7 +100,7 @@ public class Parser {
 	 * Transforms a list of Zambinos into a syntax tree.
 	 */
 	public static SyntaxTree convertZambinos(List<Zambino> zambinos) {
-		SyntaxTree tree = new SyntaxTree( new SyntaxKnot(zambinos.get(0).expressions.get(0).expression, null));
+		SyntaxTree tree = new SyntaxTree( new SyntaxExpressionKnot(zambinos.get(0).expressions.get(0).expression, null));
 		for(Zambino currentZambino : zambinos) {
 			currentZambino.affixTo(tree);
 		}
@@ -177,11 +177,11 @@ public class Parser {
 		 */
 		public void affixTo(SyntaxTree tree) {
 			for(int d=tree.frontier.depth+1; d < expressions.size(); d++) {
-				SyntaxKnot currentNode = new SyntaxKnot(expressions.get(d).expression, tree.frontier) ;
-				tree.frontier.add(currentNode);
+				SyntaxExpressionKnot currentNode = new SyntaxExpressionKnot(expressions.get(d).expression, (SyntaxExpressionKnot) tree.frontier);
+				tree.frontier.addChild(currentNode);
 				tree.frontier = currentNode;
 			}
-			tree.frontier.add(new SyntaxLeaf(token, tree.frontier));
+			tree.frontier.addChild(new SyntaxLeaf(token, (SyntaxExpressionKnot) tree.frontier));
 			while(tree.frontier != null && tree.frontier.isComplete()) {
 				tree.frontier = tree.frontier.parent;
 			}

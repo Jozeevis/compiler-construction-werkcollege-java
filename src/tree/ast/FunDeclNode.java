@@ -8,9 +8,10 @@ import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import lexer.TokenType;
 import tree.IDDeclaration;
-import tree.IKnot;
+import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.TreeProcessing;
 import tree.ast.types.Type;
 import tree.ast.types.VoidType;
 import tree.ast.types.FunctionType;
@@ -19,7 +20,7 @@ import tree.ast.types.FunctionType;
  * An abstract syntax knot representing a function declaration.
  * @author Lars Kuijpers
  */
-public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
+public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 	
 	/** The identifier of the function **/
 	public final String id;
@@ -28,38 +29,38 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
 	/** The type of the function **/
 	public final FunctionType funtype;
 	/** The variables that are declared at the start of the function body **/
-	public final VarDeclNode[] vardecls;
+	public final VarDeclNode[] varDecls;
 	/** The TokenExpression that denotes the function body **/
 	public final SyntaxNode body;
 	
-	public FunDeclNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
-		super(parent);
+	public FunDeclNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws Exception {
+		super(frontier);
 
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
 		if (oldKnot.children.length == 4) { // Function declaration without Function arguments
 			//"~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
-			funtype = ExtractFunctionType((SyntaxKnot)oldKnot.children[1]);
-			vardecls = ExtractVariables((SyntaxKnot)oldKnot.children[2]);
+			funtype = ExtractFunctionType((SyntaxExpressionKnot)oldKnot.children[1]);
+			varDecls = ExtractVariables((SyntaxExpressionKnot)oldKnot.children[2]);
 			body = oldKnot.children[3];
 		}
 		else { // Function declaration with Function arguments
 			//"~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 			// Get identifiers of the function arguments out of the FArgs expression
-			for (int i = 0; i<((SyntaxKnot)oldKnot.children[1]).expression.nrOfNodes; i++) {
-				Object o = ((SyntaxKnot)oldKnot.children[1]).expression.expression[i];
+			for (int i = 0; i<((SyntaxExpressionKnot)oldKnot.children[1]).expression.nrOfNodes; i++) {
+				Object o = ((SyntaxExpressionKnot)oldKnot.children[1]).expression.expression[i];
 				if (o instanceof TokenIdentifier)
 					funargs[i] = ((TokenIdentifier)o).getValue();
 			}
-			funtype = ExtractFunctionType((SyntaxKnot)oldKnot.children[2]);
-			vardecls = ExtractVariables((SyntaxKnot)oldKnot.children[3]);
-			body = oldKnot.children[4];
+			funtype = ExtractFunctionType((SyntaxExpressionKnot)oldKnot.children[2]);
+			varDecls = ExtractVariables((SyntaxExpressionKnot)oldKnot.children[3]);
+			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[4]).root;
 		}
 	}
 	
 	/**
 	 * Extracts the FunctionType from the given SyntaxKnot and returns it
 	 */
-	private FunctionType ExtractFunctionType(SyntaxKnot funtype) {
+	private FunctionType ExtractFunctionType(SyntaxExpressionKnot funtype) {
 		Type[] left = {};
 		int leftCounter = 0;
 		Type right = null;
@@ -82,12 +83,12 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
 			else {
 				// If we haven't had the '->' yet, add the Type to the left side
 				if (in == true) {
-					left[leftCounter] = Type.inferType((SyntaxKnot)o);
+					left[leftCounter] = Type.inferType((SyntaxExpressionKnot)o);
 					leftCounter++;
 				}
 				// Otherwise it is the return side
 				else {
-					right = Type.inferType((SyntaxKnot)o);
+					right = Type.inferType((SyntaxExpressionKnot)o);
 				}
 			}
 		}
@@ -98,14 +99,14 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
 	/**
 	 * Extracts all variable declarations out of the given syntax knot and returns them as an array
 	 */
-	private static VarDeclNode[] ExtractVariables(SyntaxKnot vardecls) {
+	private static VarDeclNode[] ExtractVariables(SyntaxExpressionKnot vardecls) {
 		VarDeclNode[] variables = {};
 		int counter = 0;
-		SyntaxKnot currentKnot = vardecls;
+		SyntaxExpressionKnot currentKnot = vardecls;
 		while (currentKnot.children.length == 2) {
-			variables[counter] = new VarDeclNode((SyntaxKnot)currentKnot.children[1], currentKnot);
+			variables[counter] = new VarDeclNode((SyntaxExpressionKnot)currentKnot.children[0], currentKnot);
 			counter++;
-			currentKnot = (SyntaxKnot)currentKnot.children[2];
+			currentKnot = (SyntaxExpressionKnot)currentKnot.children[1];
 		}
 		return variables;
 	}
@@ -114,12 +115,20 @@ public class FunDeclNode extends ASyntaxNode implements IDeclarable, IKnot {
 	 * @author Flip van Spaendonck
 	 */
 	@Override
-	public IDDeclaration getDeclaration() {
-		return new IDDeclaration(funtype,id);
+	public IDDeclaration[] getBlock(){
+		IDDeclaration[] out = new IDDeclaration[varDecls.length+1];
+		out[0] = new IDDeclaration(funtype,id);
+		for(int i=0; i< varDecls.length; i++) {
+			out[i+1] = varDecls[i].getDeclaration();
+		}
+		return out;
 	}
 
+	/**
+	 * @author Flip van Spaendonck
+	 */
 	@Override
-	public SyntaxNode[] getChildren() {
+	protected SyntaxNode[] initializeChildrenArray() {
 		return new SyntaxNode[] {body};
 	}
 

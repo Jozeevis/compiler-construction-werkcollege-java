@@ -1,8 +1,6 @@
 package tree.ast.expressions;
 
-import java.util.List;
-
-import tree.IDDeclaration;
+import tree.ast.IDDeclarationBlock;
 
 /**
  *
@@ -18,7 +16,7 @@ public abstract class TwoArg extends BaseExpr{
     }
     
     @Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		return left.checkTypes(domain) & right.checkTypes(domain);
 	}
     
