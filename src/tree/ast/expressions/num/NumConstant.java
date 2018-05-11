@@ -1,5 +1,6 @@
 package tree.ast.expressions.num;
 
+import java.util.List;
 import java.util.Map;
 
 import tree.ast.IDDeclarationBlock;
@@ -27,8 +28,8 @@ public class NumConstant extends NoArg{
 	}
 
 	@Override
-	public String getCode() {
-		return "ldc "+constant;
+	public void addCodeToStack(List<String> stack) {
+		stack.add("ldc "+constant);
 	}
     
     

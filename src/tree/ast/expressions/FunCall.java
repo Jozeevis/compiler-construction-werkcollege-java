@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions;
 
+import java.util.List;
+
 import lexer.TokenIdentifier;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
@@ -102,25 +104,23 @@ public class FunCall extends BaseExpr {
 	}
 
 	@Override
-	public String getCode() {
+	public void addCodeToStack(List<String> stack) {
 		// Follow a function call, evaluating its arguments and saving them as local variables and jumping to the label of the function itself.
-		String s = "";
 		// If the function has any arguments
-		if (this.arguments.length > 0) {
+		if (arguments.length > 0) {
 			// Make space on the stack for these arguments
-			s = s + "\nlink " + this.arguments.length;
+			stack.add("link " + arguments.length);
 			// For every argument
 			for (int i = 0; i < this.arguments.length; i++) {
 				// Add the code to evaluate the argument
-				s = s + "\n" + this.arguments[i].getCode();
+				arguments[i].addCodeToStack(stack);
 				// Save the result to the space freed by the link function
-				s = s + "\nstl " + i;
+				stack.add("stl " + i);
 			}
 		}
 		// Jump to the label of the function where the function code will be executed
 		// TODO: currently doesn't work for overloaded functions (should probably be fixed in function declarations rather than here)
-		s = s + "bsr " + id;
-		return s;
+		stack.add("bsr " + id);
 	}
 
 }

@@ -1,5 +1,6 @@
 package tree.ast.expressions.num;
 
+import java.util.List;
 import java.util.Map;
 
 import tree.ast.expressions.BaseExpr;
@@ -42,7 +43,9 @@ public class Minus extends TwoArg {
     }
 
 	@Override
-	public String getCode() {
-		return "sub";
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("sub");
 	}
 }

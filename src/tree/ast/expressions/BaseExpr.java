@@ -1,5 +1,6 @@
 package tree.ast.expressions;
 
+import java.util.List;
 import java.util.Map;
 
 import grammar.ExpressionWithAST;
@@ -36,7 +37,7 @@ public abstract class BaseExpr implements ITypeCheckable{
 
     public abstract BaseExpr optimize();
 
-    public abstract String getCode();
+    public abstract void addCodeToStack(List<String> stack);
 
     /**
      * A factory function that converts a knot in the EXP syntax into a BaseExpr

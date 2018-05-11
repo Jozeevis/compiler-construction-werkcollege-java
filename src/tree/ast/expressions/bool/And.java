@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
@@ -39,8 +41,10 @@ public class And extends TwoArg {
 	}
 
 	@Override
-	public String getCode() {
-		return "and";
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("and");
 	}
 
 }

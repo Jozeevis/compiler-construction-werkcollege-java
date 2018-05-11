@@ -1,5 +1,6 @@
 package tree.ast.expressions;
 
+import java.util.List;
 import java.util.Map;
 
 import tree.IDDeclaration;
@@ -43,9 +44,9 @@ public class Variable extends NoArg {
 	}
 	
 	@Override
-	public String getCode() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addCodeToStack(List<String> stack) {
+		stack.add("ldl "+ linkNumber);
+		stack.add("ldh 0");
 	}
 
 }

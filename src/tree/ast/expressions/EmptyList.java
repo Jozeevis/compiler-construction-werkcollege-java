@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions;
 
+import java.util.List;
+
 import tree.ast.IDDeclarationBlock;
 
 /**
@@ -17,9 +19,9 @@ public class EmptyList extends NoArg {
 	}
 
 	@Override
-	public String getCode() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addCodeToStack(List<String> stack) {
+		//TODO: decide what to do with lists.
+		stack.add("annote list not implemented");
 	}
 
 }

@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
 import tree.ast.IDDeclarationBlock;
 import tree.ast.expressions.NoArg;
 
@@ -24,8 +26,7 @@ public class BoolConstant extends NoArg {
 	}
 
 	@Override
-	public String getCode() {
-		// TODO: why not use 1 here? - Lars
-		return "ldc "+ (constant? 0xFFFFFFFF:0);
+	public void addCodeToStack(List<String> stack) {
+		stack.add("ldc "+ (constant? 0xFFFFFFFF:0));
 	}
 }
