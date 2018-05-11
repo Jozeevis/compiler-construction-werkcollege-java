@@ -33,8 +33,9 @@ public class CodeGenerator {
 				out.add("ldl "+((Variable) current).getLinkNumber());
 				out.add("ldh 0");
 			} else if (current instanceof TupleExp) {
-				frontier.add(((TupleExp) current).getRight());
-				frontier.add(((TupleExp) current).getLeft());
+				out.add("stmh 2");
+				out.addAll(generateCode(((TupleExp) current).getRight()));
+				out.addAll(generateCode(((TupleExp) current).getLeft()));
 			} else {
 				//Simple operators
 				out.add(current.getCode());
