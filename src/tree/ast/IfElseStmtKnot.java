@@ -58,13 +58,19 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 		check.expression.addCodeToStack(stack);
 		// Number that will be used for all labels in this statement
 		counter.incr();
-		stack.add("brt ELSELABEL" + counter.getCount());
+		// Check if the condition is false, if so jump to elselabel
+		stack.add("brf ELSELABEL" + counter.getCount());
+
+		// Add the code for the ifbody
 		ifBody.addCodeToStack(stack, counter);
-		// Label used when the condition is false to skip the if-body
+		// Skip the elsebody
 		stack.add("bra ENDLABEL" + counter.getCount());
+
+		// Label used when the condition is false to skip the if-body
 		stack.add("ELSELABEL" + counter.getCount() + ": nop");
-		// FIXME: rewrite this code so this is possible
+		// Add the code for the elsebody
 		elseBody.addCodeToStack(stack, counter);
+		
 		// Label used when the condition is true to skip the else-body
 		stack.add("ENDLABEL" + counter.getCount() + ": nop");
 	}

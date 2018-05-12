@@ -152,7 +152,6 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 		}
 		// Generate the code of the function body
 		body.addCodeToStack(stack, counter);
-		// TODO: Need to save original enter point somewhere so return can make it back there, this will probably done at the ReturnNode
 	}
 
 }
