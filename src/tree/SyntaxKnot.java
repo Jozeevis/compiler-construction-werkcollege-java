@@ -9,7 +9,7 @@ import grammar.Expression;
  * @author Flip van Spaendonck
  *
  */
-public abstract class SyntaxKnot extends SyntaxNode{
+public abstract class SyntaxKnot extends SyntaxNode {
 
 	/** The SyntaxNodes used to fill in the previously described expression**/
 	public final SyntaxNode[] children;

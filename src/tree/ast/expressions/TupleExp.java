@@ -29,7 +29,9 @@ public class TupleExp extends TwoArg {
 	@Override
 	public void addCodeToStack(List<String> stack) {
 		left.addCodeToStack(stack);
+		stack.add("sth");
 		right.addCodeToStack(stack);
+		stack.add("sth");
 		stack.add("stmh 2");
 		
 	}

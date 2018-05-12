@@ -102,5 +102,18 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 
+	@Override
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// Generate code for the assignment body
+		expression.expression.addCodeToStack(stack);
+		// Save the result in the heap address given by the linknumber
+		stack.add("ldl" + linkNumber);
+		for(TokenField accessor : accessors) {
+			accessor.addCodeToStack(stack);
+		}
+		stack.add("sth 0");
+	}
+
+
 
 }

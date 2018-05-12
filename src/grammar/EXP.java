@@ -67,8 +67,8 @@ public class EXP extends ExpressionTree {
 		addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variableNum", "NumSng");
 		addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
 		
-		addExpressionTo("~id '('')'","FunCall");
-		addExpressionTo("~id '('~ActArgs ')'","FunCall");
+		addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
+		addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");
 		addExpressionTo("~Exp","ActArgs");
 		addExpressionTo("~Exp ','~ActArgs","ActArgs");	
 		

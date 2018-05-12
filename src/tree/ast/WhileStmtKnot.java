@@ -1,5 +1,7 @@
 package tree.ast;
 
+import java.util.List;
+
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
 import tree.SyntaxExpressionKnot;
@@ -21,8 +23,8 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 	public WhileStmtKnot(SyntaxExpressionKnot oldKnot, SyntaxKnot parent) throws Exception {
 		super(parent);
 
-		check = (TokenExpression) oldKnot.children[0].reduceToToken();
-		body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[1]).root;
+		check = (TokenExpression) oldKnot.children[2].reduceToToken();
+		body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
 	}
 
 	@Override
@@ -35,6 +37,23 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 	@Override
 	protected SyntaxNode[] initializeChildrenArray() {
 		return new SyntaxNode[] {body};
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// Number that will be used for all labels in this statement
+		counter.incr();
+		// Label for checking the condition loop
+		stack.add("CHECKLABEL" + counter.getCount());
+		// Generate the check expression body
+		check.expression.addCodeToStack(stack);
+		// If the condition is false, jump out of the loop
+		stack.add("brf ENDLABEL" + counter.getCount());
+		body.addCodeToStack(stack, counter);
+		// Jump back to the while check
+		stack.add("bra CHECKLABEL" + counter.getCount());
+		// Label for jumping out of the loop
+		stack.add("ENDLABEL" + counter.getCount() + ": nop");
 	}
 
 }

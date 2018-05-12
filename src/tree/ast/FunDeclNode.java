@@ -7,6 +7,7 @@ import lexer.Token;
 import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import lexer.TokenType;
+import tree.CodeGenerator;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
@@ -18,43 +19,68 @@ import tree.ast.types.FunctionType;
 
 /**
  * An abstract syntax knot representing a function declaration.
- * @author Lars Kuijpers
+ * 
+ * @author Lars Kuijpers and Flip van Spaendonck
  */
 public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
-	
+
 	/** The identifier of the function **/
 	public final String id;
 	/** The identifiers of the arguments of the function **/
-	public final String[] funargs = {};
+	public final IDDeclaration[] funArgs;
 	/** The type of the function **/
 	public final FunctionType funtype;
 	/** The variables that are declared at the start of the function body **/
 	public final VarDeclNode[] varDecls;
+	/** The size with which a link should be made **/
+	private int linkSize;
 	/** The TokenExpression that denotes the function body **/
 	public final SyntaxNode body;
-	
+
 	public FunDeclNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws Exception {
 		super(frontier);
 
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
-		if (oldKnot.children.length == 4) { // Function declaration without Function arguments
-			//"~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
-			funtype = ExtractFunctionType((SyntaxExpressionKnot)oldKnot.children[1]);
-			varDecls = ExtractVariables((SyntaxExpressionKnot)oldKnot.children[2]);
-			body = oldKnot.children[3];
-		}
-		else { // Function declaration with Function arguments
-			//"~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
-			// Get identifiers of the function arguments out of the FArgs expression
-			for (int i = 0; i<((SyntaxExpressionKnot)oldKnot.children[1]).expression.nrOfNodes; i++) {
-				Object o = ((SyntaxExpressionKnot)oldKnot.children[1]).expression.expression[i];
-				if (o instanceof TokenIdentifier)
-					funargs[i] = ((TokenIdentifier)o).getValue();
+		if (oldKnot.children.length == 8) { // Function declaration without Function arguments
+			// "~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
+			funArgs = new IDDeclaration[0];
+			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[4]);
+			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[6]);
+			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[7]).root;
+		} else { // Function declaration with Function arguments
+					// "~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
+					// Get identifiers of the function arguments out of the FArgs expression
+			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[5]);
+			funArgs = new IDDeclaration[funtype.inputTypes.length];
+			SyntaxExpressionKnot fArgKnot = (SyntaxExpressionKnot) oldKnot.children[2];
+			int i = 0;
+			while (fArgKnot.children.length != 1) {
+				funArgs[i] = new IDDeclaration(funtype.inputTypes[i],
+						((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value);
+				fArgKnot = (SyntaxExpressionKnot) fArgKnot.children[2];
+				i++;
 			}
-			funtype = ExtractFunctionType((SyntaxExpressionKnot)oldKnot.children[2]);
-			varDecls = ExtractVariables((SyntaxExpressionKnot)oldKnot.children[3]);
-			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[4]).root;
+			funArgs[i] = new IDDeclaration(funtype.inputTypes[i],
+					((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value);
+			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[7]);
+			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8]).root;
 		}
+	}
+
+	/**
+	 * Extracts all variable declarations out of the given syntax knot and returns
+	 * them as an array
+	 */
+	private static VarDeclNode[] ExtractVariables(SyntaxExpressionKnot vardecls) {
+		VarDeclNode[] variables = {};
+		int counter = 0;
+		SyntaxExpressionKnot currentKnot = vardecls;
+		while (currentKnot.children.length == 2) {
+			variables[counter] = new VarDeclNode((SyntaxExpressionKnot) currentKnot.children[0], currentKnot);
+			counter++;
+			currentKnot = (SyntaxExpressionKnot) currentKnot.children[1];
+		}
+		return variables;
 	}
 	
 	/**
@@ -65,7 +91,7 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 		int leftCounter = 0;
 		Type right = null;
 		boolean in = true;
-		
+
 		for (int i = 0; i < funtype.expression.nrOfNodes; i++) {
 			Object o = funtype.expression.expression[i];
 			// Checks if the current object is the '->' token
@@ -79,57 +105,54 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 						right = new VoidType();
 					}
 				}
-			}
-			else {
+			} else {
 				// If we haven't had the '->' yet, add the Type to the left side
 				if (in == true) {
-					left[leftCounter] = Type.inferType((SyntaxExpressionKnot)o);
+					left[leftCounter] = Type.inferType((SyntaxExpressionKnot) o);
 					leftCounter++;
 				}
 				// Otherwise it is the return side
 				else {
-					right = Type.inferType((SyntaxExpressionKnot)o);
+					right = Type.inferType((SyntaxExpressionKnot) o);
 				}
 			}
 		}
-		
+
 		return new FunctionType(left, right);
 	}
-	
-	/**
-	 * Extracts all variable declarations out of the given syntax knot and returns them as an array
-	 */
-	private static VarDeclNode[] ExtractVariables(SyntaxExpressionKnot vardecls) {
-		VarDeclNode[] variables = {};
-		int counter = 0;
-		SyntaxExpressionKnot currentKnot = vardecls;
-		while (currentKnot.children.length == 2) {
-			variables[counter] = new VarDeclNode((SyntaxExpressionKnot)currentKnot.children[0], currentKnot);
-			counter++;
-			currentKnot = (SyntaxExpressionKnot)currentKnot.children[1];
-		}
-		return variables;
+
+	@Override
+	protected SyntaxNode[] initializeChildrenArray() {
+		return new SyntaxNode[] { body };
 	}
 
-	/**
-	 * @author Flip van Spaendonck
-	 */
 	@Override
-	public IDDeclaration[] getBlock(){
-		IDDeclaration[] out = new IDDeclaration[varDecls.length+1];
-		out[0] = new IDDeclaration(funtype,id);
-		for(int i=0; i< varDecls.length; i++) {
-			out[i+1] = varDecls[i].getDeclaration();
+	public IDDeclarationBlock getBlock(IDDeclarationBlock previous) {
+		IDDeclaration[] block = new IDDeclaration[funArgs.length + varDecls.length + 1];
+		block[0] = new IDDeclaration(funtype, id);
+		for (int i = 0; i < funArgs.length; i++) {
+			block[i + 1] = funArgs[i];
 		}
+		for (int i = 0; i < varDecls.length; i++) {
+			block[funArgs.length + i + 1] = new IDDeclaration(varDecls[i].type, varDecls[i].id);
+		}
+		IDDeclarationBlock out = new IDDeclarationBlock(previous, block);
+		linkSize = out.block.length;
 		return out;
 	}
 
-	/**
-	 * @author Flip van Spaendonck
-	 */
 	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[] {body};
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// TODO: Make this work with overloaded functions
+		// Label to jump to the function body
+		stack.add(id + ": link "+linkSize);
+		// Generate the code for the variable declarations at the beginning of the code body.
+		for(VarDeclNode varDeclaration : varDecls) {
+			varDeclaration.addCodeToStack(stack, counter);
+		}
+		// Generate the code of the function body
+		body.addCodeToStack(stack, counter);
+		// TODO: Need to save original enter point somewhere so return can make it back there, this will probably done at the ReturnNode
 	}
 
 }

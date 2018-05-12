@@ -3,6 +3,8 @@
  */
 package tree.ast;
 
+import java.util.List;
+
 import lexer.TokenExpression;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
@@ -47,6 +49,12 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable{
 	@Override
 	protected SyntaxNode[] initializeChildrenArray() {
 		return new SyntaxNode[0];
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// TODO Lars knows this shit :3
+		stack.add("ret"); // ?
 	}
 	
 	
