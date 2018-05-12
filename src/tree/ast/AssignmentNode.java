@@ -22,7 +22,7 @@ import tree.ast.types.TupleType;
 import tree.ast.types.Type;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
@@ -96,5 +96,11 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	protected SyntaxNode[] initializeChildrenArray() {
 		return new SyntaxNode[0];
 	}
+
+	public int getLinkNumber() {
+		return linkNumber;
+	}
+
+
 
 }
