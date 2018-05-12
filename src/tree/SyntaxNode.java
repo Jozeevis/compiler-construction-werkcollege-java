@@ -14,13 +14,13 @@ public abstract class SyntaxNode {
 	/** The syntax-knot above this node, is null when this node is the tree's root**/
 	public final SyntaxKnot parent;
 	
-	protected SyntaxNode(SyntaxKnot parent) {
-		if (parent == null) {
+	protected SyntaxNode(SyntaxKnot parent2) {
+		if (parent2 == null) {
 			depth = 0;
 			this.parent = null;
 		} else {
-			depth = parent.depth+1;
-			this.parent = parent;
+			depth = parent2.depth+1;
+			this.parent = parent2;
 		}
 	}
 	
@@ -30,8 +30,8 @@ public abstract class SyntaxNode {
 	 */
 	public Token reduceToToken() {
 		SyntaxNode node = this;
-		while(node instanceof SyntaxKnot) {
-			node = ((SyntaxKnot) node).children[0];
+		while(node instanceof SyntaxExpressionKnot) {
+			node = ((SyntaxExpressionKnot) node).children[0];
 		}
 		if (node instanceof SyntaxLeaf) {
 			return ((SyntaxLeaf) node).leaf;

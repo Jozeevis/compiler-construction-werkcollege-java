@@ -1,12 +1,10 @@
 package tree.ast.expressions;
 
-import java.util.List;
-
-import tree.IDDeclaration;
+import tree.ast.IDDeclarationBlock;
 
 /**
  *
- * @author Loes Kruger s1001459 and Geertje Peters Rit s1000509
+ * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
 public abstract class OneArg extends BaseExpr{
     protected BaseExpr val;
@@ -16,9 +14,12 @@ public abstract class OneArg extends BaseExpr{
     }
     
     @Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		return val.checkTypes(domain);
 	}
 
+    public BaseExpr getValue() {
+    	return val;
+    }
     
 }

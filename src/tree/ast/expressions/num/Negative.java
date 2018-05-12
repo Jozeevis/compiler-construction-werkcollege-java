@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions.num;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.OneArg;
 
@@ -29,6 +31,12 @@ public class Negative extends OneArg {
 			return new NumConstant(-((NumConstant)val).constant);
 		}
 		return this;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		val.addCodeToStack(stack);
+		stack.add("neg");
 	}
 
 }

@@ -3,11 +3,13 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class Or extends TwoArg {
@@ -23,14 +25,26 @@ public class Or extends TwoArg {
 	public BaseExpr optimize() {
 		left.optimize();
 		right.optimize();
-		if (left instanceof BoolConstant & right instanceof BoolConstant) {
-			return new BoolConstant(((BoolConstant)left).constant || ((BoolConstant)right).constant);
-		} else if (left instanceof BoolConstant && ((BoolConstant)left).constant) {
+		// true || x = true
+		if (left instanceof BoolConstant && ((BoolConstant)left).constant == true) {
 			return new BoolConstant(true);
-		} else if (right instanceof BoolConstant && ((BoolConstant)right).constant) {
+		} 
+		// x || true = x
+		else if (right instanceof BoolConstant && ((BoolConstant)right).constant == true) {
 			return new BoolConstant(true);
 		}
+		// x || y = x||y if x,y are constants
+		else if (left instanceof BoolConstant & right instanceof BoolConstant) {
+			return new BoolConstant(((BoolConstant)left).constant || ((BoolConstant)right).constant);
+		}
 		return this;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("or");
 	}
 
 }

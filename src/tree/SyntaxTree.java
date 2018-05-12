@@ -16,4 +16,8 @@ public class SyntaxTree {
 		this.root = root;
 		frontier = root;
 	}
+	
+	public void addToFrontier(SyntaxNode node) {
+		
+	}
 }

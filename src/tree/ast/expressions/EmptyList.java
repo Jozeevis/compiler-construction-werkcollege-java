@@ -5,7 +5,7 @@ package tree.ast.expressions;
 
 import java.util.List;
 
-import tree.IDDeclaration;
+import tree.ast.IDDeclarationBlock;
 
 /**
  * @author Flip van Spaendonck
@@ -14,8 +14,14 @@ import tree.IDDeclaration;
 public class EmptyList extends NoArg {
 
 	@Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		return true;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		//TODO: decide what to do with lists.
+		stack.add("annote list not implemented");
 	}
 
 }

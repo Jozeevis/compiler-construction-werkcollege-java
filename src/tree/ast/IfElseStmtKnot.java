@@ -1,20 +1,18 @@
 package tree.ast;
 
-import java.util.List;
-
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
-import tree.IDDeclaration;
-import tree.IKnot;
+import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.TreeProcessing;
 import tree.ast.types.BaseType;
 
 /**
  * An abstract syntax knot representing an if-(else) statement.
  * @author Lars Kuijpers and Flip van Spaendonck
  */
-public class IfElseStmtKnot extends ASyntaxNode implements IKnot, ITypeCheckable{
+public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	
 	/** The TokenExpression that denotes the boolean expression that is checked in the if **/
 	public final TokenExpression check;
@@ -23,14 +21,14 @@ public class IfElseStmtKnot extends ASyntaxNode implements IKnot, ITypeCheckable
 	/** The TokenExpression that denotes the function body if the check expression is false **/
 	public final SyntaxNode elseBody;
 	
-	public IfElseStmtKnot(SyntaxKnot oldKnot, SyntaxKnot parent) {
+	public IfElseStmtKnot(SyntaxExpressionKnot oldKnot, SyntaxKnot parent) throws Exception {
 		super(parent);
 
 		check = (TokenExpression) oldKnot.children[0].reduceToToken();
-		ifBody = oldKnot.children[1];
+		ifBody = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[1]).root;
 		// Check if there is an else to this if-statement
 		if (oldKnot.children.length > 2) {
-			elseBody = oldKnot.children[2];
+			elseBody = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[2]).root;
 		}
 		else {
 			elseBody = null;
@@ -38,15 +36,17 @@ public class IfElseStmtKnot extends ASyntaxNode implements IKnot, ITypeCheckable
 	}
 
 	@Override
-	public SyntaxNode[] getChildren() {
-		return new SyntaxNode[] { ifBody, elseBody};
-	}
-
-	@Override
-	public boolean checkTypes(List<IDDeclaration> domain) {
+	public boolean checkTypes(IDDeclarationBlock domain) {
 		if (!check.type.equals(new BaseType(PrimitiveType.PRIMTYPE_BOOL)))
 			return false;
 		return check.expression.checkTypes(domain);
+	}
+
+	@Override
+	protected SyntaxNode[] initializeChildrenArray() {
+		if (elseBody != null)
+			return new SyntaxNode[] { ifBody, elseBody};
+		return new SyntaxNode[] {ifBody};
 	}
 
 }

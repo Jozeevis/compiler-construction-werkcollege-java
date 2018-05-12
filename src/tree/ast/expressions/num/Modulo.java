@@ -1,11 +1,13 @@
 package tree.ast.expressions.num;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
 /**
  *
- * @authorFlip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  */
 public class Modulo extends TwoArg {
 
@@ -22,17 +24,33 @@ public class Modulo extends TwoArg {
     public BaseExpr optimize() {
         left = left.optimize();
         right = right.optimize();
-        if (left instanceof NumConstant & right instanceof NumConstant) {
-            return new NumConstant( ((NumConstant)left).constant % ((NumConstant)right).constant);
-        } else if (left instanceof NumConstant && ((NumConstant)left).constant == 0) {
+        // x % 0 = undefined
+        if (right instanceof NumConstant && ((NumConstant)right).constant == 0) {
+            //throw new ArithmeticException("Can't modulo by zero");
+            // TODO: This should throw an error right?
+            return this;
+        }
+        // 0 % x = 0
+        else if (left instanceof NumConstant && ((NumConstant)left).constant == 0) {
         	return new NumConstant(0);
-        } else if (left instanceof NumConstant && ((NumConstant)left).constant == 1) {
+        }
+        // TODO: is this correct?
+        else if (left instanceof NumConstant && ((NumConstant)left).constant == 1) {
         	return right;
-        } else if (right instanceof NumConstant && ((NumConstant)right).constant == 0) {
-        	//NONONONONONONONONONONONONO
-        	return this;
-        } else {
+        }
+        // x % y = x%y if x,y are constants
+        else if (left instanceof NumConstant & right instanceof NumConstant) {
+            return new NumConstant( ((NumConstant)left).constant % ((NumConstant)right).constant);
+        }
+        else {
         	return this;
         }
     }
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("mod");
+	}
 }

@@ -1,7 +1,7 @@
 package lexer;
 
-public class TokenTupleFunction extends Token {
-	TupleFunction type;
+public class TokenTupleFunction extends TokenField {
+	public final TupleFunction type;
 
 	public TupleFunction getType() {
 		return type;

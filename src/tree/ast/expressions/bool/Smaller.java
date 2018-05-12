@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 import tree.ast.expressions.num.NumConstant;
@@ -28,6 +30,13 @@ public class Smaller extends TwoArg {
 			return new BoolConstant(((NumConstant)left).constant < ((NumConstant)right).constant);
 		}
 		return this;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("lt");
 	}
 
 }

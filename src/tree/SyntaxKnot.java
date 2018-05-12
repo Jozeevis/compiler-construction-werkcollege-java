@@ -1,32 +1,33 @@
+/**
+ * 
+ */
 package tree;
 
 import grammar.Expression;
 
 /**
- * A knot in the syntax-tree data structure.
  * @author Flip van Spaendonck
+ *
  */
-public class SyntaxKnot extends SyntaxNode implements IKnot{
+public abstract class SyntaxKnot extends SyntaxNode{
 
-	/** The expression that this node represents**/
-	public Expression expression;
 	/** The SyntaxNodes used to fill in the previously described expression**/
-	public SyntaxNode[] children;
+	public final SyntaxNode[] children;
 	/** This int is used to check how much of this node's children have already been added**/
 	private int arrayIndex = 0;
 	
-	public SyntaxKnot(Expression expression, SyntaxKnot parent) {
+	public SyntaxKnot(SyntaxKnot parent) {
 		super(parent);
-		
-		this.expression = expression;
-		children = new SyntaxKnot[expression.expression.length];
+		children = initializeChildrenArray();
 	}
+
+	protected abstract SyntaxNode[] initializeChildrenArray();
 
 	/**
 	 * Adds the given syntaxnode to this node as a child.
 	 * @param child
 	 */
-	public void add(SyntaxNode child) {
+	public void addChild(SyntaxNode child) {
 		children[arrayIndex++] = child;
 	}
 	
@@ -37,8 +38,8 @@ public class SyntaxKnot extends SyntaxNode implements IKnot{
 		return (arrayIndex == children.length);
 	}
 
-	@Override
 	public SyntaxNode[] getChildren() {
 		return children;
 	}
+
 }

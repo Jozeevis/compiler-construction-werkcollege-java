@@ -3,6 +3,8 @@
  */
 package tree.ast.expressions.bool;
 
+import java.util.List;
+
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.OneArg;
 
@@ -26,6 +28,12 @@ public class Negate extends OneArg {
 			return new BoolConstant(!((BoolConstant)val).constant);
 		}
 		return this;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		val.addCodeToStack(stack);
+		stack.add("not");
 	}
 
 }

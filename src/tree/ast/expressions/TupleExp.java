@@ -3,6 +3,7 @@
  */
 package tree.ast.expressions;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,8 +21,17 @@ public class TupleExp extends TwoArg {
 	 */
 	@Override
 	public BaseExpr optimize() {
-		// TODO Auto-generated method stub
-		return null;
+		left.optimize();
+		right.optimize();
+		return this;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack) {
+		left.addCodeToStack(stack);
+		right.addCodeToStack(stack);
+		stack.add("stmh 2");
+		
 	}
 
 }
