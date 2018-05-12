@@ -57,7 +57,7 @@ public class EXP extends ExpressionTree {
 		
 		
 		addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
-		addExpressionTo("'!' ~BoolExp0 ", "BoolExp1");
+		addExpressionTo("~BoolExp0 ", "BoolExp1");
 		
 		addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
 		addExpressionTo(".TOK_IDENTIFIER ~Field", "variableBool", "BoolExp0");
