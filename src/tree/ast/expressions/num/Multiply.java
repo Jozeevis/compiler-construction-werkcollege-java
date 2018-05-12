@@ -1,8 +1,8 @@
 package tree.ast.expressions.num;
 
 import java.util.List;
-import java.util.Map;
 
+import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
@@ -51,9 +51,9 @@ public class Multiply extends TwoArg {
     }
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		left.addCodeToStack(stack);
-		right.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		left.addCodeToStack(stack, counter);
+		right.addCodeToStack(stack, counter);
 		stack.add("mul");
 	}
 }

@@ -40,7 +40,7 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		funCall.addCodeToStack(stack);
+		funCall.addCodeToStack(stack, counter);
 	}
 	
 }

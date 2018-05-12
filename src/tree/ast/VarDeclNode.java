@@ -3,7 +3,6 @@
  */
 package tree.ast;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import lexer.TokenExpression;
@@ -62,7 +61,7 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		body.expression.addCodeToStack(stack);
+		body.expression.addCodeToStack(stack, counter);
 		stack.add("ldl "+linkNumber);
 		stack.add("sth 0");
 	}
