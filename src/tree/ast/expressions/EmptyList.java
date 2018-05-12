@@ -20,8 +20,7 @@ public class EmptyList extends NoArg {
 
 	@Override
 	public void addCodeToStack(List<String> stack) {
-		//TODO: decide what to do with lists.
-		stack.add("annote list not implemented");
+		stack.add("ldc 0");
 	}
 
 }

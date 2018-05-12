@@ -14,6 +14,10 @@ public class EXP extends ExpressionTree {
 	
 	private EXP() {
 		super(new Node("Exp"));
+		addNode(new Node("SetExp"));
+		addNode(new Node("ConCat"));
+		addNode(new PlusNode("ConCat", this));
+		addNode(new Node("SetDef"));
 		addNode(new Node("BoolExp2"));
 		addNode(new Node("NumRng"));
 		addNode(new Node("BoolExp1"));
@@ -25,13 +29,21 @@ public class EXP extends ExpressionTree {
 		
 		addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 		addExpressionTo("~NumRng", "NumExp","Exp");
-		addExpressionTo("~Type '[' ']'", "SetExp", "Exp");
+		addExpressionTo("~SetExp", "SetExp", "Exp");
 		addExpressionTo("'(' ~Exp ',' ~Exp ')'", "TupleExp","Exp");
 		
 		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
 		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
 		addExpressionTo("'['~Type ']'", "ListType", "Type");
 		addExpressionTo("~id", "CustomType","Type");
+		
+		addExpressionTo("'&' ~ConcatPlus ~SetDef", "SetConcat", "~SetExp");
+		addExpressionTo("~SetDef", "~SetExp");
+		
+		addExpressionTo("~Exp ':'", "Concat");
+		
+		addExpressionTo("~Type '[' ']'", "emptySet", "SetDef");
+		addExpressionTo(".TOK_IDENTIFIER ~Field", "variableSet", "SetDef");
 		
 		addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
 		addExpressionTo("~BoolExp1 '||' ~BoolExp2 ", "or", "BoolExp2");

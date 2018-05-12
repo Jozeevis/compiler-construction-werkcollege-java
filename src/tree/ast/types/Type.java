@@ -47,7 +47,7 @@ public abstract class Type {
 		case "NumExp":
 			return new BaseType(PrimitiveType.PRIMTYPE_INT);
 		case "SetExp":
-			return Type.inferType((SyntaxExpressionKnot) knot.children[0]);
+			return new ListType(Type.inferType((SyntaxExpressionKnot) knot.children[0]));
 		case "TupleExp":
 			return new TupleType(inferExpressionType((SyntaxExpressionKnot) knot.children[1])
 					, inferExpressionType((SyntaxExpressionKnot) knot.children[3])
