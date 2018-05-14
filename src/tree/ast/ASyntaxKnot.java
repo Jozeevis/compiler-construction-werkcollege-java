@@ -1,5 +1,7 @@
 package tree.ast;
 
+import java.util.List;
+
 import grammar.Expression;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
@@ -26,5 +28,4 @@ public abstract class ASyntaxKnot extends SyntaxKnot{
 		return true;
 	}
 	
-
 }

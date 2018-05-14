@@ -1,9 +1,9 @@
 package tree.ast.expressions.num;
 
 import java.util.List;
-import java.util.Map;
 
 import tree.ast.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.expressions.NoArg;
 
 /**
@@ -28,7 +28,7 @@ public class NumConstant extends NoArg{
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldc "+constant);
 	}
     

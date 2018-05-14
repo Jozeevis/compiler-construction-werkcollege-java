@@ -1,6 +1,9 @@
 package tree;
 
+import java.util.List;
+
 import lexer.Token;
+import tree.ast.LabelCounter;
 
 /**
  * An abstract class describing all nodes that are used in the syntax-tree data structure.
@@ -39,4 +42,6 @@ public abstract class SyntaxNode {
 		
 		return null;
 	}
+
+	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
 }

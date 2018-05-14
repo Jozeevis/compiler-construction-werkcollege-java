@@ -11,7 +11,7 @@ import lexer.PrimitiveType;
  */
 public class BaseType extends Type {
 	
-	private final PrimitiveType type;
+	public final PrimitiveType type;
 	
 	public BaseType(PrimitiveType type) {
 		this.type = type;

@@ -2,6 +2,7 @@ package tree.ast.expressions.num;
 
 import java.util.List;
 
+import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
@@ -27,7 +28,6 @@ public class Divide extends TwoArg {
         // x / 0 = undefined
         if (right instanceof NumConstant && ((NumConstant)right).constant == 0) {
             //throw new ArithmeticException("Can't divide by zero");
-            // TODO: This should throw an error right?
             return this;
         } 
         // 0 / x = 0
@@ -48,9 +48,9 @@ public class Divide extends TwoArg {
     }
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		left.addCodeToStack(stack);
-		right.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		left.addCodeToStack(stack, counter);
+		right.addCodeToStack(stack, counter);
 		stack.add("div");
 	}
 }

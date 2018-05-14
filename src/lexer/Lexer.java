@@ -118,8 +118,7 @@ public class Lexer {
 				currentPosition++;
 				return new Token(TokenType.TOK_AND);
 			}
-			return new TokenError("Unknown character in input: '"
-					+ input.charAt(currentPosition) + "'");
+			return new Token(TokenType.TOK_BEGIN_CONCAT);
 		}
 
 		// Boolean OR

@@ -17,7 +17,6 @@ import tree.ast.FunCallNode;
 import tree.ast.FunDeclNode;
 import tree.ast.ICodeBlock;
 import tree.ast.IDDeclarationBlock;
-import tree.ast.IDeclarable;
 import tree.ast.ITypeCheckable;
 
 /**
@@ -101,9 +100,7 @@ public final class TreeProcessing {
 					return false;
 			}
 			if (current instanceof ICodeBlock) {
-				block = new IDDeclarationBlock(block, ((ICodeBlock) current).getBlock());
-			} else if (current instanceof IDeclarable) {
-				block = new IDDeclarationBlock(block, ((IDeclarable)current).getDeclaration());
+				block = ((ICodeBlock) current).getBlock(block);
 			}
 			if (current instanceof SyntaxKnot) {
 				for (SyntaxNode node  :((SyntaxKnot) current).getChildren()) {
