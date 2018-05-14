@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage{ru}
 \author[Flip \& Lars]{Flip van Spaendonck \& Lars Kuijpers}
-\title{Compiler Construction \\ Generating 1.21 GigaLOCs}
+\title{Compiler Construction \\ \lbrack VSS\rbrack : I'm building stacks }
 %\setbeamercovered{transparent} 
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{} 
@@ -15,77 +15,82 @@
 \end{frame}
 
 \begin{frame}
-\frametitle{Recap}
+\frametitle{Semantics}
 \begin{itemize}
-\item Bottom-up parser
-\item Separate Lexer and Parser
-\item Written in Java
+\item Call-by-reference
+\item Print only prints basic types (others as pointers)
+\end{itemize}
+% examples (tuple)
+\end{frame}
+
+\begin{frame}
+\frametitle{Code generation}
+\begin{itemize}
+\item Each token has an addCodeToStack(stack, counter) function
+\item Call this for tree node
+\item Each node asks his children to add their code to the codestack
+\item Counter used to make unique labels
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Tree processing}
+\frametitle{Compilation Schemes (1/2)}
+\textbf{Function calls}
 \begin{itemize}
-\item Maps tokens to token traces
-\item Combines all token traces into a tree
+\item Give a unique name to each function to use as label
+\item Put arguments' code on the codestack 
+\item Results will be put as variables on memory stack
+\item Jump to code for function body (save origin point to stack)
+\item Return will set PC back to origin point
+\item Result of function (if any) will be on top of stack
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{AST structure}
+\frametitle{Compilation Schemes (2/2)}
+\textbf{Tuples}
 \begin{itemize}
-\item Expressions can get a special identifier
-\item Expressions with special identifiers are transformed in the tree
-\item We identify the following expressions:
-\begin{itemize}
-\item Variable declaration
-\item Variable assignments
-\item Function declaration
-\item Function calls
-\item If-Else statements
-\item While statements
-\item Return statements
+\item Two adjacent addresses
+\item Left is pointer address -1, right is pointer address
 \end{itemize}
-\end{itemize}
-\end{frame}
 
-\begin{frame}
-\frametitle{Semantical Analysis}
-Monomorphic Type Checking
+\textbf{Lists}
 \begin{itemize}
-\item Check used IDs are well-defined
-\item Check basic function types
-\item Check defined function types
-\item Check boolean conditions (if and while)
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Difficulties}
-\begin{itemize}
-\item Finalizing tree structure
-\begin{itemize}
-\item Made the type checking much easier
-\end{itemize}
+\item Nested tuples
+\item Left is pointer to the variable in the current position
+\item Right is pointer to the next tuple in the list
+\item Empty list is 0
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Extensions}
+\textbf{Memory management}
 \begin{itemize}
-\item Structure makes it easier to add extensions
-\item If you keep everything well-typed, currying works
+\item Garbage collection on function exit
+\item Efficient use of registers
+\end{itemize}
+\textbf{Higher-order functions}
+\begin{itemize}
+\item How to pass functions as argument?
+\end{itemize}
+\textbf{Custom structures}
+\begin{itemize}
+\item Multuples instead of tuples
+\item Structs
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \begin{block}{Fun Metrics}
-\begin{tabular}{l l}
-\textbf{LOC} & 3616 \\
-\textbf{Word count} & 9684 \\
-\textbf{Character count} & 98470 \\
-\textbf{Sanity lost} & Even more \\
-\textbf{Experience} & Priceless 
+\begin{tabular}{l || l | l}
+\textbf{LOC} & 3616 & a\\
+\textbf{Word count} & 9684 & a\\
+\textbf{Character count} & 98470 & aaa \\
+\textbf{Slides made} & 17 & 25\\
+\textbf{Coffee consumed} & 0 & Still 0\\
+\textbf{Sanity lost} & A bunch & Even more \\
+\textbf{Experience} & Priceless & Pricelesser
 \end{tabular}
 \end{block}
 \end{frame}
