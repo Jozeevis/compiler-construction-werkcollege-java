@@ -5,6 +5,7 @@ package tree.ast.expressions.bool;
 
 import java.util.List;
 
+import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.OneArg;
 
@@ -31,8 +32,8 @@ public class Negate extends OneArg {
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		val.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		val.addCodeToStack(stack, counter);
 		stack.add("not");
 	}
 

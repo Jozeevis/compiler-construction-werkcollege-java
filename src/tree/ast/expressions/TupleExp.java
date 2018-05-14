@@ -1,10 +1,8 @@
-/**
- * 
- */
 package tree.ast.expressions;
 
 import java.util.List;
-import java.util.Map;
+
+import tree.ast.LabelCounter;
 
 /**
  * @author Flip van Spaendonck
@@ -27,10 +25,10 @@ public class TupleExp extends TwoArg {
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		left.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		left.addCodeToStack(stack, counter);
 		stack.add("sth");
-		right.addCodeToStack(stack);
+		right.addCodeToStack(stack, counter);
 		stack.add("sth");
 		stack.add("stmh 2");
 		

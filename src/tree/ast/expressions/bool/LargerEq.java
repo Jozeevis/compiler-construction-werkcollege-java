@@ -5,6 +5,7 @@ package tree.ast.expressions.bool;
 
 import java.util.List;
 
+import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 import tree.ast.expressions.num.NumConstant;
@@ -33,9 +34,9 @@ public class LargerEq extends TwoArg {
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		left.addCodeToStack(stack);
-		right.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		left.addCodeToStack(stack, counter);
+		right.addCodeToStack(stack, counter);
 		stack.add("ge");
 	}
 

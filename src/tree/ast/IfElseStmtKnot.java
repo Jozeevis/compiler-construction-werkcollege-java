@@ -4,7 +4,6 @@ import java.util.List;
 
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
-import tree.CodeGenerator;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
@@ -55,7 +54,7 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Generate the check expression body
-		check.expression.addCodeToStack(stack);
+		check.expression.addCodeToStack(stack, counter);
 		// Number that will be used for all labels in this statement
 		counter.incr();
 		// Check if the condition is false, if so jump to elselabel

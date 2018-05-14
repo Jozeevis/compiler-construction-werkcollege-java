@@ -47,7 +47,7 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 		// Label for checking the condition loop
 		stack.add("CHECKLABEL" + counter.getCount());
 		// Generate the check expression body
-		check.expression.addCodeToStack(stack);
+		check.expression.addCodeToStack(stack, counter);
 		// If the condition is false, jump out of the loop
 		stack.add("brf ENDLABEL" + counter.getCount());
 

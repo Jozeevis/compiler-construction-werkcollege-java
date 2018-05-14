@@ -5,13 +5,16 @@ package tree.ast.expressions;
 
 import java.util.List;
 
+import lexer.PrimitiveType;
 import lexer.TokenIdentifier;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.types.FunctionType;
 import tree.ast.types.Type;
+import tree.ast.types.BaseType;
 
 /**
  * @author Flip van Spaendonck and Lars Kuijpers
@@ -19,11 +22,15 @@ import tree.ast.types.Type;
  */
 public class FunCall extends BaseExpr {
 	
+	/** The expected return type for this function */
 	public final Type expectedType;
+	/** The identifier for this function */
 	public final String id;
 	private int linkNumber;
 	
+	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
+	/** The types for the arguments for this function */
 	public final Type[] argumentTypes;
 
 	public FunCall(SyntaxExpressionKnot funcall, Type expectedType) {
@@ -75,7 +82,6 @@ public class FunCall extends BaseExpr {
 			if (declaration.id.equals(id)) {
 				if (!(declaration.type instanceof FunctionType))
 					return false;
-				// TODO: Flip can you explain to me what this does please
 				linkNumber = i + 1;
 				type = (FunctionType) declaration.type;
 				break;
@@ -104,23 +110,62 @@ public class FunCall extends BaseExpr {
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		// Follow a function call, evaluating its arguments and saving them as local variables and jumping to the label of the function itself.
-		// If the function has any arguments
-		if (arguments.length > 0) {
-			// Make space on the stack for these arguments
-			stack.add("link " + arguments.length);
-			// For every argument
-			for (int i = 0; i < this.arguments.length; i++) {
-				// Add the code to evaluate the argument
-				arguments[i].addCodeToStack(stack);
-				// Save the result to the space freed by the link function
-				stack.add("stl " + i);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// If this is the built-in isEmpty function
+		if (id == "isEmpty") {
+			// If it actually has an argument
+			if (arguments.length > 0) {
+				// Number that will be used for all labels in this statement
+				counter.incr();
+				Integer count = counter.getCount();
+				// Put code for the expression evaluating to the argument on the stack
+				arguments[0].addCodeToStack(stack, counter);
+			
+				// Put zero on top of the stack
+				stack.add("ldc 0");
+				// Check if the evaluated argument is equal to zero and add the result to the stack (1 for true, 0 for false)
+				stack.add("eq");
+				stack.add("brf ENDLABEL" + count);
+				stack.add("ldc " + 0xFFFFFFFF);
+				stack.add("ENDLABEL" + count + ": nop");
 			}
 		}
-		// Jump to the label of the function where the function code will be executed
-		// TODO: currently doesn't work for overloaded functions (should probably be fixed in function declarations rather than here)
-		stack.add("bsr " + id);
+		// If this is the built-in print function
+		else if (id == "print") {
+			// If it actually has an argument
+			if (arguments.length > 0) {
+				// Put code for the expression evaluating to the argument on the stack
+				arguments[0].addCodeToStack(stack, counter);
+				// If the argument is of type char, print the result as a unicode character
+				if (argumentTypes.length > 0 && argumentTypes[0] instanceof BaseType && ((BaseType)argumentTypes[0]).type == PrimitiveType.PRIMTYPE_CHAR) {
+					stack.add("trap 1");
+				}
+				// TODO: at the moment this prints the pointer to a list/tuple and not its contents, do we wanna change that?
+				// If the argument is not of type char, print the result as an integer
+				else {
+					stack.add("trap 0");
+				}
+			}
+		}
+		// Otherwise this is not a built-in function
+		else {
+			// Follow a function call, evaluating its arguments and saving them as local variables and jumping to the label of the function itself.
+			// If the function has any arguments
+			if (arguments.length > 0) {
+				// Make space on the stack for these arguments
+				stack.add("link " + arguments.length);
+				// For every argument
+				for (int i = 0; i < this.arguments.length; i++) {
+					// Add the code to evaluate the argument
+					arguments[i].addCodeToStack(stack, counter);
+					// Save the result to the space freed by the link function
+					stack.add("stl " + i);
+				}
+			}
+			// Jump to the label of the function where the function code will be executed
+			// TODO: currently doesn't work for overloaded functions (should be fixed in the declaration and then use the right id here)
+			stack.add("bsr " + id);
+		}
 	}
 
 }

@@ -2,7 +2,6 @@ package tree.ast.expressions;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import grammar.ExpressionWithAST;
 import grammar.Node;
@@ -13,6 +12,7 @@ import lexer.TokenInteger;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.ITypeCheckable;
+import tree.ast.LabelCounter;
 import tree.ast.expressions.bool.And;
 import tree.ast.expressions.bool.BoolConstant;
 import tree.ast.expressions.bool.Equality;
@@ -41,11 +41,8 @@ public abstract class BaseExpr implements ITypeCheckable {
 
 	public abstract BaseExpr optimize();
 
-	/**
-	 * maybe I should give this javadoc
-	 * @param stack
-	 */
-	public abstract void addCodeToStack(List<String> stack);
+
+	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
 
 	/**
 	 * A factory function that converts a knot in the EXP syntax into a BaseExpr

@@ -2,12 +2,12 @@ package tree.ast.expressions;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import lexer.TokenField;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.ast.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.types.Type;
 
 /**
@@ -59,7 +59,7 @@ public class Variable extends NoArg {
 	}
 	
 	@Override
-	public void addCodeToStack(List<String> stack) {
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldl "+ linkNumber);
 		for(TokenField accessor : accessors) {
 			accessor.addCodeToStack(stack);
