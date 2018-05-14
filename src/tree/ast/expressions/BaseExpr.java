@@ -1,8 +1,10 @@
 package tree.ast.expressions;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import grammar.ExpressionWithAST;
+import grammar.Node;
 import lexer.PrimitiveType;
 import lexer.TokenBool;
 import lexer.TokenIdentifier;
@@ -21,6 +23,7 @@ import tree.ast.expressions.bool.Negate;
 import tree.ast.expressions.bool.Or;
 import tree.ast.expressions.bool.Smaller;
 import tree.ast.expressions.bool.SmallerEq;
+import tree.ast.expressions.list.Concat;
 import tree.ast.expressions.num.Add;
 import tree.ast.expressions.num.Divide;
 import tree.ast.expressions.num.Minus;
@@ -28,6 +31,7 @@ import tree.ast.expressions.num.Modulo;
 import tree.ast.expressions.num.Multiply;
 import tree.ast.expressions.num.NumConstant;
 import tree.ast.types.BaseType;
+import tree.ast.types.ListType;
 
 /**
  *
@@ -36,6 +40,7 @@ import tree.ast.types.BaseType;
 public abstract class BaseExpr implements ITypeCheckable {
 
 	public abstract BaseExpr optimize();
+
 
 	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
 
@@ -48,8 +53,6 @@ public abstract class BaseExpr implements ITypeCheckable {
 	public final static BaseExpr convertToExpr(SyntaxExpressionKnot knot) {
 		switch (((ExpressionWithAST) knot.expression).id) {
 		// BaseExp
-		case "SetExp":
-			return new EmptyList();
 		case "TupleExp":
 			return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]),
 					convertToExpr((SyntaxExpressionKnot) knot.children[3]));
@@ -115,6 +118,30 @@ public abstract class BaseExpr implements ITypeCheckable {
 		case "int":
 		case "char":
 			return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
+		// SetExp
+		case "SetConcat":
+			// Parse out the values we want to concatenate
+			List<BaseExpr> concats= new LinkedList<>();
+			SyntaxExpressionKnot plusKnot;
+			plusKnot = (SyntaxExpressionKnot) knot.children[1];
+			while(plusKnot.children.length != 1) {
+				concats.add(0,convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
+				plusKnot = (SyntaxExpressionKnot) plusKnot.children[1];
+			}
+			concats.add(0,convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
+			// Convert the left element into a basic expression.
+			BaseExpr out = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+			// Iterate through the values we want to concatenate.
+			for(BaseExpr concat : concats) {
+				out = new Concat(concat, out);
+			}
+			return out;
+		case "emptySet":
+			return new EmptyList();
+		case "variableSet":
+			//TODO: find a way to give the set an expected type, or maybe bove type checking away from variables and to higher expressions such as addition.
+			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
+					(SyntaxExpressionKnot) knot.children[1], new ListType(null));
 		// Mixed
 		case "brackets":
 			return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
