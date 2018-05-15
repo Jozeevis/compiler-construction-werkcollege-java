@@ -20,7 +20,7 @@ public class EmptyList extends NoArg {
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack, labelCounter counter) {
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldc 0");
 	}
 

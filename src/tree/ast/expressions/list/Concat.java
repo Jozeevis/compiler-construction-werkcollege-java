@@ -5,7 +5,10 @@ package tree.ast.expressions.list;
 
 import java.util.List;
 
+import org.w3c.dom.css.Counter;
+
 import tree.ast.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 
@@ -31,9 +34,9 @@ public class Concat extends TwoArg {
 
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
-		left.addCodeToStack(stack);
-		right.addCodeToStack(stack);
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		left.addCodeToStack(stack, counter);
+		right.addCodeToStack(stack, counter);
 		stack.add("stmh 2");
 	}
 
