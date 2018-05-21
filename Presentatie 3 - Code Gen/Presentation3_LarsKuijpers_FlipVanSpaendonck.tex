@@ -27,7 +27,7 @@
 \frametitle{Code generation}
 \begin{itemize}
 \item Each token has an addCodeToStack(stack, counter) function
-\item Call this for tree node
+\item Call this for the AST root
 \item Each node asks his children to add their code to the codestack
 \item Counter used to make unique labels
 \end{itemize}
@@ -84,13 +84,13 @@
 \begin{frame}
 \begin{block}{Fun Metrics}
 \begin{tabular}{l || l | l}
-\textbf{LOC} & 3616 & a\\
-\textbf{Word count} & 9684 & a\\
-\textbf{Character count} & 98470 & aaa \\
+\textbf{LOC} & 3616 & 4474\\
+\textbf{Word count} & 9684 & 12396\\
+\textbf{Character count} & 98470 & 124002 \\
 \textbf{Slides made} & 17 & 25\\
 \textbf{Coffee consumed} & 0 & Still 0\\
 \textbf{Sanity lost} & A bunch & Even more \\
-\textbf{Experience} & Priceless & Pricelesser
+\textbf{Experience} & Priceless & Priceless*2
 \end{tabular}
 \end{block}
 \end{frame}
