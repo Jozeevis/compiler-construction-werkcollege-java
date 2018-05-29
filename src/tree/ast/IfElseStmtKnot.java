@@ -4,10 +4,13 @@ import java.util.List;
 
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.TreeProcessing;
+import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
 
 /**
@@ -17,7 +20,7 @@ import tree.ast.types.BaseType;
 public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	
 	/** The TokenExpression that denotes the boolean expression that is checked in the if **/
-	public final TokenExpression check;
+	public final BaseExpr check;
 	/** The TokenExpression that denotes the function body if the check expression is true **/
 	public final SyntaxNode ifBody;
 	/** The TokenExpression that denotes the function body if the check expression is false **/
@@ -26,7 +29,7 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	public IfElseStmtKnot(SyntaxExpressionKnot oldKnot, SyntaxKnot parent) throws Exception {
 		super(parent);
 
-		check = (TokenExpression) oldKnot.children[2].reduceToToken();
+		check = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
 		ifBody = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
 		// Check if there is an else to this if-statement
 		if (oldKnot.children.length > 6) {
@@ -39,9 +42,12 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 
 	@Override
 	public boolean checkTypes(IDDeclarationBlock domain) {
-		if (!check.type.equals(new BaseType(PrimitiveType.PRIMTYPE_BOOL)))
+		try {
+			return (check.checkTypes(domain).equals(BaseType.instanceBool));
+		} catch (TypeException | DeclarationException e) {
+			e.printStackTrace();
 			return false;
-		return check.expression.checkTypes(domain);
+		}
 	}
 
 	@Override
@@ -54,7 +60,7 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Generate the check expression body
-		check.expression.addCodeToStack(stack, counter);
+		check.addCodeToStack(stack, counter);
 		// Number that will be used for all labels in this statement
 		counter.incr();
 		// Check if the condition is false, if so jump to elselabel

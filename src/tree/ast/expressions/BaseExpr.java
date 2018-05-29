@@ -7,10 +7,14 @@ import grammar.ExpressionWithAST;
 import grammar.Node;
 import lexer.PrimitiveType;
 import lexer.TokenBool;
+import lexer.TokenChar;
 import lexer.TokenIdentifier;
 import lexer.TokenInteger;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.ITypeCheckable;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.bool.And;
@@ -24,7 +28,9 @@ import tree.ast.expressions.bool.Or;
 import tree.ast.expressions.bool.Smaller;
 import tree.ast.expressions.bool.SmallerEq;
 import tree.ast.expressions.list.Concat;
+import tree.ast.expressions.list.EmptyList;
 import tree.ast.expressions.num.Add;
+import tree.ast.expressions.num.CharConstant;
 import tree.ast.expressions.num.Divide;
 import tree.ast.expressions.num.Minus;
 import tree.ast.expressions.num.Modulo;
@@ -32,17 +38,31 @@ import tree.ast.expressions.num.Multiply;
 import tree.ast.expressions.num.NumConstant;
 import tree.ast.types.BaseType;
 import tree.ast.types.ListType;
+import tree.ast.types.Type;
 
 /**
  *
  * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
-public abstract class BaseExpr implements ITypeCheckable {
+public abstract class BaseExpr {
 
 	public abstract BaseExpr optimize();
 
-
 	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
+
+	/**
+	 * Checks whether the expression (and possibly its children) is/are well-typed.
+	 * 
+	 * @param domain
+	 *            the IDDeclarationBlock used to describe which id's are declared,
+	 *            and what type they correspond to.
+	 * @return the type of this expression.
+	 * @throws TypeException
+	 *             this method should throw a TypeException if the expression is
+	 *             incorrectly typed.
+	 * @throws DeclarationException
+	 */
+	public abstract Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException;
 
 	/**
 	 * A factory function that converts a knot in the EXP syntax into a BaseExpr
@@ -85,11 +105,6 @@ public abstract class BaseExpr implements ITypeCheckable {
 		case "negation":
 			return new Negate(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
 		// BoolExp0
-		case "variableBool":
-			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
-					(SyntaxExpressionKnot) knot.children[1], new BaseType(PrimitiveType.PRIMTYPE_BOOL));
-		case "funcallBool":
-			return new FunCall((SyntaxExpressionKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_BOOL));
 		case "boolean":
 			return new BoolConstant(((TokenBool) ((SyntaxLeaf) knot.children[0]).leaf).value);
 		// NumRng
@@ -109,40 +124,36 @@ public abstract class BaseExpr implements ITypeCheckable {
 		case "minus":
 			return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
 					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		// NumSng
-		case "variableNum":
-			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
-					(SyntaxExpressionKnot) knot.children[1], new BaseType(PrimitiveType.PRIMTYPE_INT));
-		case "funcallNum":
-			return new FunCall((SyntaxExpressionKnot) knot.children[0], new BaseType(PrimitiveType.PRIMTYPE_INT));
 		case "int":
-		case "char":
 			return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
+		case "char":
+			return new CharConstant(((TokenChar) ((SyntaxLeaf) knot.children[0]).leaf).value);
 		// SetExp
 		case "SetConcat":
 			// Parse out the values we want to concatenate
-			List<BaseExpr> concats= new LinkedList<>();
+			List<BaseExpr> concats = new LinkedList<>();
 			SyntaxExpressionKnot plusKnot;
 			plusKnot = (SyntaxExpressionKnot) knot.children[1];
-			while(plusKnot.children.length != 1) {
-				concats.add(0,convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
+			while (plusKnot.children.length != 1) {
+				concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
 				plusKnot = (SyntaxExpressionKnot) plusKnot.children[1];
 			}
-			concats.add(0,convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
+			concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
 			// Convert the left element into a basic expression.
 			BaseExpr out = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 			// Iterate through the values we want to concatenate.
-			for(BaseExpr concat : concats) {
+			for (BaseExpr concat : concats) {
 				out = new Concat(concat, out);
 			}
 			return out;
 		case "emptySet":
-			return new EmptyList();
-		case "variableSet":
-			//TODO: find a way to give the set an expected type, or maybe bove type checking away from variables and to higher expressions such as addition.
-			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
-					(SyntaxExpressionKnot) knot.children[1], new ListType(null));
+			return new EmptyList(Type.inferType((SyntaxExpressionKnot) knot.children[0]));
 		// Mixed
+		case "funcall":
+			return new FunCall((SyntaxExpressionKnot) knot.children[0]);
+		case "variable":
+			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
+					(SyntaxExpressionKnot) knot.children[1]);
 		case "brackets":
 			return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
 		default:

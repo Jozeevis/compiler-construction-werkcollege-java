@@ -25,12 +25,17 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 	 */
 	public FunCallNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
 		super(frontier);
-		this.funCall = new FunCall((SyntaxExpressionKnot) oldKnot.children[0], new VoidType());
+		this.funCall = new FunCall((SyntaxExpressionKnot) oldKnot.children[0]);
 	}
 
 	@Override
 	public boolean checkTypes(IDDeclarationBlock domain) {
-		return funCall.checkTypes(domain);
+		try {
+			return (funCall.checkTypes(domain).equals(VoidType.instance));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

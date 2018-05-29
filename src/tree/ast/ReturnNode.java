@@ -6,9 +6,12 @@ package tree.ast;
 import java.util.List;
 
 import lexer.TokenExpression;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.ast.expressions.BaseExpr;
 import tree.ast.types.VoidType;
 
 /**
@@ -17,7 +20,7 @@ import tree.ast.types.VoidType;
  */
 public class ReturnNode extends ASyntaxKnot implements ITypeCheckable{
 	
-	public final TokenExpression returnedValue;
+	public final BaseExpr returnedValue;
 	
 	public final FunDeclNode funDecl;
 
@@ -27,7 +30,7 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable{
 		if  (oldKnot.children.length == 2)
 			returnedValue = null;
 		else
-			returnedValue = (TokenExpression) oldKnot.children[2].reduceToToken();
+			returnedValue = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
 		
 		SyntaxNode father = frontier;
 		while(!(father instanceof FunDeclNode)) {
@@ -39,9 +42,14 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable{
 	@Override
 	public boolean checkTypes(IDDeclarationBlock domain) {
 		if (returnedValue == null) {
-			return funDecl.funtype.returnType.equals(new VoidType());
+			return funDecl.funtype.returnType.equals(VoidType.instance);
 		} else {
-			return funDecl.funtype.returnType.equals(returnedValue.type);
+			try {
+				return funDecl.funtype.returnType.equals(returnedValue.checkTypes(domain));
+			} catch (TypeException | DeclarationException e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
 		
 	}

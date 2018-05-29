@@ -2,9 +2,14 @@ package tree.ast.expressions.num;
 
 import java.util.List;
 
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
+import tree.ast.types.BaseType;
+import tree.ast.types.Type;
 
 /**
  *
@@ -55,5 +60,16 @@ public class Multiply extends TwoArg {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
 		stack.add("mul");
+	}
+	
+	@Override
+	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		Type leftType = left.checkTypes(domain);
+		if (!(leftType.equals(BaseType.instanceInt) || leftType.equals(BaseType.instanceChar)))
+			throw new TypeException("Left expression was of type: "+leftType+" while type Boolean or Character was expected.");
+		Type rightType;
+		if (!(rightType = right.checkTypes(domain)).equals(leftType))
+			throw new TypeException("Right expression was of type: "+rightType+" while type "+leftType+" was expected.");
+		return leftType;
 	}
 }

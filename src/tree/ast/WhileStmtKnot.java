@@ -4,10 +4,13 @@ import java.util.List;
 
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.TreeProcessing;
+import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
 
 /**
@@ -16,22 +19,25 @@ import tree.ast.types.BaseType;
  */
 public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 	/** The TokenExpression that denotes the boolean expression that is checked in the while **/
-	public final TokenExpression check;
+	public final BaseExpr check;
 	/** The TokenExpression that denotes the function body **/
 	public final SyntaxNode body;
 	
 	public WhileStmtKnot(SyntaxExpressionKnot oldKnot, SyntaxKnot parent) throws Exception {
 		super(parent);
 
-		check = (TokenExpression) oldKnot.children[2].reduceToToken();
+		check = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
 		body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
 	}
 
 	@Override
 	public boolean checkTypes(IDDeclarationBlock domain) {
-		if (!check.type.equals(new BaseType(PrimitiveType.PRIMTYPE_BOOL)))
+		try {
+			return (check.checkTypes(domain).equals(BaseType.instanceBool));
+		} catch (TypeException | DeclarationException e) {
+			e.printStackTrace();
 			return false;
-		return check.expression.checkTypes(domain);
+		}
 	}
 
 	@Override
@@ -47,7 +53,7 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 		// Label for checking the condition loop
 		stack.add("CHECKLABEL" + counter.getCount());
 		// Generate the check expression body
-		check.expression.addCodeToStack(stack, counter);
+		check.addCodeToStack(stack, counter);
 		// If the condition is false, jump out of the loop
 		stack.add("brf ENDLABEL" + counter.getCount());
 

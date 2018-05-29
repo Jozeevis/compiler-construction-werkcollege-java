@@ -15,11 +15,6 @@ public abstract class TwoArg extends BaseExpr{
         this.right = right;
     }
     
-    @Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		return left.checkTypes(domain) & right.checkTypes(domain);
-	}
-    
     public BaseExpr getLeft() {
     	return left;
     }

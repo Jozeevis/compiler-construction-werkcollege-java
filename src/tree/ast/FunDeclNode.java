@@ -102,7 +102,7 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 				// Otherwise it might be the void token
 				else {
 					if (((Token) o).getTokenType() == TokenType.TOK_KW_VOID) {
-						right = new VoidType();
+						right = VoidType.instance;
 					}
 				}
 			} else {

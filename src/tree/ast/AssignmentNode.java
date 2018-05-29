@@ -13,10 +13,13 @@ import lexer.TokenIdentifier;
 import lexer.TokenListFunction;
 import lexer.TokenTupleFunction;
 import lexer.TupleFunction;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.ast.expressions.BaseExpr;
 import tree.ast.types.ListType;
 import tree.ast.types.TupleType;
 import tree.ast.types.Type;
@@ -30,14 +33,14 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	public final String id;
 	private int linkNumber;
 	public final TokenField[] accessors;
-	public final TokenExpression expression;
+	public final BaseExpr expression;
 	
 	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
 		super(frontier);
 		
 		id = ((TokenIdentifier)oldKnot.children[0].reduceToToken()).value;
 		accessors = extractFieldTokens((SyntaxExpressionKnot) oldKnot.children[1]);
-		expression = (TokenExpression)oldKnot.children[0].reduceToToken();
+		expression = ((TokenExpression)oldKnot.children[0].reduceToToken()).expression;
 	}
 	
 
@@ -88,7 +91,12 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 			} else
 				return false;
 		}
-		return expectedType.equals(expression.type);
+		try {
+			return expression.checkTypes(domain).equals(expectedType);
+		} catch (TypeException | DeclarationException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 
@@ -105,7 +113,7 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Generate code for the assignment body
-		expression.expression.addCodeToStack(stack, counter);
+		expression.addCodeToStack(stack, counter);
 		// Save the result in the heap address given by the linknumber
 		stack.add("ldl" + linkNumber);
 		for(TokenField accessor : accessors) {

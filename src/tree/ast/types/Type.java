@@ -24,7 +24,7 @@ public abstract class Type {
 		if (node.expression instanceof ExpressionWithAST) {
 			switch (((ExpressionWithAST) node.expression).id) {
 			case "BaseType":
-				return new BaseType(((TokenPrimitiveType) ((SyntaxLeaf) node.children[0]).leaf).getType());
+				return BaseType.instanceOf(((TokenPrimitiveType) ((SyntaxLeaf) node.children[0]).leaf).getType());
 			case "TupleType":
 				return new TupleType(inferType((SyntaxExpressionKnot) node.children[1]),
 						inferType((SyntaxExpressionKnot) node.children[3]));
@@ -39,13 +39,14 @@ public abstract class Type {
 	
 	/**
 	 * A factory function that infers a Type from the given SyntaxKnot, given that the knot is the root of an expression.
+	 * @deprecated
 	 */
 	public static Type inferExpressionType(SyntaxExpressionKnot knot) {
 		switch (((ExpressionWithAST)knot.expression).id) {
 		case "BoolExp":
-			return new BaseType(PrimitiveType.PRIMTYPE_BOOL);
+			return BaseType.instanceBool;
 		case "NumExp":
-			return new BaseType(PrimitiveType.PRIMTYPE_INT);
+			return BaseType.instanceInt;
 		case "SetExp":
 			return new ListType(Type.inferType((SyntaxExpressionKnot) knot.children[0]));
 		case "TupleExp":

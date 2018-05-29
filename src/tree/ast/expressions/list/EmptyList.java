@@ -1,4 +1,7 @@
-package tree.ast.expressions.num;
+/**
+ * 
+ */
+package tree.ast.expressions.list;
 
 import java.util.List;
 
@@ -7,34 +10,29 @@ import processing.TypeException;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.NoArg;
-import tree.ast.types.BaseType;
+import tree.ast.types.ListType;
 import tree.ast.types.Type;
 
 /**
+ * @author Flip van Spaendonck
  *
- * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
-public class NumConstant extends NoArg{
-    public final int constant;
+public class EmptyList extends NoArg {
 
-    public NumConstant(int val) {
-        this.constant = val;
-    }
-
-    @Override
-    public String toString() {
-        return ""+ constant;
-    }
+	public final Type expectedType;
+	
+	public EmptyList(Type expectedType) {
+		this.expectedType = expectedType;
+	}
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc "+constant);
+		stack.add("ldc 0");
 	}
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return BaseType.instanceBool;
+		return new ListType(expectedType);
 	}
-    
-    
+
 }

@@ -12,11 +12,6 @@ public abstract class OneArg extends BaseExpr{
     public OneArg(BaseExpr val) {
         this.val = val;
     }
-    
-    @Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		return val.checkTypes(domain);
-	}
 
     public BaseExpr getValue() {
     	return val;

@@ -1,7 +1,7 @@
 package lexer;
 
 public class TokenChar extends Token {
-	char value;
+	public final char value;
 
 	public char getValue() {
 		return value;

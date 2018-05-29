@@ -5,9 +5,14 @@ package tree.ast.expressions.num;
 
 import java.util.List;
 
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.OneArg;
+import tree.ast.types.BaseType;
+import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck
@@ -40,4 +45,12 @@ public class Negative extends OneArg {
 		stack.add("neg");
 	}
 
+	@Override
+	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		Type expressionType = val.checkTypes(domain);
+		if (!(expressionType.equals(BaseType.instanceInt) || expressionType.equals(BaseType.instanceChar)))
+			throw new TypeException("Expression was of type: "+expressionType+" while type Bool was expected.");
+		return expressionType;
+	}
+	
 }

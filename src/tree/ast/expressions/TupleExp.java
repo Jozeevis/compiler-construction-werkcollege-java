@@ -2,7 +2,12 @@ package tree.ast.expressions;
 
 import java.util.List;
 
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
+import tree.ast.types.TupleType;
+import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck
@@ -31,7 +36,11 @@ public class TupleExp extends TwoArg {
 		right.addCodeToStack(stack, counter);
 		stack.add("sth");
 		stack.add("stmh 2");
-		
+	}
+
+	@Override
+	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		return new TupleType(left.checkTypes(domain), right.checkTypes(domain));
 	}
 
 }

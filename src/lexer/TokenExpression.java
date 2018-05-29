@@ -19,12 +19,10 @@ import tree.ast.types.Type;
 public class TokenExpression extends Token {
 
 	public final BaseExpr expression;
-	public final Type type;
 	
 	public TokenExpression(List<Token> list) {
 		super(TokenType.TOK_EXP);
 		SyntaxTree tree = Parser.convertZambinos(Parser.explorino(EXP.INSTANCE, list));
-		type = Type.inferExpressionType((SyntaxExpressionKnot) tree.root);
 		expression = BaseExpr.convertToExpr((SyntaxExpressionKnot) tree.root);
 		
 	}

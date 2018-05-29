@@ -7,10 +7,13 @@ import java.util.List;
 
 import lexer.TokenExpression;
 import lexer.TokenIdentifier;
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.ast.expressions.BaseExpr;
 import tree.ast.types.Type;
 
 /**
@@ -24,7 +27,7 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 	/** The identifier of the variable **/
 	public final String id;
 	/** The TokenExpression that holds the value of the variable **/
-	public final TokenExpression body;
+	public final BaseExpr initialValue;
 	/** The offset in the localMemory**/
 	private int linkNumber;
 
@@ -33,7 +36,7 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 
 		type = Type.inferType((SyntaxExpressionKnot) oldKnot.children[0]);
 		id = ((TokenIdentifier) oldKnot.children[1].reduceToToken()).getValue();
-		body = (TokenExpression) oldKnot.children[3].reduceToToken();
+		initialValue = ((TokenExpression) oldKnot.children[3].reduceToToken()).expression;
 	}
 
 
@@ -51,7 +54,12 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 
 	@Override
 	public boolean checkTypes(IDDeclarationBlock domain) {
-		return body.expression.checkTypes(domain);
+		try {
+			return (initialValue.checkTypes(domain).equals(type));
+		} catch (TypeException | DeclarationException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -61,7 +69,7 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		body.expression.addCodeToStack(stack, counter);
+		initialValue.addCodeToStack(stack, counter);
 		stack.add("ldl "+linkNumber);
 		stack.add("sth 0");
 	}

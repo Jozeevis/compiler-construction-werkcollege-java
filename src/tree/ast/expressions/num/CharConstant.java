@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package tree.ast.expressions.num;
 
 import java.util.List;
@@ -11,30 +14,27 @@ import tree.ast.types.BaseType;
 import tree.ast.types.Type;
 
 /**
+ * @author Flip van Spaendonck
  *
- * @author Loes Kruger, Geertje Peters Rit and Flip van Spaendonck
  */
-public class NumConstant extends NoArg{
-    public final int constant;
+public class CharConstant extends NoArg {
 
-    public NumConstant(int val) {
-        this.constant = val;
-    }
+	public CharConstant(char value) {
+		// TODO Auto-generated constructor stub
+	}
 
-    @Override
-    public String toString() {
-        return ""+ constant;
-    }
-
+	/* (non-Javadoc)
+	 * @see tree.ast.expressions.BaseExpr#addCodeToStack(java.util.List, tree.ast.LabelCounter)
+	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc "+constant);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return BaseType.instanceBool;
+		return BaseType.instanceChar;
 	}
-    
-    
+
 }
