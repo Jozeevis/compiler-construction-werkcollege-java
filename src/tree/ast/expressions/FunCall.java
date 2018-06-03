@@ -14,8 +14,8 @@ import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
-import tree.ast.types.FunctionType;
 import tree.ast.types.Type;
+import tree.ast.types.specials.FunctionType;
 import tree.ast.types.BaseType;
 
 /**
@@ -51,7 +51,6 @@ public class FunCall extends BaseExpr {
 			int i = 0;
 			while (true) {
 				arguments[i] = BaseExpr.convertToExpr((SyntaxExpressionKnot) currentArgument.children[0]);
-				argumentTypes[i] = Type.inferExpressionType((SyntaxExpressionKnot) currentArgument.children[0]);
 				if (currentArgument.children.length == 3) {
 					currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
 					i++;
@@ -70,7 +69,7 @@ public class FunCall extends BaseExpr {
 	@Override
 	public BaseExpr optimize() {
 		for (BaseExpr argument : arguments)
-			argument.optimize();
+			argument = argument.optimize();
 		return this;
 	}
 

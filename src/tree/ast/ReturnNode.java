@@ -12,7 +12,7 @@ import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.ast.expressions.BaseExpr;
-import tree.ast.types.VoidType;
+import tree.ast.types.specials.VoidType;
 
 /**
  * @author Flip van Spaendonck

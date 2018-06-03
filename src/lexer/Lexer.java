@@ -260,6 +260,12 @@ public class Lexer {
 		String result = resultBuilder.toString();
 
 		// Reserved keywords
+		if (result.equals("")) {
+			return new Token(TokenType.TOK_KW_NEW);
+		}
+		if (result.equals("null")) {
+			return TokenNull.instanceOf;
+		}
 		if (result.equals("var")) {
 			return new Token(TokenType.TOK_KW_VAR);
 		}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package tree.ast.expressions.num;
+package tree.ast.expressions.structs;
 
 import java.util.List;
 
@@ -10,29 +10,27 @@ import processing.TypeException;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.NoArg;
-import tree.ast.types.BaseType;
 import tree.ast.types.Type;
+import tree.ast.types.specials.WildType;
 
 /**
  * @author Flip van Spaendonck
  *
  */
-public class CharConstant extends NoArg {
+public class NullExpr extends  NoArg {
 
-	public final char value;
+	public final static NullExpr instanceOf = new NullExpr();
 	
-	public CharConstant(char value) {
-		this.value = value;
-	}
-
+	private NullExpr() {}
+	
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc "+ (int)value);
+		stack.add("ldc 0");
 	}
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return BaseType.instanceChar;
+		return WildType.instanceOf;
 	}
 
 }

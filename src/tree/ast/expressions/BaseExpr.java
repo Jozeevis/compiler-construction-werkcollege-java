@@ -36,6 +36,8 @@ import tree.ast.expressions.num.Minus;
 import tree.ast.expressions.num.Modulo;
 import tree.ast.expressions.num.Multiply;
 import tree.ast.expressions.num.NumConstant;
+import tree.ast.expressions.structs.InitExpr;
+import tree.ast.expressions.structs.NullExpr;
 import tree.ast.types.BaseType;
 import tree.ast.types.ListType;
 import tree.ast.types.Type;
@@ -147,7 +149,12 @@ public abstract class BaseExpr {
 			}
 			return out;
 		case "emptySet":
-			return new EmptyList(Type.inferType((SyntaxExpressionKnot) knot.children[0]));
+			return EmptyList.instanceOf;
+		//Structs
+		case "Null":
+			return NullExpr.instanceOf;
+		case "Init":
+			return new InitExpr((SyntaxExpressionKnot) knot.children[0]);
 		// Mixed
 		case "funcall":
 			return new FunCall((SyntaxExpressionKnot) knot.children[0]);

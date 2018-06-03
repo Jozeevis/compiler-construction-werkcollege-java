@@ -12,11 +12,17 @@ public class SPL extends ExpressionTree {
 	
 	private SPL() {
 		super(new Node("SPL"));
-		addNode(new Node("DeclPlus"));
 		addNode(new Node("Decl"));
+		addNode(new PlusNode("Decl", this));
+		//addNode(new Node("DeclMini"));
+		//addNode(new StarNode("DeclMini", this));
+		addNode(new Node("StructDecl"));
+		addNode(new Node("Constructor"));
+		addNode(new PlusNode("Constructor", this));
 		addNode(new Node("VarDecl"));
 		addNode(new StarNode("VarDecl", this));
 		addNode(new Node("FunDecl"));
+		addNode(new StarNode("FunDecl", this));
 		addNode(new Node("RetType"));
 		addNode(new Node("FunType"));
 		addNode(new Node("Type"));
@@ -34,14 +40,18 @@ public class SPL extends ExpressionTree {
 		
 		addExpressionTo("~DeclPlus", "SPL");
 		
-		addExpressionTo("~Decl ~DeclPlus","DeclPlus");
-		addExpressionTo("~Decl", "DeclPlus");
-		
 		addExpressionTo("~VarDecl","Decl");
 		addExpressionTo("~FunDecl","Decl");
+		addExpressionTo("~StructDecl", "Decl");
+		
+		addExpressionTo("~id '{'~VarDeclStar ~ConstructorPlus ~FunDeclStar'}'", "StructDecl");
+		
+		addExpressionTo("~id '(' ')'", "Constructor");
 		
 		// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not be allowed in our grandma
 		addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit","VarDecl");
+		addExpressionTo("~Type ~id ';'", "VarInit","VarDecl");
+		
 		
 		//addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
 		//addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl"); Currently this will not be allowed in our grandma
@@ -65,6 +75,7 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'.tl'", "Field");
 		addExpressionTo("'.fst'", "Field");
 		addExpressionTo("'.snd'", "Field");
+		addExpressionTo("'.'~id ", "Field");
 		
 		
 		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'","IfElseStmt","Stmt");
@@ -72,10 +83,10 @@ public class SPL extends ExpressionTree {
 		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'","WhileStmt","Stmt");
 		addExpressionTo("~id ~FieldStar '=' ~Exp ';'", "Assign","Stmt");
 		addExpressionTo("~FunCall ';'", "FunCall" ,"Stmt");
+		addExpressionTo("'print' ~Exp", "Print","Stmt");
 		addExpressionTo("'return' ';'", "Return", "Stmt");
 		addExpressionTo("'return'~Exp ';'", "Return","Stmt");
 		
-		//TODO: Decide on what to do with the following 6 expressions, probably check for an expression token, so expression optimalization can be handled by the lexer
 		addExpressionTo(".TOK_EXP ","Exp");
 		addExpressionTo(".TOK_IDENTIFIER ","id");
 		

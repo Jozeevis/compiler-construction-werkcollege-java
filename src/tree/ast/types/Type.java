@@ -9,6 +9,7 @@ import lexer.PrimitiveType;
 import lexer.TokenIdentifier;
 import lexer.TokenPrimitiveType;
 import tree.SyntaxLeaf;
+import tree.ast.expressions.BaseExpr;
 
 /**
  * @author Flip van Spaendonck
@@ -16,6 +17,7 @@ import tree.SyntaxLeaf;
  */
 public abstract class Type {
 
+	public abstract boolean matches(Type t);
 	
 	/**
 	 * A factory function that infers a Type from the given SyntaxKnot
@@ -31,7 +33,7 @@ public abstract class Type {
 			case "ListType":
 				return new ListType(inferType((SyntaxExpressionKnot) node.children[1]));
 			case "CustomType":
-				return new CustomType(((TokenIdentifier) node.children[0].reduceToToken()).getValue());
+				return new StructType(((TokenIdentifier) node.children[0].reduceToToken()).getValue());
 			}
 		}
 		return null;
@@ -56,5 +58,7 @@ public abstract class Type {
 		}
 		return null;
 	}
+
+	public abstract BaseExpr getNullValue();
 
 }

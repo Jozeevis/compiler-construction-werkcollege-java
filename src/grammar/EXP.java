@@ -31,6 +31,11 @@ public class EXP extends ExpressionTree {
 		addExpressionTo("~NumRng", "NumExp","Exp");
 		addExpressionTo("~SetExp", "SetExp", "Exp");
 		addExpressionTo("'(' ~Exp ',' ~Exp ')'", "TupleExp","Exp");
+		addExpressionTo("'null'", "Null", "Exp");
+		addExpressionTo("'new' ~id '(' ')'", "Init","Exp");
+		addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","Exp");
+		
+		
 		
 		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
 		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
@@ -42,7 +47,7 @@ public class EXP extends ExpressionTree {
 		
 		addExpressionTo("~Exp ':'", "Concat");
 		
-		addExpressionTo("~Type '[' ']'", "emptySet", "SetDef");
+		addExpressionTo("'[' ']'", "emptySet", "SetDef");
 		addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "SetDef");
 		
 		addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
@@ -55,6 +60,11 @@ public class EXP extends ExpressionTree {
 		addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
 		addExpressionTo("~BoolExp1 ", "BoolExp2");
 		
+		addExpressionTo("'.hd'", "Field");
+		addExpressionTo("'.tl'", "Field");
+		addExpressionTo("'.fst'", "Field");
+		addExpressionTo("'.snd'", "Field");
+		addExpressionTo("'.'~id", "Field");
 		
 		addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
 		addExpressionTo("~BoolExp0 ", "BoolExp1");

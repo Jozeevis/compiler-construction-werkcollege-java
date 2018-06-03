@@ -12,6 +12,7 @@ import tree.ast.LabelCounter;
 import tree.ast.expressions.NoArg;
 import tree.ast.types.ListType;
 import tree.ast.types.Type;
+import tree.ast.types.specials.WildType;
 
 /**
  * @author Flip van Spaendonck
@@ -19,11 +20,10 @@ import tree.ast.types.Type;
  */
 public class EmptyList extends NoArg {
 
-	public final Type expectedType;
 	
-	public EmptyList(Type expectedType) {
-		this.expectedType = expectedType;
-	}
+	public static final EmptyList instanceOf = new EmptyList();
+
+	private EmptyList() {}
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
@@ -32,7 +32,7 @@ public class EmptyList extends NoArg {
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return new ListType(expectedType);
+		return WildType.instanceOf;
 	}
 
 }

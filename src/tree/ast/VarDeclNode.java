@@ -36,7 +36,10 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 
 		type = Type.inferType((SyntaxExpressionKnot) oldKnot.children[0]);
 		id = ((TokenIdentifier) oldKnot.children[1].reduceToToken()).getValue();
-		initialValue = ((TokenExpression) oldKnot.children[3].reduceToToken()).expression;
+		if (oldKnot.children.length == 2)
+			initialValue = type.getNullValue();
+		else
+			initialValue = ((TokenExpression) oldKnot.children[3].reduceToToken()).expression;
 	}
 
 

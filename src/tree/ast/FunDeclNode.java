@@ -14,8 +14,8 @@ import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.TreeProcessing;
 import tree.ast.types.Type;
-import tree.ast.types.VoidType;
-import tree.ast.types.FunctionType;
+import tree.ast.types.specials.FunctionType;
+import tree.ast.types.specials.VoidType;
 
 /**
  * An abstract syntax knot representing a function declaration.
