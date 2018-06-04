@@ -21,7 +21,7 @@ import tree.ast.types.Type;
  * 
  * @author Flip van Spaendonck
  */
-public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckable {
+public class VarDeclNode extends ASyntaxKnot implements ITypeCheckable {
 	/** The type of the variable **/
 	public final Type type;
 	/** The identifier of the variable **/
@@ -42,10 +42,13 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 			initialValue = ((TokenExpression) oldKnot.children[3].reduceToToken()).expression;
 	}
 
-
 	@Override
-	public IDDeclarationBlock getBlock(IDDeclarationBlock previous) {
-		IDDeclarationBlock newBlock = new IDDeclarationBlock(previous, new IDDeclaration(type, id));
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		Type expressionType;
+		if (!(expressionType = initialValue.checkTypes(domain)).equals(type)) {
+			throw new TypeException("Expression was of type: "+expressionType+", while type: "+type+" was expected.");
+		}
+		IDDeclarationBlock newBlock = new IDDeclarationBlock(domain, new IDDeclaration(type, id));
 		for(int i=newBlock.block.length-1; i>=0; i--) {
 			IDDeclaration declaration = newBlock.block[i];
 			if (declaration.id.equals(id)) {
@@ -53,16 +56,6 @@ public class VarDeclNode extends ASyntaxKnot implements ICodeBlock, ITypeCheckab
 			}
 		}
 		return newBlock;
-	}
-
-	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		try {
-			return (initialValue.checkTypes(domain).equals(type));
-		} catch (TypeException | DeclarationException e) {
-			e.printStackTrace();
-			return false;
-		}
 	}
 
 	@Override

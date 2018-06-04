@@ -5,13 +5,14 @@ import java.util.List;
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
 import processing.DeclarationException;
+import processing.TreeProcessing;
 import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
-import tree.TreeProcessing;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
+import tree.ast.types.Type;
 
 /**
  * An abstract syntax knot representing an if-(else) statement.
@@ -41,13 +42,12 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		try {
-			return (check.checkTypes(domain).equals(BaseType.instanceBool));
-		} catch (TypeException | DeclarationException e) {
-			e.printStackTrace();
-			return false;
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		Type checkType;
+		if (!(checkType = check.checkTypes(domain)).equals(BaseType.instanceBool)) {
+			throw new TypeException("Check was of type: "+checkType+", while type Bool was expected.");
 		}
+		return domain;
 	}
 
 	@Override

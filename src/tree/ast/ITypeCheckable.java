@@ -3,6 +3,7 @@
  */
 package tree.ast;
 
+import processing.DeclarationException;
 import processing.TypeException;
 import tree.ast.types.Type;
 
@@ -12,5 +13,5 @@ import tree.ast.types.Type;
  */
 public interface ITypeCheckable {
 
-	public boolean checkTypes(IDDeclarationBlock domain);
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException;
 }

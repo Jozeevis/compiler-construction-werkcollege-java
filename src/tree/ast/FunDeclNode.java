@@ -7,12 +7,14 @@ import lexer.Token;
 import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import lexer.TokenType;
+import processing.DeclarationException;
+import processing.TreeProcessing;
+import processing.TypeException;
 import tree.CodeGenerator;
 import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
-import tree.TreeProcessing;
 import tree.ast.types.Type;
 import tree.ast.types.specials.FunctionType;
 import tree.ast.types.specials.VoidType;
@@ -22,7 +24,7 @@ import tree.ast.types.specials.VoidType;
  * 
  * @author Lars Kuijpers and Flip van Spaendonck
  */
-public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
+public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 
 	/** The identifier of the function **/
 	public final String id;
@@ -127,21 +129,6 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 	}
 
 	@Override
-	public IDDeclarationBlock getBlock(IDDeclarationBlock previous) {
-		IDDeclaration[] block = new IDDeclaration[funArgs.length + varDecls.length + 1];
-		block[0] = new IDDeclaration(funtype, id);
-		for (int i = 0; i < funArgs.length; i++) {
-			block[i + 1] = funArgs[i];
-		}
-		for (int i = 0; i < varDecls.length; i++) {
-			block[funArgs.length + i + 1] = new IDDeclaration(varDecls[i].type, varDecls[i].id);
-		}
-		IDDeclarationBlock out = new IDDeclarationBlock(previous, block);
-		linkSize = out.block.length;
-		return out;
-	}
-
-	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// TODO: Make this work with overloaded functions
 		// Label to jump to the function body
@@ -152,6 +139,21 @@ public class FunDeclNode extends ASyntaxKnot implements ICodeBlock {
 		}
 		// Generate the code of the function body
 		body.addCodeToStack(stack, counter);
+	}
+
+	@Override
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		IDDeclaration[] block = new IDDeclaration[funArgs.length + varDecls.length + 1];
+		block[0] = new IDDeclaration(funtype, id);
+		for (int i = 0; i < funArgs.length; i++) {
+			block[i + 1] = funArgs[i];
+		}
+		for (int i = 0; i < varDecls.length; i++) {
+			block[funArgs.length + i + 1] = new IDDeclaration(varDecls[i].type, varDecls[i].id);
+		}
+		IDDeclarationBlock out = new IDDeclarationBlock(domain, block);
+		linkSize = out.block.length;
+		return out;
 	}
 
 }

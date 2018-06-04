@@ -55,7 +55,7 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
 		Type varType = null;
 		for(int i=domain.block.length-1; i>=0; i--) {
 			IDDeclaration declaration = domain.block[i];
@@ -66,7 +66,7 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 			}
 		}
 		if (varType == null)
-			return false;
+			throw new DeclarationException("No variable with id: "+id+ " is currently defined.");
 		
 		Type expectedType = varType;
 		for(TokenField accessor : accessors) {
@@ -77,7 +77,7 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 					else
 						expectedType = ((TupleType) expectedType).rightType;
 				} else {
-					return false;
+					throw new TypeException("Expression was of type: "+expectedType+" while type TupleType was expected.");
 				}
 			} else if (accessor instanceof TokenListFunction) {
 				if (expectedType instanceof ListType) {
@@ -86,17 +86,13 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 					else
 						;//ExpectedType stays the same when continuing in the list
 				} else {
-					return false;
+					throw new TypeException("Expression was of type: "+expectedType+" while type ListType was expected.");
 				}
 			} else
-				return false;
+				throw new DeclarationException("The assignmentNode has no option declared for accessor: " +accessor);
 		}
-		try {
-			return expression.checkTypes(domain).equals(expectedType);
-		} catch (TypeException | DeclarationException e) {
-			e.printStackTrace();
-			return false;
-		}
+		expression.checkTypes(domain).equals(expectedType);
+		return domain;
 	}
 
 

@@ -5,6 +5,8 @@ package tree.ast;
 
 import java.util.List;
 
+import processing.DeclarationException;
+import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
@@ -29,13 +31,10 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		try {
-			return (funCall.checkTypes(domain).equals(VoidType.instance));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+		funCall.checkTypes(domain);
+		return domain;
+		
 	}
 
 	@Override

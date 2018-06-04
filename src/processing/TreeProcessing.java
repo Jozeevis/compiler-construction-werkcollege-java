@@ -1,7 +1,7 @@
 /**
  * 
  */
-package tree;
+package processing;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,13 +9,17 @@ import java.util.List;
 import grammar.ExpressionWithAST;
 import tree.ast.IfElseStmtKnot;
 import tree.ast.ReturnNode;
+import tree.ast.StructDeclNode;
 import tree.ast.VarDeclNode;
 import tree.ast.WhileStmtKnot;
+import tree.SyntaxExpressionKnot;
+import tree.SyntaxKnot;
+import tree.SyntaxNode;
+import tree.SyntaxTree;
 import tree.ast.ASyntaxKnot;
 import tree.ast.AssignmentNode;
 import tree.ast.FunCallNode;
 import tree.ast.FunDeclNode;
-import tree.ast.ICodeBlock;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.ITypeCheckable;
 
@@ -52,6 +56,9 @@ public final class TreeProcessing {
 						break;
 					case "FunDecl":
 						aKnot = new FunDeclNode(current, asTree.frontier);
+						break;
+					case "StructDecl":
+						aKnot = new StructDeclNode(current, asTree.frontier);
 						break;
 					case "IfElseStmt":
 						aKnot = new IfElseStmtKnot(current, asTree.frontier);
@@ -96,11 +103,12 @@ public final class TreeProcessing {
 		while(!frontier.isEmpty()) {
 			SyntaxNode current = frontier.remove(0);
 			if (current instanceof ITypeCheckable) {
-				if (!((ITypeCheckable)current).checkTypes(block))
+				try {
+					block = ((ITypeCheckable)current).checkTypes(block);
+				} catch (TypeException | DeclarationException e) {
+					e.printStackTrace();
 					return false;
-			}
-			if (current instanceof ICodeBlock) {
-				block = ((ICodeBlock) current).getBlock(block);
+				}
 			}
 			if (current instanceof SyntaxKnot) {
 				for (SyntaxNode node  :((SyntaxKnot) current).getChildren()) {
@@ -110,5 +118,31 @@ public final class TreeProcessing {
 		}
 		return true;
 	}
+	
+	/**
+	 * Extracts all SyntaxNodes from a starNode structure.
+	 */
+	public static List<SyntaxNode> extractFromStarNode(SyntaxKnot starNode) {
+		List<SyntaxNode> nodes = new LinkedList<>();
+		SyntaxKnot currentKnot = starNode;
+		while (currentKnot.children.length == 2) {
+			nodes.add(currentKnot.children[0]);
+			currentKnot = (SyntaxKnot) currentKnot.children[1];
+		}
+		return nodes;
+	}
+	
+	public static List<SyntaxNode> extractFromPlusNode(SyntaxKnot plusNode) {
+		List<SyntaxNode> nodes = new LinkedList<>();
+		SyntaxKnot currentKnot = plusNode;
+		while (currentKnot.children.length == 2) {
+			nodes.add(currentKnot.children[0]);
+			currentKnot = (SyntaxKnot) currentKnot.children[1];
+		}
+		nodes.add(currentKnot);
+		return nodes;
+	}
+	
+	
 	
 }
