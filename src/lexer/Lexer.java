@@ -43,7 +43,7 @@ public class Lexer {
 		if (match('-')) {
 			currentPosition++;
 			// Negative integer
-			if (Character.isDigit(input.charAt(currentPosition))) {
+			if (input.length() < currentPosition && Character.isDigit(input.charAt(currentPosition))) {
 				currentPosition++;
 				return lexInteger(true);
 			}
@@ -57,6 +57,23 @@ public class Lexer {
 
 		if (match('/')) {
 			currentPosition++;
+			if (input.length() > currentPosition) {
+				if (input.charAt(currentPosition) == '/') {
+					currentPosition++;
+					while(input.charAt(currentPosition) != '\n') {
+						currentPosition++;
+					}
+					currentPosition++;
+					return nextToken();
+				} else if (input.charAt(currentPosition) == '*') {
+					currentPosition++;
+					while(!(input.substring(currentPosition, currentPosition+2).equals("*/"))) {
+						currentPosition++;
+					}
+					currentPosition +=2;
+					return nextToken();
+				}
+			}
 			return new Token(TokenType.TOK_DIV);
 		}
 
