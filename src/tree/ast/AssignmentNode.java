@@ -95,12 +95,6 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 		return domain;
 	}
 
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[0];
-	}
-
 	public int getLinkNumber() {
 		return linkNumber;
 	}

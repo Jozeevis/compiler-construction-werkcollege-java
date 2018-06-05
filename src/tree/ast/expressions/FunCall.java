@@ -131,25 +131,6 @@ public class FunCall extends BaseExpr {
 				stack.add("ENDLABEL" + count + ": nop");
 			}
 		}
-		// If this is the built-in print function
-		else if (id == "print") {
-			// If it actually has an argument
-			if (arguments.length > 0) {
-				// Put code for the expression evaluating to the argument on the stack
-				arguments[0].addCodeToStack(stack, counter);
-				// If the argument is of type char, print the result as a unicode character
-				if (argumentTypes.length > 0 && argumentTypes[0] instanceof BaseType
-						&& ((BaseType) argumentTypes[0]).type == PrimitiveType.PRIMTYPE_CHAR) {
-					stack.add("trap 1");
-				}
-				// TODO: at the moment this prints the pointer to a list/tuple and not its
-				// contents, do we wanna change that?
-				// If the argument is not of type char, print the result as an integer
-				else {
-					stack.add("trap 0");
-				}
-			}
-		}
 		// Otherwise this is not a built-in function
 		else {
 			// Follow a function call, evaluating its arguments and saving them as local

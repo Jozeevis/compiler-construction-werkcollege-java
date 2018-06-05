@@ -59,11 +59,6 @@ public class VarDeclNode extends ASyntaxKnot implements ITypeCheckable {
 	}
 
 	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[0];
-	}
-
-	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		initialValue.addCodeToStack(stack, counter);
 		stack.add("ldl "+linkNumber);

@@ -29,6 +29,7 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 
 		check = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
 		body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
+		children = new SyntaxNode[] {body};
 	}
 
 	@Override
@@ -38,12 +39,6 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 			throw new TypeException("Check was of type: "+checkType+", while type Bool was expected.");
 		}
 		return domain;
-	}
-
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[] {body};
 	}
 
 	@Override

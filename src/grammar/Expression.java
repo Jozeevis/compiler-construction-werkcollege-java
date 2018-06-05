@@ -65,11 +65,15 @@ public class Expression {
 				end = front+1;
 				while(expression.charAt(end) != '\'')
 					end++;
+				if (expression.substring(front+1, end).equals("==")) {
+					System.out.println(expression.substring(front+1, end));
+				}
 				tokenizer.input = expression.substring(front+1, end);
+				tokenizer.currentPosition = 0;
 				array.add(tokenizer.nextToken());
 				end++;
 				front = end;
-			} else if(expression.substring(front, front+4).equals("null")) {
+			} else if(expression.length() >front+4 && expression.substring(front, front+4).equals("null")) {
 				array.add(EmptyWord.NIL);
 				front += 4;
 			} else if(expression.charAt(front) == ' ') {
@@ -78,5 +82,20 @@ public class Expression {
 		}
 		this.expression = array.toArray();
 		nrOfNodes = n;
+	}
+	
+	@Override
+	public String toString() {
+		String out = "[";
+		for(Object o : expression) {
+			if (o instanceof Node) {
+				out+= "~"+o;
+			} else if (o instanceof Token) {
+				out += "."+((Token)o).getTokenType().name();
+			} 
+			out += ",";
+		}
+		out += "]";
+		return out;
 	}
 }

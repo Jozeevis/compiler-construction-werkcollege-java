@@ -84,11 +84,6 @@ public class StructDeclNode extends ASyntaxKnot implements ITypeCheckable {
 		}
 	}
 
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[] {};
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

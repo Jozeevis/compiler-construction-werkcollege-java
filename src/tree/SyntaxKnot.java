@@ -12,16 +12,13 @@ import grammar.Expression;
 public abstract class SyntaxKnot extends SyntaxNode {
 
 	/** The SyntaxNodes used to fill in the previously described expression**/
-	public final SyntaxNode[] children;
+	public SyntaxNode[] children = new SyntaxNode[] {};
 	/** This int is used to check how much of this node's children have already been added**/
 	private int arrayIndex = 0;
 	
 	public SyntaxKnot(SyntaxKnot parent) {
 		super(parent);
-		children = initializeChildrenArray();
 	}
-
-	protected abstract SyntaxNode[] initializeChildrenArray();
 
 	/**
 	 * Adds the given syntaxnode to this node as a child.

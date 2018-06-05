@@ -67,6 +67,8 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[7]);
 			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8]).root;
 		}
+		
+		children = new SyntaxNode[] {body};
 	}
 
 	/**
@@ -121,11 +123,6 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 		}
 
 		return new FunctionType(left, right);
-	}
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[] { body };
 	}
 
 	@Override

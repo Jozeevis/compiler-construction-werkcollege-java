@@ -17,13 +17,8 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 	
 	public SyntaxExpressionKnot(Expression expression, SyntaxKnot frontier) {
 		super(frontier);
-		
 		this.expression = expression;
-	}
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return  new SyntaxExpressionKnot[expression.expression.length];
+		children = new SyntaxNode[expression.expression.length];
 	}
 
 	@Override
@@ -32,4 +27,6 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 			child.addCodeToStack(stack, counter);
 		}
 	}
+	
+
 }

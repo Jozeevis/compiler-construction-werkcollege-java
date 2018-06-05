@@ -1,8 +1,11 @@
 package lexer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Lexer {
 	public String input = null;
-	int currentPosition = 0;
+	public int currentPosition = 0;
 
 	public Lexer(String inp) {
 		input = inp;
@@ -46,6 +49,10 @@ public class Lexer {
 			if (input.length() < currentPosition && Character.isDigit(input.charAt(currentPosition))) {
 				currentPosition++;
 				return lexInteger(true);
+			}
+			if (match('>')) {
+				currentPosition++;
+				return new Token(TokenType.TOK_MAPSTO);
 			}
 			return new Token(TokenType.TOK_MINUS);
 		}
@@ -203,18 +210,6 @@ public class Lexer {
 			currentPosition++;
 			return new Token(TokenType.TOK_COMMA);
 		}
-
-		// mapsto (->) for function types
-		if (match('-')) {
-			currentPosition++;
-			if (match('>')) {
-				currentPosition++;
-				return new Token(TokenType.TOK_MAPSTO);
-			}
-			return new TokenError("Unknown character in input: '"
-					+ input.charAt(currentPosition) + "'");
-		}
-
 		// Chars
 		if (match('\'')) {
 			currentPosition++;
@@ -277,8 +272,11 @@ public class Lexer {
 		String result = resultBuilder.toString();
 
 		// Reserved keywords
-		if (result.equals("")) {
+		if (result.equals("new")) {
 			return new Token(TokenType.TOK_KW_NEW);
+		}
+		if (result.equals("print")) {
+			return new Token(TokenType.TOK_KW_PRINT);
 		}
 		if (result.equals("null")) {
 			return TokenNull.instanceOf;
@@ -354,5 +352,15 @@ public class Lexer {
 		
 		// Identifier is not a keyword, so we treat it as identifier
 		return new TokenIdentifier(result);
+	}
+
+	public List<Token> allNextTokens() {
+		List<Token> out = new LinkedList<>();
+		Token token;
+		while(!(token = nextToken()).getTokenType().equals(TokenType.TOK_EOF)) {
+			out.add(token);
+		}
+		out.add(new Token(TokenType.TOK_EOF));
+		return out;
 	}
 }

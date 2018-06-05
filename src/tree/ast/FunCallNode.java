@@ -38,11 +38,6 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[0];
-	}
-
-	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		funCall.addCodeToStack(stack, counter);
 	}

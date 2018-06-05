@@ -18,20 +18,22 @@ public class SPLExpressionParser {
 	public static final void packExpressions(List<Token> tokens) throws ParsingException {
 		loop: for (int i = 0; i < tokens.size(); i++) {
 			TokenType current = tokens.get(i).getTokenType();
-			if (current == TokenType.TOK_ASS | current == TokenType.TOK_KW_RETURN) {
+			if (current == TokenType.TOK_ASS | current == TokenType.TOK_KW_RETURN | current == TokenType.TOK_KW_PRINT) {
 				i++;
 				int end = i;
 				try {
 					while (tokens.get(end).getTokenType() != TokenType.TOK_EOS)
 						end++;
+					System.out.println("t:"+tokens.subList(i, end));
 					TokenExpression expressionToken = new TokenExpression(tokens.subList(i, end));
-					while (end - i > 0) {
-						tokens.remove(i);
+					/*while (end - i > 1) {
+						System.out.println("Removing: "+tokens.remove(i));
 						end--;
-					}
+					}*/
 					tokens.add(i, expressionToken);
 					i++;
 				} catch (IndexOutOfBoundsException e) {
+					e.printStackTrace();
 					throw new ParsingException();
 				}
 			} else if (current == TokenType.TOK_KW_IF | current == TokenType.TOK_KW_WHILE) {
@@ -54,7 +56,7 @@ public class SPLExpressionParser {
 					throw new ParsingException();
 				}
 			} else if (current == TokenType.TOK_IDENTIFIER
-					& tokens.get(++i).getTokenType() == TokenType.TOK_BRACK_OPEN) {
+					&& tokens.get(++i).getTokenType() == TokenType.TOK_BRACK_OPEN) {
 				int end = ++i;
 				try {
 					while (tokens.get(end).getTokenType() != TokenType.TOK_EOS) {

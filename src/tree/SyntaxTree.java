@@ -20,4 +20,9 @@ public class SyntaxTree {
 	public void addToFrontier(SyntaxNode node) {
 		
 	}
+
+	public void printTree() {
+		// TODO Auto-generated method stub
+		
+	}
 }

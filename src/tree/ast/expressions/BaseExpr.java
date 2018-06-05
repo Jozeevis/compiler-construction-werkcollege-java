@@ -73,98 +73,101 @@ public abstract class BaseExpr {
 	 * @return
 	 */
 	public final static BaseExpr convertToExpr(SyntaxExpressionKnot knot) {
-		switch (((ExpressionWithAST) knot.expression).id) {
-		// BaseExp
-		case "TupleExp":
-			return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[3]));
-		// BoolExp2
-		case "and":
-			return new And(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "or":
-			return new Or(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "eq":
-			return new Equality(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "neq":
-			return new Inequality(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "smaller":
-			return new Smaller(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "larger":
-			return new Larger(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "smallerEq":
-			return new SmallerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "largerEq":
-			return new LargerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		// BoolExp1
-		case "negation":
-			return new Negate(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
-		// BoolExp0
-		case "boolean":
-			return new BoolConstant(((TokenBool) ((SyntaxLeaf) knot.children[0]).leaf).value);
-		// NumRng
-		case "modulo":
-			return new Modulo(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "divide":
-			return new Divide(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "multiply":
-			return new Multiply(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		// NumFld
-		case "plus":
-			return new Add(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "minus":
-			return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-					convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-		case "int":
-			return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
-		case "char":
-			return new CharConstant(((TokenChar) ((SyntaxLeaf) knot.children[0]).leaf).value);
-		// SetExp
-		case "SetConcat":
-			// Parse out the values we want to concatenate
-			List<BaseExpr> concats = new LinkedList<>();
-			SyntaxExpressionKnot plusKnot;
-			plusKnot = (SyntaxExpressionKnot) knot.children[1];
-			while (plusKnot.children.length != 1) {
+		if (knot.expression instanceof ExpressionWithAST) {
+			switch (((ExpressionWithAST) knot.expression).id) {
+			// BaseExp
+			case "TupleExp":
+				return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[3]));
+			// BoolExp2
+			case "and":
+				return new And(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "or":
+				return new Or(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "eq":
+				return new Equality(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "neq":
+				return new Inequality(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "smaller":
+				return new Smaller(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "larger":
+				return new Larger(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "smallerEq":
+				return new SmallerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "largerEq":
+				return new LargerEq(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			// BoolExp1
+			case "negation":
+				return new Negate(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
+			// BoolExp0
+			case "boolean":
+				return new BoolConstant(((TokenBool) ((SyntaxLeaf) knot.children[0]).leaf).value);
+			// NumRng
+			case "modulo":
+				return new Modulo(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "divide":
+				return new Divide(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "multiply":
+				return new Multiply(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			// NumFld
+			case "plus":
+				return new Add(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "minus":
+				return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "int":
+				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
+			case "char":
+				return new CharConstant(((TokenChar) ((SyntaxLeaf) knot.children[0]).leaf).value);
+			// SetExp
+			case "SetConcat":
+				// Parse out the values we want to concatenate
+				List<BaseExpr> concats = new LinkedList<>();
+				SyntaxExpressionKnot plusKnot;
+				plusKnot = (SyntaxExpressionKnot) knot.children[1];
+				while (plusKnot.children.length != 1) {
+					concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
+					plusKnot = (SyntaxExpressionKnot) plusKnot.children[1];
+				}
 				concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
-				plusKnot = (SyntaxExpressionKnot) plusKnot.children[1];
+				// Convert the left element into a basic expression.
+				BaseExpr out = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				// Iterate through the values we want to concatenate.
+				for (BaseExpr concat : concats) {
+					out = new Concat(concat, out);
+				}
+				return out;
+			case "emptySet":
+				return EmptyList.instanceOf;
+			//Structs
+			case "Null":
+				return NullExpr.instanceOf;
+			case "Init":
+				return new InitExpr((SyntaxExpressionKnot) knot.children[0]);
+			// Mixed
+			case "funcall":
+				return new FunCall((SyntaxExpressionKnot) knot.children[0]);
+			case "variable":
+				return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
+						(SyntaxExpressionKnot) knot.children[1]);
+			case "brackets":
+				return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
+			default:
+				return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 			}
-			concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
-			// Convert the left element into a basic expression.
-			BaseExpr out = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
-			// Iterate through the values we want to concatenate.
-			for (BaseExpr concat : concats) {
-				out = new Concat(concat, out);
-			}
-			return out;
-		case "emptySet":
-			return EmptyList.instanceOf;
-		//Structs
-		case "Null":
-			return NullExpr.instanceOf;
-		case "Init":
-			return new InitExpr((SyntaxExpressionKnot) knot.children[0]);
-		// Mixed
-		case "funcall":
-			return new FunCall((SyntaxExpressionKnot) knot.children[0]);
-		case "variable":
-			return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
-					(SyntaxExpressionKnot) knot.children[1]);
-		case "brackets":
-			return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
-		default:
-			return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 		}
+		return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 	}
 }

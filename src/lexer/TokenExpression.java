@@ -22,7 +22,8 @@ public class TokenExpression extends Token {
 	
 	public TokenExpression(List<Token> list) {
 		super(TokenType.TOK_EXP);
-		SyntaxTree tree = Parser.convertZambinos(Parser.explorino(EXP.INSTANCE, list));
+		System.out.println("test2:" +list);
+		SyntaxTree tree = Parser.convertTokenTraces(Parser.parseCode(EXP.INSTANCE, list));
 		expression = BaseExpr.convertToExpr((SyntaxExpressionKnot) tree.root);
 		
 	}

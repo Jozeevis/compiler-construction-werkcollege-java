@@ -12,6 +12,7 @@ public class SPL extends ExpressionTree {
 
 	private SPL() {
 		super(new Node("SPL"));
+		System.out.println("SPL is being constructed");
 		addNode(new Node("Decl"));
 		addNode(new PlusNode("Decl", this));
 		// addNode(new Node("DeclMini"));
@@ -38,69 +39,75 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
 		addNode(new Node("id"));
-
-		addExpressionTo("~DeclPlus", "SPL");
-
-		addExpressionTo("~VarDecl", "Decl");
-		addExpressionTo("~FunDecl", "Decl");
-		addExpressionTo("~StructDecl", "Decl");
-
-		addExpressionTo("~id '{'~VarDeclStar ~Constructor ~FunDeclStar'}'", "StructDecl");
-
-		addExpressionTo("~id '(' ')' '{'~VarDeclStar ~StmtPlus '}' ", "Constructor");
-		addExpressionTo("~id '(' ~CArgs ')' '{'~VarDeclStar ~StmtPlus '}'", "Constructor");
 		
-		addExpressionTo("~Type ~id","CArgs");
-		addExpressionTo("~Type ~id ',' ~CArgs","CArgs");
-		
-
-		// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not
-		// be allowed in our grandma
-		addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit", "VarDecl");
-		addExpressionTo("~Type ~id ';'", "VarInit", "VarDecl");
-
-		// addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
-		// Currently this will not be allowed in our grandma
-		// addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
-		// Currently this will not be allowed in our grandma
-		addExpressionTo("~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'", "FunDecl", "FunDecl");
-		addExpressionTo("~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'", "FunDecl", "FunDecl");
-
-		addExpressionTo("~Type", "RetType");
-		addExpressionTo("Void", "RetType");
-
-		addExpressionTo("~TypeStar '->' ~RetType", "FunType");
-
-		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
-		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
-		addExpressionTo("'['~Type ']'", "ListType", "Type");
-		addExpressionTo("~id", "CustomType", "Type");
-
-		addExpressionTo("~id", "FArgs");
-		addExpressionTo("~id ','~FArgs", "FArgs");
-
-		addExpressionTo("'.hd'", "Field");
-		addExpressionTo("'.tl'", "Field");
-		addExpressionTo("'.fst'", "Field");
-		addExpressionTo("'.snd'", "Field");
-		addExpressionTo("'.'~id ", "Field");
-
-		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'", "IfElseStmt", "Stmt");
-		addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'", "IfElseStmt", "Stmt");
-		addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'", "WhileStmt", "Stmt");
-		addExpressionTo("~id ~FieldStar '=' ~Exp ';'", "Assign", "Stmt");
-		addExpressionTo("~FunCall ';'", "FunCall", "Stmt");
-		addExpressionTo("'print' ~Exp", "Print", "Stmt");
-		addExpressionTo("'return' ';'", "Return", "Stmt");
-		addExpressionTo("'return'~Exp ';'", "Return", "Stmt");
-
-		addExpressionTo(".TOK_EXP ", "Exp");
-		addExpressionTo(".TOK_IDENTIFIER ", "id");
-
-		addExpressionTo("~id '('')'", "FunCall");
-		addExpressionTo("~id '('~ActArgs ')'", "FunCall");
-
-		addExpressionTo("~Exp", "ActArgs");
-		addExpressionTo("~Exp ','~ActArgs", "ActArgs");
+		System.out.println("All nodes have been added to SPL.");
+		try {
+			addExpressionTo("~DeclPlus", "SPL");
+	
+			addExpressionTo("~VarDecl", "Decl");
+			addExpressionTo("~FunDecl", "Decl");
+			addExpressionTo("~StructDecl", "Decl");
+	
+			addExpressionTo("~id '{'~VarDeclStar ~Constructor ~FunDeclStar'}'", "StructDecl");
+	
+			addExpressionTo("~id '(' ')' '{'~VarDeclStar ~StmtPlus '}' ", "Constructor");
+			addExpressionTo("~id '(' ~CArgs ')' '{'~VarDeclStar ~StmtPlus '}'", "Constructor");
+			
+			addExpressionTo("~Type ~id","CArgs");
+			addExpressionTo("~Type ~id ',' ~CArgs","CArgs");
+			
+	
+			// addExpressionTo("'var' ~id '=' ~Exp ';'","VarDecl"); Currently this will not
+			// be allowed in our grandma
+			addExpressionTo("~Type ~id '=' ~Exp ';'", "VarInit", "VarDecl");
+			addExpressionTo("~Type ~id ';'", "VarInit", "VarDecl");
+	
+			// addExpressionTo("~id '('')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
+			// Currently this will not be allowed in our grandma
+			// addExpressionTo("~id '('~FArgs ')''{'~VarDeclStar ~StmtPlus '}'","FunDecl");
+			// Currently this will not be allowed in our grandma
+			addExpressionTo("~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'", "FunDecl", "FunDecl");
+			addExpressionTo("~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'", "FunDecl", "FunDecl");
+	
+			addExpressionTo("~Type", "RetType");
+			addExpressionTo("Void", "RetType");
+	
+			addExpressionTo("~TypeStar '->' ~RetType", "FunType");
+	
+			addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
+			addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
+			addExpressionTo("'['~Type ']'", "ListType", "Type");
+			addExpressionTo("~id", "CustomType", "Type");
+	
+			addExpressionTo("~id", "FArgs");
+			addExpressionTo("~id ','~FArgs", "FArgs");
+	
+			addExpressionTo("'.hd'", "Field");
+			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.fst'", "Field");
+			addExpressionTo("'.snd'", "Field");
+			addExpressionTo("'.'~id ", "Field");
+	
+			addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'", "IfElseStmt", "Stmt");
+			addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'", "IfElseStmt", "Stmt");
+			addExpressionTo("'while''('~Exp ')''{'~StmtStar '}'", "WhileStmt", "Stmt");
+			addExpressionTo("~id ~FieldStar '=' ~Exp ';'", "Assign", "Stmt");
+			addExpressionTo("~FunCall ';'", "FunCall", "Stmt");
+			addExpressionTo("'print' ~Exp ';'", "Print", "Stmt");
+			addExpressionTo("'return' ';'", "Return", "Stmt");
+			addExpressionTo("'return'~Exp ';'", "Return", "Stmt");
+	
+			addExpressionTo(".TOK_EXP ", "Exp");
+			addExpressionTo(".TOK_IDENTIFIER ", "id");
+	
+			addExpressionTo("~id '('')'", "FunCall");
+			addExpressionTo("~id '('~ActArgs ')'", "FunCall");
+	
+			addExpressionTo("~Exp", "ActArgs");
+			addExpressionTo("~Exp ','~ActArgs", "ActArgs");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("SPL has been succesfully constructed");
 	}
 }

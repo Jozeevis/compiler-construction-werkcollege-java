@@ -39,6 +39,8 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 		else {
 			elseBody = null;
 		}
+		
+		children = initializeChildrenArray();
 	}
 
 	@Override
@@ -50,8 +52,7 @@ public class IfElseStmtKnot extends ASyntaxKnot implements ITypeCheckable{
 		return domain;
 	}
 
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
+	private SyntaxNode[] initializeChildrenArray() {
 		if (elseBody != null)
 			return new SyntaxNode[] { ifBody, elseBody};
 		return new SyntaxNode[] {ifBody};
