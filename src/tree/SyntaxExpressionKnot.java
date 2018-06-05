@@ -23,10 +23,15 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		System.out.println(expression);
 		for(SyntaxNode child : children) {
 			child.addCodeToStack(stack, counter);
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return expression+":" +super.toString();
+	}
 
 }

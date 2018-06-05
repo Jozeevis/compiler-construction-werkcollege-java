@@ -14,6 +14,8 @@ import lexer.Token;
 import lexer.TokenType;
 import parser.Parser;
 import parser.Parser.TokenTrace;
+import processing.TreeProcessing;
+import tree.CodeGenerator;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxTree;
 
@@ -37,9 +39,19 @@ public class LargeTests {
 	
 	@Test
 	public void testHelloWorld() {
-		String code = "main :: -> Void {print 'h' ;}";
+		String code = "main() :: -> Void {print 'h';print 'e';}";
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
+		System.out.println(p.tree.root);
+		try {
+			
+			SyntaxTree t = TreeProcessing.processIntoAST(p.tree.root);
+			System.out.println(TreeProcessing.checkWellTyped(t));
+			System.out.println(CodeGenerator.generateCode(t.root));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		/*
 		 * Dear Lars,

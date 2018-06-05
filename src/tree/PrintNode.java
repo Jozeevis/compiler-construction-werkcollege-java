@@ -6,6 +6,7 @@ package tree;
 import java.util.List;
 
 import lexer.PrimitiveType;
+import lexer.TokenExpression;
 import processing.DeclarationException;
 import processing.TypeException;
 import tree.ast.ASyntaxKnot;
@@ -28,7 +29,8 @@ public class PrintNode extends ASyntaxKnot implements ITypeCheckable{
 	
 	public PrintNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
 		super(parent);
-		expression = BaseExpr.convertToExpr((SyntaxExpressionKnot) oldKnot.children[1]);
+		System.out.println(oldKnot);
+		expression = ((TokenExpression) oldKnot.children[1].reduceToToken()).expression;
 	}
 
 	@Override

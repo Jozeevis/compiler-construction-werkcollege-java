@@ -53,7 +53,7 @@ public class Parser {
 	public Parser(String input) {
 		this(new Lexer(input));
 	}
-
+	
 	// ==========================================================
 	// Support functions and methods
 	// ==========================================================
