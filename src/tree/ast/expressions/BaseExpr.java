@@ -13,6 +13,7 @@ import lexer.TokenInteger;
 import processing.DeclarationException;
 import processing.TypeException;
 import tree.SyntaxExpressionKnot;
+import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.ITypeCheckable;
@@ -76,9 +77,15 @@ public abstract class BaseExpr {
 		if (knot.expression instanceof ExpressionWithAST) {
 			switch (((ExpressionWithAST) knot.expression).id) {
 			// BaseExp
-			case "TupleExp":
-				return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]),
-						convertToExpr((SyntaxExpressionKnot) knot.children[3]));
+			case "MupleExp":
+				List<BaseExpr> expressions = new LinkedList<>();
+				SyntaxKnot mexprKnot = (SyntaxKnot) knot.children[1];
+				while(mexprKnot.children.length == 3) {
+					expressions.add(convertToExpr((SyntaxExpressionKnot)mexprKnot.children[0]));
+					mexprKnot = (SyntaxKnot) mexprKnot.children[2];
+				}
+				expressions.add(convertToExpr((SyntaxExpressionKnot)mexprKnot.children[0]));
+				return new MupleExp(expressions.toArray(new BaseExpr[] {}));
 			// BoolExp2
 			case "and":
 				return new And(convertToExpr((SyntaxExpressionKnot) knot.children[0]),

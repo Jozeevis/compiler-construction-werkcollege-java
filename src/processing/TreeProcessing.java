@@ -7,14 +7,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 import grammar.ExpressionWithAST;
+import lexer.TokenIdentifier;
+import lexer.TokenInteger;
+import lexer.TokenTupleFunction;
+import lexer.TokenType;
 import tree.ast.IfElseStmtKnot;
 import tree.ast.ReturnNode;
 import tree.ast.StructDeclNode;
 import tree.ast.VarDeclNode;
 import tree.ast.WhileStmtKnot;
+import tree.ast.accessors.Accessor;
+import tree.ast.accessors.ListHeadAccessor;
+import tree.ast.accessors.ListTailAccessor;
+import tree.ast.accessors.MupleAccessor;
+import tree.ast.accessors.StructVarAccessor;
 import tree.PrintNode;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
+import tree.SyntaxLeaf;
 import tree.SyntaxNode;
 import tree.SyntaxTree;
 import tree.ast.ASyntaxKnot;
@@ -158,6 +168,30 @@ public final class TreeProcessing {
 		}
 		nodes.add(currentKnot);
 		return nodes;
+	}
+
+	public static Accessor[] processFieldStar(SyntaxExpressionKnot fieldStar) {
+		List<SyntaxNode> fieldNodes = TreeProcessing.extractFromStarNode(fieldStar);		
+		Accessor[] accessors = new Accessor[fieldNodes.size()];
+		int counter = 0;
+		for (SyntaxNode fieldNode : fieldNodes) {
+			if (((SyntaxKnot) fieldNode).children[1] instanceof SyntaxLeaf) {
+				SyntaxLeaf leaf = (SyntaxLeaf) ((SyntaxKnot) fieldNode).children[1];
+				if (leaf.leaf.getTokenType() == TokenType.TOK_LISTFUNC_HEAD) {
+					accessors[counter] = ListHeadAccessor.instance;
+				} else if (leaf.leaf.getTokenType() == TokenType.TOK_LISTFUNC_TAIL) {
+					accessors[counter] = ListTailAccessor.instance;
+				} else if (leaf.leaf instanceof TokenIdentifier) {
+					accessors[counter] = new StructVarAccessor(((TokenIdentifier)leaf.leaf).value);
+				} else if (leaf.leaf.getTokenType() == TokenType.TOK_LIST_OPEN) {
+					int index = ((TokenInteger)((SyntaxKnot) fieldNode).children[2].reduceToToken()).value;
+					accessors[counter] = new MupleAccessor(index);
+				}
+			}
+			//TODO: handle funcalls
+			counter++;
+		}
+		return accessors;
 	}
 
 }

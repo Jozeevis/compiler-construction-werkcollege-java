@@ -75,10 +75,13 @@ public class SPL extends ExpressionTree {
 			addExpressionTo("~TypeStar '->' ~RetType", "FunType");
 	
 			addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
-			addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
+			addExpressionTo("'(' ~Mype ')'", "MupleType", "Type");
 			addExpressionTo("'['~Type ']'", "ListType", "Type");
 			addExpressionTo("~id", "CustomType", "Type");
-	
+			
+			addExpressionTo("~Type ","Mype");
+			addExpressionTo("~Type ',' ~Mype ","Mype");
+			
 			addExpressionTo("~id", "FArgs");
 			addExpressionTo("~id ','~FArgs", "FArgs");
 	
@@ -86,7 +89,9 @@ public class SPL extends ExpressionTree {
 			addExpressionTo("'.tl'", "Field");
 			addExpressionTo("'.fst'", "Field");
 			addExpressionTo("'.snd'", "Field");
-			addExpressionTo("'.'~id ", "Field");
+			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
+			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
+			
 	
 			addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}''else''{'~StmtStar '}'", "IfElseStmt", "Stmt");
 			addExpressionTo("'if''(' ~Exp ')''{'~StmtStar '}'", "IfElseStmt", "Stmt");
