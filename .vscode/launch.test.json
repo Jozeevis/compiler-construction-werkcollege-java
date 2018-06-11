@@ -1,0 +1,28 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "compiler-construction-werkcollege-java",
+                "projectName": "compiler-construction-werkcollege-java",
+                "workingDirectory": "c:\\Users\\Lars\\Documents\\RU\\M_Jaar2\\CoCo\\compiler-construction-werkcollege-java",
+                "args": [],
+                "vmargs": [],
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "compiler-construction-werkcollege-java",
+                "projectName": "compiler-construction-werkcollege-java",
+                "workingDirectory": "c:\\Users\\Lars\\Documents\\RU\\M_Jaar2\\CoCo\\compiler-construction-werkcollege-java",
+                "args": [],
+                "vmargs": [],
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
