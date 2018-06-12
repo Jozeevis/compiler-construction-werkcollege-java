@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage{ru}
 \author[Flip \& Lars]{Flip van Spaendonck \& Lars Kuijpers}
-\title{Compiler Construction \\ The Cloud9 Overextension }
+\title{Compiler Construction \\ Overextending with the bois }
 %\setbeamercovered{transparent} 
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{} 
@@ -20,28 +20,32 @@
 \item More complex data structures
 \item Makes it easier for the user
 \item More understandable programs
-\item We added 2 aspects to SPL
+\item We added 2 aspects to SPL:
+\begin{itemize}
+\item Muples
+\item Structs
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Muples}
 \begin{itemize}
-\item Tuples with more than two items
+\item Muples are tuples with more than two items
 \item Can be arbitrarily large (within memory constraints)
 \item Size is known at compile-time
-\item The Nth item of a muple can be fetched by using tuple.[N]
+\item The Nth item of a muple can be accessed by using muple.[N]
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Strucs}
+\frametitle{Structs}
 \begin{itemize}
-\item Similar to classes in OO languages
+\item Similar to classes in Java
 \item Structs are user-defined
 \item Structs have variables and functions
 \item Both can be called via the struct reference
-\item Every struct has to have a constructor
+\item Every struct has to have at least one constructor
 \end{itemize}
 \end{frame}
 
@@ -49,17 +53,29 @@
 \frametitle{Implementation}
 \begin{itemize}
 \item Muples are simply tuples with more memory space allocated to them
-\item Objects are not simply tuples with more memory space allocated to them
-%TODO should probably say more about this one
+\item Struct variables are similar to muples, but are accessed with an id instead of a number
+\item Struct functions are similar to normal functions, but they use a different local memory
+\item To do this, we introduced an idea of domain to our compiler
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Domain}
+\begin{itemize}
+\item Domains are blocks of variable and function definitions
+\item Everything will normally be in the global domain
+\begin{itemize}
+\item This includes struct declarations, normal functions, global variables
+\end{itemize}
+\item Struct functions will be executed in the domain of their struct
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Difficulties}
 \begin{itemize}
-\item Fixing all the other shaz
-\item Lars is a garbage programmer
-%TODO I mean it's not wrong
+\item Implementing the domains
+\item Finalizing the rest of the code
 \end{itemize}
 \end{frame}
 
@@ -67,13 +83,12 @@
 \begin{block}{Fun Metrics}
 \begin{tabular}{l || l | l | l}
 \textbf{LOC} & 3616 & 4474 & LOC is a bad metric\\
-\textbf{Word count} & 9684 & 12396 & Just like these\\
-\textbf{Character count} & 98470 & 124002 & That's the joke\\
-\textbf{Slides made} & 17 & 25 & 33\\
+\textbf{Word count} & 9684 & 12396 & Just like this\\
+\textbf{Character count} & 98470 & 124002 & Except for this one\\
+\textbf{Slides made} & 17 & 25 & 34\\
 \textbf{Coffee consumed} & 0 & Still 0 & We just don't drink coffee\\
-\textbf{Sanity lost} & A bunch & Even more & About the same\\
+\textbf{Sanity lost} & A bunch & Even more & Unhinged\\
 \textbf{Experience} & Priceless & Priceless*2 & Mastercard
-%TODO too real?
 \end{tabular}
 \end{block}
 \end{frame}

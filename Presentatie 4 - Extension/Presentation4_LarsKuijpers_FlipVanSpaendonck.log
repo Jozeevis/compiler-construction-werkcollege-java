@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  11 JUN 2018 02:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  12 JUN 2018 16:51
 entering extended mode
 **./Presentation4_LarsKuijpers_FlipVanSpaendonck.tex
 (Presentation4_LarsKuijpers_FlipVanSpaendonck.tex
@@ -852,17 +852,17 @@ Dictionary: translator-theorem-dictionary, Language: English
 
 {C:/Users/Lars/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./ru_backgro
 und.pdf>]
-LaTeX Font Info:    Try loading font information for U+msa on input line 25.
+LaTeX Font Info:    Try loading font information for U+msa on input line 29.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 25.
+LaTeX Font Info:    Try loading font information for U+msb on input line 29.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 25.
+line 29.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\sansmathaccent\ot1mathkerncmss.fd"
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -878,14 +878,16 @@ thkerncmss.
 
 ] [6
 
+] [7
+
 ]
-Overfull \hbox (36.56009pt too wide) in paragraph at lines 77--77
+Overfull \hbox (36.56009pt too wide) in paragraph at lines 94--94
 [][]  
  []
 
-[7
+[8
 
-] [8
+] [9
 
 ]
 \tf@nav=\write6
@@ -897,21 +899,21 @@ Overfull \hbox (36.56009pt too wide) in paragraph at lines 77--77
 \tf@snm=\write8
 \openout8 = `Presentation4_LarsKuijpers_FlipVanSpaendonck.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 83.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 83.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 100.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 100.
  (Presentation4_LarsKuijpers_FlipVanSpaendonck.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 83.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 83.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 100.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 100.
 Package rerunfilecheck Info: File `Presentation4_LarsKuijpers_FlipVanSpaendonck
 .out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 17028 strings out of 493312
- 327603 string characters out of 3138903
- 395809 words of memory out of 3000000
- 20168 multiletter control sequences out of 15000+200000
- 11297 words of font info for 41 fonts, out of 3000000 for 9000
+ 17075 strings out of 493312
+ 328696 string characters out of 3138903
+ 395822 words of memory out of 3000000
+ 20211 multiletter control sequences out of 15000+200000
+ 15091 words of font info for 55 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,55p,828b,539s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Pr
@@ -920,10 +922,10 @@ les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Presentation4_LarsKuijpers_FlipVanSpaendonck.pdf (8 pages, 12
-3163 bytes).
+Output written on Presentation4_LarsKuijpers_FlipVanSpaendonck.pdf (9 pages, 12
+5918 bytes).
 PDF statistics:
- 113 PDF objects out of 1000 (max. 8388607)
- 17 named destinations out of 1000 (max. 500000)
- 111 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 121 PDF objects out of 1000 (max. 8388607)
+ 19 named destinations out of 1000 (max. 500000)
+ 116 words of extra memory for PDF output out of 10000 (max. 10000000)
 
