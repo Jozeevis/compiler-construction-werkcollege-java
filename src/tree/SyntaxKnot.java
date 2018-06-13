@@ -1,9 +1,4 @@
-/**
- * 
- */
 package tree;
-
-import grammar.Expression;
 
 /**
  * @author Flip van Spaendonck

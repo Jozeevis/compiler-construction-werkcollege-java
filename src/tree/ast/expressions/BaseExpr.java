@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import grammar.ExpressionWithAST;
-import grammar.Node;
-import lexer.PrimitiveType;
 import lexer.TokenBool;
 import lexer.TokenChar;
 import lexer.TokenIdentifier;
@@ -15,7 +13,6 @@ import processing.TypeException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
-import tree.ast.ITypeCheckable;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.bool.And;
 import tree.ast.expressions.bool.BoolConstant;
@@ -38,8 +35,6 @@ import tree.ast.expressions.num.Multiply;
 import tree.ast.expressions.num.NumConstant;
 import tree.ast.expressions.structs.InitExpr;
 import tree.ast.expressions.structs.NullExpr;
-import tree.ast.types.BaseType;
-import tree.ast.types.ListType;
 import tree.ast.types.Type;
 
 /**
@@ -164,6 +159,8 @@ public abstract class BaseExpr {
 						(SyntaxExpressionKnot) knot.children[1]);
 			case "brackets":
 				return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
+			case "isEmpty":
+				return new IsEmpty(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
 			default:
 				return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 			}

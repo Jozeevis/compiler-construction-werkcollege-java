@@ -1,11 +1,7 @@
-/**
- * 
- */
 package tree;
 
 import java.util.List;
 
-import lexer.PrimitiveType;
 import processing.DeclarationException;
 import processing.TypeException;
 import tree.ast.ASyntaxKnot;

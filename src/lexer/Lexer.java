@@ -67,7 +67,7 @@ public class Lexer {
 			if (input.length() > currentPosition) {
 				if (input.charAt(currentPosition) == '/') {
 					currentPosition++;
-					while(input.charAt(currentPosition) != '\n') {
+					while(input.length() < currentPosition && input.charAt(currentPosition) != '\n') {
 						currentPosition++;
 					}
 					currentPosition++;
@@ -76,6 +76,9 @@ public class Lexer {
 					currentPosition++;
 					while(!(input.substring(currentPosition, currentPosition+2).equals("*/"))) {
 						currentPosition++;
+						if (currentPosition >= input.length()) {
+							return new TokenError("Multiline comment (/*) found but not ended (*/).");
+						}
 					}
 					currentPosition +=2;
 					return nextToken();
@@ -277,6 +280,9 @@ public class Lexer {
 		}
 		if (result.equals("print")) {
 			return new Token(TokenType.TOK_KW_PRINT);
+		}
+		if (result.equals("isEmpty")) {
+			return new Token(TokenType.TOK_KW_ISEMPTY);
 		}
 		if (result.equals("null")) {
 			return TokenNull.instanceOf;

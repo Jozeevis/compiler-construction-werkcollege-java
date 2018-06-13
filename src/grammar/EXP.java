@@ -92,6 +92,8 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~FunCall", "funcall", "NumSng");
 			addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");
 			addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
+
+			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
 			addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
 			addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");
@@ -100,9 +102,6 @@ public class EXP extends ExpressionTree {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		// TODO Auto-generated constructor stub
 	}
 
 }
