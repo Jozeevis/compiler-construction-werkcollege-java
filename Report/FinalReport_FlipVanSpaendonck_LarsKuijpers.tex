@@ -22,6 +22,31 @@
 
 
 \section{Lexer}
+\subsection{Basic structure}
+Our lexer is based on the work shown in one of the practical sessions and made available on Blackboard. We've continued the work done there to include all inputs necessary to tokenize the SPL language (and our extensions). \\
+\\
+Our lexer accepts a string as an input, which will be saved locally. The lexer can then be asked for either the next token, or all next tokens with two seperate functions. With the nextToken() function, the lexer will skip any whitespace that is on its current position, until it finds another character. Depending on which character it finds, the function will return a specific token corresponding with that character. Sometimes determining which token to return requires looking at more than a single character, in which case the function will look at the next character in the input as well. If the next character is one of the expected ones, the function will return the corresponding token. If the character doesn't result in an expected combination with the one found previously, the lexer will halt and throw an error.\\
+\\
+The allNextTokens() function is an easy shorthand to loop through an entire input. This function will keep calling the nextToken() function, saving every returned token into a list. This loop will stop when nextToken() returns an End-of-file token. this token will be added to the list, and the result will be the return value of the allNextTokens() function.
+
+\subsection{Special Tokens}
+There are three cases where the lexer will (possibly) go further than one or two characters. These are numbers, words and comments.
+
+\subsubsection{Numbers}
+There are two cases in which the lexer will know it's looking at a number. The first one is when it simply finds a digit on the current position. It will then know it's a positive number, and keeps looking at the next character until it's not a digit anymore. If it finds a non-digit (or the current position is outside of the input), it will return a token with the value of the number, calculated with its digits and its sign (in this case positive).\\
+\\
+The other case where the lexer could be looking at a number is when the current character is a '-'. When this occurs, it will look at the immediate next character. If that next character is a digit, it will continue similarly as with positive numbers until it finds a non-digit or is out of bounds. It will then return a token with the value of the number, calculated similarly, but this time with a negative sign.
+
+\subsubsection{Words}
+If the lexer finds a alphabetical character, it knows it's looking at a word. Similarly to numbers, the lexer will continue looking at the next character as long as it's an alphabetical character or a digit. when it finds a character that is neither, it will stop and have an entire word. It then checks if the word is one of the designated keywords for SPL. If it is, it will return the correct token, depending on which keyword it is. If the word is not one of the designated keywords, the lexer will instead return a TokenIdentifier, which has the word as its value.
+
+\subsubsection{Comments}
+Comments are filtered out by the lexer. Whenever the nextToken function of the lexer finds the beginning of a comment (either '//' or '/*'), it will skip the contents of the comment and not tokenize anything that was in it. This is done similarly to how it skips whitespace. \\
+\\
+In the case of '//', the lexer will keep looking to the next character in the input, until it finds a newline character ('\textbackslash n'). After that, it calls nextToken() again, and will return the token that function call returns. This means it's able to handle multiple consecutive comments and will still always return a token (given there are no errors).\\
+\\
+In the case of '/*', the lexer will koop looking to the next character until it finds the characters '*/' consecutively. Similarly to with '//', after finding the '*/', the function will call nextToken() and return that function's return value. Since this happens on the lexer-level, there is nothing that checks if there is indeed a '*/' somewhere in the file. If there isn't any, the lexer will halt and throw an error.
+
 %yada yada leest character voor character
 %print en isempty zijn keywords
 %comments worden niet doorgegeven

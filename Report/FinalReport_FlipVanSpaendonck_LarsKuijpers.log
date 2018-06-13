@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  13 JUN 2018 15:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  13 JUN 2018 16:48
 entering extended mode
 **./FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
 (FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
@@ -534,56 +534,87 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \tf@toc=\write3
 \openout3 = `FinalReport_FlipVanSpaendonck_LarsKuijpers.toc'.
 
-<TokenTraces.png, id=1, 360.59718pt x 174.6525pt>
-File: TokenTraces.png Graphic file (type png)
-<use TokenTraces.png>
-Package pdftex.def Info: TokenTraces.png  used on input line 37. on input line 
-37.
-Package pdftex.def Info: Requested size: 281.05103pt x 136.12447pt on input lin
-e 37.
-<TokenTree.png, id=2, 169.38281pt x 152.82094pt>
-File: TokenTree.png Graphic file (type png)
-<use TokenTree.png>
-Package pdftex.def Info: TokenTree.png  used on input line 47. on input line 47
-.
-Package pdftex.def Info: Requested size: 120.45044pt x 108.67616pt on input lin
-e 47.
- [1
 
-{C:/Users/Lars/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2 <./TokenT
-races.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 62--64
+Underfull \hbox (badness 10000) in paragraph at lines 26--31
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 67.
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--31
+
+ []
+
+[1
+
+{C:/Users/Lars/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+
+ []
+
+[2]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 46.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 67.
- [3 <./TokenTree.png>]
-[4] (FinalReport_FlipVanSpaendonck_LarsKuijpers.aux) ) 
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 46.
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--49
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--49
+
+ []
+
+<TokenTraces.png, id=13, 360.59718pt x 174.6525pt>
+File: TokenTraces.png Graphic file (type png)
+<use TokenTraces.png>
+Package pdftex.def Info: TokenTraces.png  used on input line 62. on input line 
+62.
+Package pdftex.def Info: Requested size: 281.05103pt x 136.12447pt on input lin
+e 62.
+<TokenTree.png, id=14, 169.38281pt x 152.82094pt>
+File: TokenTree.png Graphic file (type png)
+<use TokenTree.png>
+Package pdftex.def Info: TokenTree.png  used on input line 72. on input line 72
+.
+Package pdftex.def Info: Requested size: 120.45044pt x 108.67616pt on input lin
+e 72.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] [4 <./TokenTraces.png> <./TokenTree.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 87--89
+
+ []
+
+[5] [6] (FinalReport_FlipVanSpaendonck_LarsKuijpers.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2742 strings out of 493312
- 34997 string characters out of 3138903
+ 2743 strings out of 493312
+ 35014 string characters out of 3138903
  97491 words of memory out of 3000000
- 6236 multiletter control sequences out of 15000+200000
+ 6237 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,6n,25p,549b,225s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/P
-rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (4 pages, 1244
-97 bytes).
+ 41i,6n,25p,880b,225s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmti10.pfb>
+Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (6 pages, 1299
+91 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
+ 58 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
