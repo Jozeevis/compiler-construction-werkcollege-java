@@ -14,6 +14,7 @@ import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.ast.types.StructType;
 import tree.ast.types.Type;
 
 /**
@@ -107,14 +108,15 @@ public class StructDeclNode extends ASyntaxKnot implements ITypeCheckable {
 
 	@Override
 	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		IDDeclarationBlock block = domain;
+		IDDeclarationBlock block = new IDDeclarationBlock();
 		for (VarDeclNode varDecl : variables) {
 			block = varDecl.checkTypes(block);
 		}
 		for (FunDeclNode funDecl : functions) {
 			block = funDecl.checkTypes(block);
 		}
-		return block;
+		IDDeclarationBlock newDomain = new IDDeclarationBlock(domain, new IDDeclaration(new StructType(id, block), id));
+		return newDomain;
 	}
 
 }

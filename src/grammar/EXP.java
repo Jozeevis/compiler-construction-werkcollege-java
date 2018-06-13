@@ -14,6 +14,7 @@ public class EXP extends ExpressionTree {
 	
 	private EXP() {
 		super(new Node("Exp"));
+		addNode(new Node("Mexp"));
 		addNode(new Node("SetExp"));
 		addNode(new Node("Concat"));
 		addNode(new PlusNode("Concat", this));
@@ -28,21 +29,23 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("Type"));
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
+		addNode(new Node("Neg"));
 		
 		
 		try {
 			//addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 			addExpressionTo("~NumRng", "NumExp","Exp");
-			//addExpressionTo("~SetExp", "SetExp", "Exp");
-			//addExpressionTo("'(' ~Exp ',' ~Exp ')'", "TupleExp","Exp");
+			addExpressionTo("~SetExp", "SetExp", "Exp");
+			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
 			addExpressionTo("'null'", "Null", "Exp");
 			addExpressionTo("'new' ~id '(' ')'", "Init","Exp");
 			addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","Exp");
 			
-			
+			addExpressionTo("~Exp ","Mexp");
+			addExpressionTo("~Exp ',' ~Mexp ","Mexp");
 			
 			addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
-			addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
+			addExpressionTo("'('~Type ',' ~Type ')'", "MupleType", "Type");
 			addExpressionTo("'['~Type ']'", "ListType", "Type");
 			addExpressionTo("~id", "CustomType","Type");
 			
@@ -66,9 +69,8 @@ public class EXP extends ExpressionTree {
 			
 			addExpressionTo("'.hd'", "Field");
 			addExpressionTo("'.tl'", "Field");
-			addExpressionTo("'.fst'", "Field");
-			addExpressionTo("'.snd'", "Field");
-			addExpressionTo("'.'~id", "Field");
+			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
+			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
 			addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
@@ -78,14 +80,13 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~FunCall", "funcall", "BoolExp0");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 			
-			addExpressionTo(" ~NumFld '%' ~NumRng ", "modulo", "NumRng");
-			addExpressionTo(" ~NumFld '/' ~NumRng ", "divide", "NumRng");
-			addExpressionTo(" ~NumFld '*' ~NumRng ", "multiply", "NumRng");
-			addExpressionTo(" ~NumFld", "NumRng");
 			
-			addExpressionTo(" ~NumSng '+' ~NumFld ", "plus", "NumFld");
-			addExpressionTo(" ~NumSng '-' ~NumFld ", "minus", "NumFld");
-			addExpressionTo(" ~NumSng ", "NumFld");
+			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
+			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
+			addExpressionTo(" ~NumFld ", "NumRng");
+			
+			addExpressionTo(" ~NumSng", "Neg");
+			addExpressionTo("'-' ~NumSng", "negative", "Neg");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");

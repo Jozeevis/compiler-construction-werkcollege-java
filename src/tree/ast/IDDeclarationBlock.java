@@ -49,4 +49,9 @@ public class IDDeclarationBlock {
 		}
 		this.block[i] = newDeclaration;
 	}
+
+	public IDDeclarationBlock() {
+		previousBlock = null;
+		block = new IDDeclaration[] {};
+	}
 }

@@ -8,11 +8,14 @@ import java.util.List;
 import lexer.TokenIdentifier;
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
+import tree.ast.types.CustomType;
+import tree.ast.types.StructType;
 import tree.ast.types.Type;
 
 /**
@@ -23,7 +26,7 @@ public class InitExpr extends BaseExpr {
 
 	/** The identifier for this function */
 	public final String id;
-	private int linkNumber;
+	public String branchName;
 	
 	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
@@ -90,7 +93,7 @@ public class InitExpr extends BaseExpr {
 		// Jump to the label of the function where the function code will be executed
 		// TODO: currently doesn't work for overloaded functions (should be fixed in the
 		// declaration and then use the right id here)
-		stack.add("bsr " + id);
+		stack.add("bsr " + branchName);
 	}
 
 	/* (non-Javadoc)
@@ -98,8 +101,22 @@ public class InitExpr extends BaseExpr {
 	 */
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		// TODO Auto-generated method stub
-		return null;
+		for(IDDeclaration declaration : domain.block) {
+			if(declaration.id.equals(id)) {
+				if (declaration.type instanceof StructType) {
+					Type[] argumentTypes = new Type[arguments.length];
+					for(int i=0; i<arguments.length; i++) {
+						argumentTypes[i] = arguments[i].checkTypes(domain);
+					}
+					branchName = ((StructType)declaration.type).getMatchingConstructor(argumentTypes);
+					if (branchName == null)
+						throw new DeclarationException("No "+id+" constructor with signature: "+argumentTypes+ " is defined.");
+					return new CustomType(id);
+				} else 
+					throw new TypeException("The id used by this initialization does not correspond to a struct declaration: "+id+".");
+			}
+		}
+		throw new DeclarationException("No struct with id: "+id+", has been defined.");
 	}
 
 }

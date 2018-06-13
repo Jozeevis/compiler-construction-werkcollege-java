@@ -314,11 +314,11 @@ public class Lexer {
 		// List/tuple basic functions
 		
 		if (result.equals("hd")) {
-			return new TokenListFunction(ListFunction.LISTFUNC_HEAD);
+			return new Token(TokenType.TOK_LISTFUNC_HEAD);
 		}
 		
 		if (result.equals("tl")) {
-			return new TokenListFunction(ListFunction.LISTFUNC_TAIL);
+			return new Token(TokenType.TOK_LISTFUNC_TAIL);
 		}
 		
 		if (result.equals("fst")) {

@@ -30,4 +30,8 @@ public class SyntaxLeaf extends SyntaxNode {
 		return;
 	}
 
+	@Override
+	public String toString() {
+		return leaf.toString();
+	}
 }

@@ -24,7 +24,8 @@ public class TokenExpression extends Token {
 		super(TokenType.TOK_EXP);
 		System.out.println("test2:" +list);
 		SyntaxTree tree = Parser.convertTokenTraces(Parser.parseCode(EXP.INSTANCE, list));
-		expression = BaseExpr.convertToExpr((SyntaxExpressionKnot) tree.root);
+		BaseExpr tempExpression = BaseExpr.convertToExpr((SyntaxExpressionKnot) tree.root);
+		expression = tempExpression.optimize();
 		
 	}
 }

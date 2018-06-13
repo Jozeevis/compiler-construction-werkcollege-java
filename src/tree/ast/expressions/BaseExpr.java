@@ -11,6 +11,7 @@ import lexer.TokenInteger;
 import processing.DeclarationException;
 import processing.TypeException;
 import tree.SyntaxExpressionKnot;
+import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
@@ -32,6 +33,7 @@ import tree.ast.expressions.num.Divide;
 import tree.ast.expressions.num.Minus;
 import tree.ast.expressions.num.Modulo;
 import tree.ast.expressions.num.Multiply;
+import tree.ast.expressions.num.Negative;
 import tree.ast.expressions.num.NumConstant;
 import tree.ast.expressions.structs.InitExpr;
 import tree.ast.expressions.structs.NullExpr;
@@ -71,9 +73,15 @@ public abstract class BaseExpr {
 		if (knot.expression instanceof ExpressionWithAST) {
 			switch (((ExpressionWithAST) knot.expression).id) {
 			// BaseExp
-			case "TupleExp":
-				return new TupleExp(convertToExpr((SyntaxExpressionKnot) knot.children[1]),
-						convertToExpr((SyntaxExpressionKnot) knot.children[3]));
+			case "MupleExp":
+				List<BaseExpr> expressions = new LinkedList<>();
+				SyntaxKnot mexprKnot = (SyntaxKnot) knot.children[1];
+				while(mexprKnot.children.length == 3) {
+					expressions.add(convertToExpr((SyntaxExpressionKnot)mexprKnot.children[0]));
+					mexprKnot = (SyntaxKnot) mexprKnot.children[2];
+				}
+				expressions.add(convertToExpr((SyntaxExpressionKnot)mexprKnot.children[0]));
+				return new MupleExp(expressions.toArray(new BaseExpr[] {}));
 			// BoolExp2
 			case "and":
 				return new And(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
@@ -122,6 +130,10 @@ public abstract class BaseExpr {
 			case "minus":
 				return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
 						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			//Neg
+			case "negative":
+				return new Negative(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
+			//NumSng
 			case "int":
 				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
 			case "char":

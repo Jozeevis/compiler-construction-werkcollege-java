@@ -33,5 +33,14 @@ public abstract class SyntaxKnot extends SyntaxNode {
 	public SyntaxNode[] getChildren() {
 		return children;
 	}
+	
+	@Override
+	public String toString() {
+		String out = "(";
+		for (SyntaxNode child : children)
+			out+= child+",";
+		out +=")";
+		return out;
+	}
 
 }
