@@ -36,6 +36,7 @@ import tree.ast.expressions.num.Divide;
 import tree.ast.expressions.num.Minus;
 import tree.ast.expressions.num.Modulo;
 import tree.ast.expressions.num.Multiply;
+import tree.ast.expressions.num.Negative;
 import tree.ast.expressions.num.NumConstant;
 import tree.ast.expressions.structs.InitExpr;
 import tree.ast.expressions.structs.NullExpr;
@@ -134,10 +135,12 @@ public abstract class BaseExpr {
 			case "minus":
 				return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
 						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			//Neg
+			case "negative":
+				return new Negative(convertToExpr((SyntaxExpressionKnot) knot.children[1]));
+			//NumSng
 			case "int":
 				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
-			case "nint":
-				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value * -1);
 			case "char":
 				return new CharConstant(((TokenChar) ((SyntaxLeaf) knot.children[0]).leaf).value);
 			// SetExp

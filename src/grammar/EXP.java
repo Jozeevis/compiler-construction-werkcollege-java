@@ -29,6 +29,7 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("Type"));
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
+		addNode(new Node("Neg"));
 		
 		
 		try {
@@ -79,17 +80,15 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~FunCall", "funcall", "BoolExp0");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 			
-			addExpressionTo(" ~NumFld '%' ~NumRng ", "modulo", "NumRng");
-			addExpressionTo(" ~NumFld '/' ~NumRng ", "divide", "NumRng");
-			addExpressionTo(" ~NumFld '*' ~NumRng ", "multiply", "NumRng");
-			addExpressionTo(" ~NumFld", "NumRng");
 			
-			addExpressionTo(" ~NumSng '+' ~NumFld ", "plus", "NumFld");
-			addExpressionTo(" ~NumSng '-' ~NumFld ", "minus", "NumFld");
-			addExpressionTo(" ~NumSng ", "NumFld");
+			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
+			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
+			addExpressionTo(" ~NumFld ", "NumRng");
+			
+			addExpressionTo(" ~NumSng", "Neg");
+			addExpressionTo("'-' ~NumSng", "negative", "Neg");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
-			addExpressionTo("'-' .TOK_INT ", "nint", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
 			addExpressionTo(" ~FunCall", "funcall", "NumSng");
 			addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");
