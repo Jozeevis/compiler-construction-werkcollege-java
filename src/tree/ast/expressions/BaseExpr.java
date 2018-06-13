@@ -136,6 +136,8 @@ public abstract class BaseExpr {
 						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 			case "int":
 				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value);
+			case "nint":
+				return new NumConstant(((TokenInteger) ((SyntaxLeaf) knot.children[0]).leaf).value * -1);
 			case "char":
 				return new CharConstant(((TokenChar) ((SyntaxLeaf) knot.children[0]).leaf).value);
 			// SetExp

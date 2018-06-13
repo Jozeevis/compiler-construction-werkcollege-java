@@ -68,8 +68,6 @@ public class EXP extends ExpressionTree {
 			
 			addExpressionTo("'.hd'", "Field");
 			addExpressionTo("'.tl'", "Field");
-			addExpressionTo("'.fst'", "Field");
-			addExpressionTo("'.snd'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
@@ -91,6 +89,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~NumSng ", "NumFld");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
+			addExpressionTo("'-' .TOK_INT ", "nint", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
 			addExpressionTo(" ~FunCall", "funcall", "NumSng");
 			addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");

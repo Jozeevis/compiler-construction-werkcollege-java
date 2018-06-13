@@ -87,8 +87,6 @@ public class SPL extends ExpressionTree {
 	
 			addExpressionTo("'.hd'", "Field");
 			addExpressionTo("'.tl'", "Field");
-			addExpressionTo("'.fst'", "Field");
-			addExpressionTo("'.snd'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
