@@ -39,6 +39,7 @@ public class SPL extends ExpressionTree {
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
 		addNode(new Node("id"));
+		addNode(new Node("Mype"));
 		
 		System.out.println("All nodes have been added to SPL.");
 		try {
