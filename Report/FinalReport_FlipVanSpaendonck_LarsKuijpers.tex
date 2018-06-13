@@ -13,13 +13,18 @@
 \tableofcontents
 
 \section{Introduction}
-\subsection{Programming language}
-%programming language + motivation
-\subsection{Error Handling}
-%error handling (code shitty, expression shitty, type shitty, not yet declaration shitty)
-\subsection{Final Grammar}
-%final grammar
+For this course we've constructed a compiler from SPL to SML. We've chosen to program our compiler in Java, because we both have the most experience with it, and believe that its object structure might allow us to do certain things more intuitively than other programming languages. We've extended SPL with the ability to construct muples and structs to it, which we will explain later on in the paper.
 
+\subsection{The introduction of EXP}
+For efficiency purposes we've decide to split the SPL grammar into two parts: EXP and SPL. EXP is the grammar we use to describe expressions and SPL is the rest. \\
+\\
+To prevent left recursion and make sure that every expression has the correct association, we've split the way expressions are represented in our syntax into different layers. This means that we don't have to worry afterwards about what operator binds more strongly than others, but it is included immediately in our grammar.\\
+\\
+There are a couple of other changes we made to the grammar. The first is how concatenation is notated in our language. Because concatenation is right-associative instead of left, it was impossible to prevent left-recursion, thus concatenation is always prefixed with an "\& " e.g.: We write \textbf{\& 1 : 3 : 4 : []} instead of \textbf{1 : 3 : 4 : []}.\\
+\\
+Another change is that we allow variable declarations to be written without an initial assignment. These kinds of declaration cause the variables to be assigned their type's corresponding "null-value" (int=0, char=the null character, bool=false and struct=null).\\
+\\
+Our final grammar for both EXP and SPL can be found in the appendix.
 
 \section{Lexer}
 \subsection{Basic structure}
@@ -54,81 +59,157 @@ In the case of '/*', the lexer will koop looking to the next character until it 
 
 \section{Parser}
 \subsection{Structure}
-Now that we have the list of tokens that is the lexed code, we can start running our parser on it.
-Out parser runs on a bottom-up architecture, to do this we first give the grammar/syntax of the SPL language to our compiler which turns it into a graph.
- This graph is used by the compiler to check which tokens are allowed at what point in the code.
+Now that we have the list of tokens corresponding to the program from the lexer, we can start running our parser on it. Our parser runs on a bottom-up architecture. To do this we first give the grammar/syntax of our (extended) SPL language to our compiler, which turns the syntax into a graph. This graph is used by the compiler to check which tokens are allowed at what point in the code.
 \begin{figure}[h]
 \centering
 \includegraphics[width=280px]{TokenTraces.png}
 \caption{Example of two tokentraces}
 \label{fig:traces}
 \end{figure}\\
- If at some point there are no possibilities left, but there are still tokens left to be parsed, the compiler will give an error to the user, telling it that their code is uncompilable.
-However when a token is allowed, it is mapped to a tokentrace. \textit{(See figure \ref{fig:traces})} A token trace consists of a list of nested expressions, the token that we just parsed and a list of tokentraces that cover the tokens left of this token in the code. So in the right trace in figure \ref{fig:traces}: a funcall inside statement composition inside an if statement, the ";" and the tokentraces that went before this one (which includes the tokentrace on the left). \\
-Through this we can get a time-complexity of $\mathcal{O}(n \cdot k) $ with $n$ being the number of tokens in the code, and $k$ being the maximum amount of possible tokens that could follow a certain token. While n can of-course vary per piece of code, $k$ is heavily influenced by how the syntax is written down.\\
-Once all tokens of the code have been correctly parsed and the last tokentrace itself doesn't expect a next token, we will have found a correct way of parsing the code. If multiple ways have been found of parsing the same code, this could for example happen when parsing expression only containing a variable, the first possibility is taken, it is up to the structuring of the grammar itself to make sure that this can't lead to two possible parses with differing semantics.
+If at some point during parsing there are no possibilities left, but there are still tokens left to be parsed, the compiler will give an error to the user, telling them that their code couldn't be compiled.\\
+\\
+When a token is allowed, it is mapped to a token-trace. \textit{(See figure \ref{fig:traces})} A token trace consists of a list of nested expressions, the token that was just parsed and a list of token-traces that cover the tokens left of this token in the code. So in the right trace in figure \ref{fig:traces} we have: a funcall (function call) inside a statement composition inside an if statement as the nexted expressions, the ";" as the current token and the token-traces that came before this one (including the token-trace on the left of the figure). \\
+\\
+Through this we can get a time-complexity of $\mathcal{O}(n \cdot k) $ with $n$ being the number of tokens in the code, and $k$ being the maximum amount of possible tokens that could follow a certain token. While n can of course vary per piece of code, $k$ is heavily influenced by how the syntax is written down.\\
+\\
+Once all tokens of the code have been parsed correctly and the last token-trace itself doesn't expect another token, we will have found a correct way of parsing the code. If multiple ways have been found of parsing the same code (this could happen for example when parsing an expression containing only a variable) the first possibility is taken. It is up to the structuring of the grammar itself to make sure that this can't lead to two possible parses with differing semantics.
 \begin{wrapfigure}{r}{0.35\textwidth}
 \centering
 \includegraphics[width=120px]{TokenTree.png}
-\caption{Part of a syntaxtree consisting of the two tokentraces described in \ref{fig:traces}}
+\caption{Part of a syntax tree consisting of the two token-traces described in \ref{fig:traces}}
 \label{fig:tracetree}
-\end{wrapfigure}
-Now that we have a list of tokentraces, the next step is putting them together into a syntax tree.\textit{(See figure \ref{fig:tracetree})}
-No errors should be able to occur while the syntax tree is being constructed.\\ 
-Once we have constructed the syntax tree, we will convert it into a partially abstract syntax tree. This is done by creating a new ast whilst moving through the tree and checking for each node/expression whether it has an ast equivalent, if it does the equivalent ast node is constructed and added to the new tree, if not a copy of the node is added to the new tree.
+\end{wrapfigure}\\
+Now that we have a list of token-traces, the next step is putting them together into a single syntax tree \textit{(See figure \ref{fig:tracetree})}. No errors should be able to occur while the syntax tree is being constructed. Once we have constructed the syntax tree, we will convert it into a partially abstract syntax tree (pAST). This is done by creating a new AST whilst moving through the tree and checking for each node/expression whether it has an AST equivalent. If the node does have an equivalent AST node, this one is constructed and added to the new tree. If it does not have an equivalent, a copy of the original node is added to the new tree instead.
+
 \subsection{Expression Optimization}
-To reduce time-complexity we parse actual expression separately. Before the above described parsing occurs, the code is first processed, detecting the locations of where an expression should be e.g., when parsing "print 4+5*3;" it will detect the print keyword and then take all tokens between the print keyword and the next ";" i.e. "4+5*3". The extracted tokens are then turned into custom expression tokens, which immediately parse them using the EXP grammar/syntax.
-The then parsed expressions are then emmediately checked for any redundant steps, i.e. "4+5*3" will always return 19, thus it is reduced to a simple constant, instead of the more complicated extraction of before.\\
-When the actual code is then eventually parsed the syntax just expects an expression token instead of an actual expression.
+To reduce time-complexity we parse expressions separately. Before the above described parsing occurs, the code is first processed, detecting the locations of where an expression should be. E.g. when parsing "print 4+5*3;" the parser will detect the print keyword, which should have an expression after according to our grammar. The parser then takes all tokens between the print keyword and the next ";", in this case "4+5*3". The extracted tokens are then turned into custom expression tokens, which will be parses immediately using the EXP grammar/syntax. The parsed expressions will be checked for any redundant steps, i.e. "4+5*3" will always return 19, thus it is reduced to a simple constant, instead of the entire expression. This can only be done with certain expressions. In particular, an expression containing a variable can't be optimized fully. When the code is then parsed as described above, the syntax expects an expression token instead of an actual expression.
 %expression optimization
 
 
 \section{Semantic Analysis}
-The next step in compiling our code will be semantic analysis. As previously described we've transformed our syntax tree into on with ast nodes.\\
-Currently the only semantic analysis that is done, is checking if everything is well-defined and well-typed, and checking whether every non-void function will eventually hit a return statement.\\
+The next step in compiling our code will be semantic analysis. As previously described we've transformed our syntax tree into one with some AST nodes. The semantic analysis that will check if everything is well-defined and well-typed, and checks whether every non-void function will eventually hit a return statement.\\
 \subsection{Type-checking and checking for well-definedness}
 Checking if everything is well-typed and well-defined is done in the same step. We do this by traversing the tree and checking the following for each node:
 \begin{itemize}
 \item Whether the nodes declares anything new e.g., a Variable declaration.
 \item Whether the node is well-typed.
-\item Whether any undefined id is used.
+\item Whether any undefined ID is used.
 \end{itemize}
-The order in which this is done and how this is done, is entirely dependent and taken care of per node e.g., for a variable declaration it's own name is not allowed to be used in the declaration itself, while in a function declarations body it is allowed to use the function itself such that recursive functions can occur.\\
-The ID's that are defined and their types are stored inside of an IDDeclarationblock, this block is then passed through to the next node.
-If an id is not declared a declaration exception is thrown. If something is incorrectly typed, for example an integer is assigned to a variable of type boolean, or an expression of type tuple is used in an if-statement, a type exception is thrown.
-If an exception is thrown the compiler stops compiling and gives the error to the user.
+Each node has its own function to check whether it checks all of these marks, which will be called by the compiler during this tree traversal. E.g., for a variable declaration its own name is not allowed to be used in the declaration itself, while in the body of a function declaration it is allowed to use the function itself, such that recursive functions can be defined.\\
+The IDs that are defined and their types are stored inside of an IDDeclarationBlock, this block is then passed through to the next node. If an ID is used but not declared a declaration exception is thrown. If something is incorrectly typed (for example an integer is assigned to a variable of type boolean, or an expression of type tuple is used in an if-statement) a type exception is thrown. If an exception is thrown the compiler stops compiling and gives the error to the user.
 \subsection{Checking for termination}
-Checking whether a non-void function will eventually hit a return statement, is actually already done at the moment its ast node is generated. During generation the function's body is traversed to check, given that it terminates, will eventually hit a return statement. Checking whether the return statement is of the correct type is done later, as described above.
+Checking whether a non-void function will eventually hit a return statement is done at the moment its AST node is generated. During this generation, the function's body is traversed to check, given that it terminates, if it will eventually hit a return statement. Checking whether the return statement is of the correct type is done later, as described above.
 
 %AST construction
 %Monomorphic Type Checking
 
 
 \section{Code Generation}
-\subsection{Basics} %TODO change name?
+\subsection{Basic Structure} 
+After the program has been checked for correctness, we can actually start generating the code. First, we'll talk about a couple of semantic choices we've made at this stage of our compiler. We decided that we wanted to approach variables on a by-reference basis. This is because we found it more intuitive to handle all kinds of variables in the same way, rather than (as would be the case with by-value lists and tuples) some are different and others aren't. We also chose to make the print function only print the value of basic types. For more complex data structures, such as lists, tuples and those from our extension, it will simply print the value of the memory address, rather than the value at that address itself.\\
+\\
+The way we do code generation is tied into the AST we made in our parser. Every node in the AST has a function called addCodeToStack(). This function has two arguments: the codestack and an incrementary counter. The codestack starts empty, and will eventually contain the entire SML code for the program being compiled and put as return value for the function. The counter is used for the uniqueness of some labels, which we will talk about later. The idea of addCodeToStack() is that the node for which the function is called will add code that does something according to the type of node it is (for example, an addition node will generate code that adds something) and will also call the addCodeToStack() function for any of its children. The idea is to first evaluate the children, if need be, and then continue with their results on the memory stack. \\
+\\
+In the example used before, an Addition node would call addCodeToStack() its two children containing the arguments, and would itself add an 'add' to the codestack. When the SML code will be runned, the two arguments will be evaluated first, and will end up on top of the memory stack, after which 'add' will be called, and the result on the memory stack will be the result of the addition.
 %call-by-reference
 %print only for basic types (otherwise as pointer)
-\subsection{Codestack}
 %codestack (every node is verantwoordelijk voor zn eigen code)
+\subsection{Data structures}
+In the standard SPL we had two types of data structures: tuples and lists. These were both saved to memory in different ways. Tuples were saved as arrays are in many languages. Both items in the tuple are saved right next to each other in the memory. A difference from most languages is that, due to the way the SML command we use to save tuples is implemented, making a tuple will return the address of the second item, not the first. This only really changes the code generated for the tuple accessors, .fst and .snd, as .fst now gets the value (and as we work by-reference, this value will be a reference address) of the tuple address minus 1.\\
+\\
+The way we use lists is similar to linked lists in Java. Every item in the list consists of what is essentially a tuple. The first item in a tuple is the value (once again, this will be a reference address) of the place in the list corresponding to the number of the tuple. So for the first tuple, the value here will be the first value in the list, the second tuple will contain the second value, etc. The second item in the tuple will be a reference address to the next tuple in the list. If this tuple is the last, it will point to 0. As there can never be a tuple entry at memory address 0 (because that's where the code is saved), we know for certain that this is the last tuple in the list.
+%tuples/lists
 \subsection{Variables}
 %variables
-\subsection{Data structures}
-%tuples/lists
-\subsection{Function calls}
+\subsection{Functions}
 %function calls
 
 
 \section{Extension}
 \subsection{Idea}
+The idea behind our extension to SPL is to allow for more complex data structures to be determined than only tuples and lists. We thought that the ability to define more complex data would help users to make more intuitive programs for problems were this might be relevant. We've decided to add two things: n-ary tuples, which we call muples and structs. 
+\subsection{Muples}
+Muples are quite simply tuples that can have any number of items, not just two. The size of a muple is still known and set at compile time, so they can't be changed at runtime. The implementation of muples is also very similar to our implementation of tuples; all items in a muple are right next to each other in the memory. A muple is created in the same way a tuple is, but the declaration can be arbitrarily large. To access muple fields, we've added a new field-accessor: .[n]. By using muple.[n], the nth value of the muple will be returned. Since muples only add functionality, they have fully replace tuples in our implementation of SPL, and the accessor functions .fst and .snd are not used anymore.
+\subsection{Structs}
 %extension idea + motivation
-\subsection{Implementation}
-%implementation
-
 
 
 \appendix
+\section{SPL Grammar}
+\begin{math}
+\centering
+\begin{aligned}
+SPL =& \text{Decl+}\\
+Decl  =& \text{VarDecl}
+ \\&| \text{ FunDecl }
+ \\&| \text{ StructDecl}\\
+VarDecl =& \text{Type id [ '=' Exp ] ';'}\\
+FunDecl =& \text{id '(' [ FArgs ] ')' '::' FunType '\{' VarDecl Stmt'\}' }\\
+FArgs =& \text{id }
+ \\&| \text{id ',' FArgs}\\
+FunType =& \text{Type* '-$>$' RetType}\\
+RetType =& \text{Type}
+ \\ &| \text{'void'} \\
+StructDecl =& \text{id '\{' VarDecl* Constructor Stmt+ '\}'}\\
+Constructor =&\text{ id '(' [ CArgs ] ')' '\{' VarDecl* Constructor Stmt+ '\}' }\\
+CArgs =& \text{Type id }
+ \\&| \text{Type id ',' CArgs}\\
+Type =& \text{Bool}
+ \\&| \text{ Int}
+ \\&| \text{ Char}
+ \\&| \text{'(' Mype ')'} 
+ \\&| \text{'[' Type ']'} 
+ \\&|\text{ id }\\
+Mype =&\text{ Type}
+ \\&|\text{ Type ',' Mype}\\
+Stmt =&\text{ 'if' '(' EXP ')' '{' Stmt* '} ['else' '{' Stmt* '}'}
+ \\&|\text{ 'while' '(' EXP ')' '{' Stmt* '}'}
+ \\&|\text{ id Field* '=' EXP ';'}
+ \\&|\text{ FunCall ';'}
+ \\&|\text{ 'print' EXP ';'}
+ \\&|\text{ 'return' [ EXP ] ';' }\\
+Field =&\text{ '.' ('hd' $|$ 'tl' $|$ id $|$ '[' int ']' ) }\\
+FunCall =&\text{ id '(' [ ActArgs ] ')'} \\
+ActArgs =&\text{ EXP }
+ \\&|\text{ EXP ',' ActArgs }
+\end{aligned}
+\end{math}
+\section{EXP Grammar}
+\begin{math}
+\begin{aligned}
+EXP =& \text{ BoolExp2}
+ \\&|\text{ NumRng} 
+ \\&|\text{ SetExp }
+ \\&|\text{ '(' Mexp ')'}
+ \\&|\text{ 'null'}
+ \\&|\text{ 'new' id '(' [ ActArgs ] ')'} \\
+Mexp =& \text{ EXP [ ',' Mexp ]}\\
+BoolExp2 =& \text{ BoolExp1 ('\&\&' $|$ '$||$') BoolExp2}
+ \\&|\text{ NumRng ('==' $|$ '!=' $|$ '$<$' $|$ '$>$' $|$ '$<$=' $|$ '$>$=') NumRng}
+ \\&|\text{ BoolExp1}\\
+BoolExp1 =& \text{ [ ! ] BoolExp0}\\
+BoolExp0 =& \text{ 'True'}
+ \\&|\text{ 'False'}
+ \\&|\text{ id Field}
+ \\&|\text{ FunCall}
+ \\&|\text{ '(' BoolExp2 ')'}\\
+NumRng =& \text{ NumFld ('+' $|$ '-') NumRng}
+ \\&|\text{ NumFld}\\
+NumFld =& \text{ Neg ('\%' $|$ '/' $|$ '*') NumFld}
+ \\&|\text{ Neg}\\
+Neg =& \text{ [ - ] NumSng}\\
+NumSng =& \text{ int}
+ \\&|\text{ '(' char ')' }
+ \\&|\text{ FunCall }
+ \\&|\text{ id Field}
+ \\&|\text{ '(' NumRng ')' }\\
+Field =&\text{ '.' ('hd' $|$ 'tl' $|$ id $|$ '[' int ']' $|$ Funcall) }\\
+FunCall =&\text{ id '(' [ ActArgs ] ')'} \\
+ActArgs =&\text{ EXP }
+ \\&|\text{ EXP ',' ActArgs }
+\end{aligned}
+\end{math}
 \section{Examples}
 %tuple access
 %print/isEmpty
-%ALL POWERFUL
 \end{document}
