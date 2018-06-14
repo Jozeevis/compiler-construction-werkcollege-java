@@ -13,7 +13,7 @@
 \tableofcontents
 
 \section{Introduction}
-For this course we've constructed a compiler from SPL to SML. We've chosen to program our compiler in Java, because we both have the most experience with it, and believe that its object structure might allow us to do certain things more intuitively than other programming languages. We've extended SPL with the ability to construct muples and structs to it, which we will explain later on in the paper.
+For this course we've constructed a compiler from SPL to SSM language. We've chosen to program our compiler in Java, because we both have the most experience with it, and believe that its object structure might allow us to do certain things more intuitively than other programming languages. We've extended SPL with the ability to construct muples and structs to it, which we will explain later on in the paper.
 
 \subsection{The introduction of EXP}
 For efficiency purposes we've decide to split the SPL grammar into two parts: EXP and SPL. EXP is the grammar we use to describe expressions and SPL is the rest. \\
@@ -27,6 +27,7 @@ Another change is that we allow variable declarations to be written without an i
 Our final grammar for both EXP and SPL can be found in the appendix.
 
 \section{Lexer}
+The first part of our compiler is the lexer. The lexer takes the raw text input the user made in programming their SPL program and turns it into tokens, which will be used by later steps of the compiler.
 \subsection{Basic structure}
 Our lexer is based on the work shown in one of the practical sessions and made available on Blackboard. We've continued the work done there to include all inputs necessary to tokenize the SPL language (and our extensions). \\
 \\
@@ -87,7 +88,7 @@ To reduce time-complexity we parse expressions separately. Before the above desc
 
 
 \section{Semantic Analysis}
-The next step in compiling our code will be semantic analysis. As previously described we've transformed our syntax tree into one with some AST nodes. The semantic analysis that will check if everything is well-defined and well-typed, and checks whether every non-void function will eventually hit a return statement.\\
+The next step in compiling our code will be semantic analysis. As previously described we've transformed our syntax tree into one with some AST nodes. The semantic analysis that will check if everything is well-defined and well-typed, and checks whether every non-void function will eventually hit a return statement.
 \subsection{Type-checking and checking for well-definedness}
 Checking if everything is well-typed and well-defined is done in the same step. We do this by traversing the tree and checking the following for each node:
 \begin{itemize}
@@ -108,20 +109,23 @@ Checking whether a non-void function will eventually hit a return statement is d
 \subsection{Basic Structure} 
 After the program has been checked for correctness, we can actually start generating the code. First, we'll talk about a couple of semantic choices we've made at this stage of our compiler. We decided that we wanted to approach variables on a by-reference basis. This is because we found it more intuitive to handle all kinds of variables in the same way, rather than (as would be the case with by-value lists and tuples) some are different and others aren't. We also chose to make the print function only print the value of basic types. For more complex data structures, such as lists, tuples and those from our extension, it will simply print the value of the memory address, rather than the value at that address itself.\\
 \\
-The way we do code generation is tied into the AST we made in our parser. Every node in the AST has a function called addCodeToStack(). This function has two arguments: the codestack and an incrementary counter. The codestack starts empty, and will eventually contain the entire SML code for the program being compiled and put as return value for the function. The counter is used for the uniqueness of some labels, which we will talk about later. The idea of addCodeToStack() is that the node for which the function is called will add code that does something according to the type of node it is (for example, an addition node will generate code that adds something) and will also call the addCodeToStack() function for any of its children. The idea is to first evaluate the children, if need be, and then continue with their results on the memory stack. \\
+The way we do code generation is tied into the AST we made in our parser. Every node in the AST has a function called addCodeToStack(). This function has two arguments: the codestack and an incrementary counter. The codestack starts empty, and will eventually contain the entire SSM code for the program being compiled and put as return value for the function. The counter is used for the uniqueness of some labels, which we will talk about later. The idea of addCodeToStack() is that the node for which the function is called will add code that does something according to the type of node it is (for example, an addition node will generate code that adds something) and will also call the addCodeToStack() function for any of its children. The idea is to first evaluate the children, if need be, and then continue with their results on the memory stack. \\
 \\
-In the example used before, an Addition node would call addCodeToStack() its two children containing the arguments, and would itself add an 'add' to the codestack. When the SML code will be runned, the two arguments will be evaluated first, and will end up on top of the memory stack, after which 'add' will be called, and the result on the memory stack will be the result of the addition.
+In the example used before, an Addition node would call addCodeToStack() its two children containing the arguments, and would itself add an 'add' to the codestack. When the SSM code will be runned, the two arguments will be evaluated first, and will end up on top of the memory stack, after which 'add' will be called, and the result on the memory stack will be the result of the addition.
 %call-by-reference
 %print only for basic types (otherwise as pointer)
 %codestack (every node is verantwoordelijk voor zn eigen code)
 \subsection{Data structures}
-In the standard SPL we had two types of data structures: tuples and lists. These were both saved to memory in different ways. Tuples were saved as arrays are in many languages. Both items in the tuple are saved right next to each other in the memory. A difference from most languages is that, due to the way the SML command we use to save tuples is implemented, making a tuple will return the address of the second item, not the first. This only really changes the code generated for the tuple accessors, .fst and .snd, as .fst now gets the value (and as we work by-reference, this value will be a reference address) of the tuple address minus 1.\\
+In the standard SPL we had two types of data structures: tuples and lists. These were both saved to memory in different ways. Tuples were saved as arrays are in many languages. Both items in the tuple are saved right next to each other in the memory. A difference from most languages is that, due to the way the SSM command we use to save tuples is implemented, making a tuple will return the address of the second item, not the first. This only really changes the code generated for the tuple accessors, .fst and .snd, as .fst now gets the value (and as we work by-reference, this value will be a reference address) of the tuple address minus 1.\\
 \\
 The way we use lists is similar to linked lists in Java. Every item in the list consists of what is essentially a tuple. The first item in a tuple is the value (once again, this will be a reference address) of the place in the list corresponding to the number of the tuple. So for the first tuple, the value here will be the first value in the list, the second tuple will contain the second value, etc. The second item in the tuple will be a reference address to the next tuple in the list. If this tuple is the last, it will point to 0. As there can never be a tuple entry at memory address 0 (because that's where the code is saved), we know for certain that this is the last tuple in the list.
 %tuples/lists
 \subsection{Variables}
 %variables
 \subsection{Functions}
+Functions only have to be executed whenever they are called, so their SSM code is generated separately. Whenever the compiler finds a function in the SPL program, it will add any variable declarations at the start of the function body to the current domain. Any global variables with the same name as local variables will be overwritten by the local variables, and put back once the compiler finds a return statement. The code for the rest of the function body is generated by calling addCodeToStack() on the node of the body itself. This block of code is then given a label corresponding to the function name, and this entire thing is added to the SSM codestack.\\
+\\
+Whenever a function is called, it will jump to the label corresponding to the name, save the PC where it left from and the function code will be executed. This will work as any other function code, until it reaches a Return. When the return is reached, two things can happen. If the function has a return-type of null, it will simply remove any local variables from the memory and jump back to the saved PC+1, continuing the code where it left off. If the function has any other return-type, it will do the same, but instead of removing all local variables, it will leave the return value on top of the stack after its return, so this value can be used in the rest of the program.
 %function calls
 
 

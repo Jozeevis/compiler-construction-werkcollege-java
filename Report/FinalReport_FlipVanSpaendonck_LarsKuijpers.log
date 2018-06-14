@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  13 JUN 2018 23:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 JUN 2018 12:36
 entering extended mode
 **./FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
 (FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
@@ -557,83 +557,83 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--28
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 31--36
+Underfull \hbox (badness 10000) in paragraph at lines 32--37
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 31--36
+Underfull \hbox (badness 10000) in paragraph at lines 32--37
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 42--45
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 51.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 52.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 52.
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--54
+Underfull \hbox (badness 10000) in paragraph at lines 50--55
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--54
+Underfull \hbox (badness 10000) in paragraph at lines 50--55
 
  []
 
 [3]
-<TokenTraces.png, id=17, 360.59718pt x 174.6525pt>
+<TokenTraces.png, id=16, 360.59718pt x 174.6525pt>
 File: TokenTraces.png Graphic file (type png)
 <use TokenTraces.png>
-Package pdftex.def Info: TokenTraces.png  used on input line 65. on input line 
-65.
+Package pdftex.def Info: TokenTraces.png  used on input line 66. on input line 
+66.
 Package pdftex.def Info: Requested size: 281.05103pt x 136.12447pt on input lin
-e 65.
-<TokenTree.png, id=18, 169.38281pt x 152.82094pt>
+e 66.
+<TokenTree.png, id=17, 169.38281pt x 152.82094pt>
 File: TokenTree.png Graphic file (type png)
 <use TokenTree.png>
-Package pdftex.def Info: TokenTree.png  used on input line 78. on input line 78
+Package pdftex.def Info: TokenTree.png  used on input line 79. on input line 79
 .
 Package pdftex.def Info: Requested size: 120.45044pt x 108.67616pt on input lin
-e 78.
+e 79.
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--81
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 62--81
+Underfull \hbox (badness 10000) in paragraph at lines 63--82
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--81
-
- []
-
-[4 <./TokenTraces.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 90--91
-
- []
-
-[5 <./TokenTree.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 109--117
+Underfull \hbox (badness 10000) in paragraph at lines 63--82
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 109--117
+Underfull \hbox (badness 10000) in paragraph at lines 63--82
+
+ []
+
+[4 <./TokenTraces.png>] [5 <./TokenTree.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 110--118
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--118
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 118--122
+Underfull \hbox (badness 10000) in paragraph at lines 119--123
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 126--130
 
  []
 
@@ -641,7 +641,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 118--122
 Here is how much of TeX's memory you used:
  2747 strings out of 493312
  35075 string characters out of 3138903
- 102491 words of memory out of 3000000
+ 103491 words of memory out of 3000000
  6241 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -655,8 +655,8 @@ ic/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
 
-Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (10 pages, 151
-648 bytes).
+Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (10 pages, 152
+950 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
