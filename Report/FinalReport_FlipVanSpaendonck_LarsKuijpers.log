@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 JUN 2018 12:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 JUN 2018 21:06
 entering extended mode
 **./FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
 (FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
@@ -618,47 +618,71 @@ Underfull \hbox (badness 10000) in paragraph at lines 63--82
  []
 
 [4 <./TokenTraces.png>] [5 <./TokenTree.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 110--118
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 110--118
+Underfull \hbox (badness 10000) in paragraph at lines 108--126
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 119--123
+Underfull \hbox (badness 10000) in paragraph at lines 135--143
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--130
+Underfull \hbox (badness 10000) in paragraph at lines 135--143
 
  []
 
-[7] [8] [9] [10] (FinalReport_FlipVanSpaendonck_LarsKuijpers.aux) ) 
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 145--149
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--156
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 157--161
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--167
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 176--181
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--181
+
+ []
+
+[10] [11] [12] (FinalReport_FlipVanSpaendonck_LarsKuijpers.aux) ) 
 Here is how much of TeX's memory you used:
- 2747 strings out of 493312
- 35075 string characters out of 3138903
- 103491 words of memory out of 3000000
- 6241 multiletter control sequences out of 15000+200000
+ 2748 strings out of 493312
+ 35091 string characters out of 3138903
+ 102499 words of memory out of 3000000
+ 6242 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,13n,25p,1030b,225s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
-y10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-
-Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (10 pages, 152
-950 bytes).
+<C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
+0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (12 pages, 161
+149 bytes).
 PDF statistics:
- 72 PDF objects out of 1000 (max. 8388607)
+ 78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
