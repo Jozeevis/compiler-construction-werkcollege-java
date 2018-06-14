@@ -26,4 +26,3 @@
 \contentsline {subsection}{\numberline {6.3}Structs}{10}
 \contentsline {section}{\numberline {A}SPL Grammar}{11}
 \contentsline {section}{\numberline {B}EXP Grammar}{12}
-\contentsline {section}{\numberline {C}Examples}{12}

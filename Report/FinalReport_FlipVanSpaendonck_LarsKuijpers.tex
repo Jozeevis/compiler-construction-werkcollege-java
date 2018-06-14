@@ -177,7 +177,9 @@ The second aspect we added to SPL with our extension is the idea of structs. Str
 \\
 A struct has to be initialized before it can be used, and can have multiple instances at a time. From these instances of a struct, the user can call the variables or functions that struct type has. With structs we have introduced a new scope between local and global, namely the struct level. Whenever a variable or function is called for a struct, it will be called in the domain of that struct. As mentioned in the section about type-checking, the type checker actually checks to which scope any function or variable call belongs and makes sure this goes right.\\
 \\
-The way structs are implemented is mostly based on the way we implement similar things. The functions of a struct are added to the code in much the same way that 'normal' or global functions are added. The compiler knows which one to call at which point because of the type-checker, as mentioned before. The variables of a struct are stored similarly to the global variables: in a single Muple that is stored in the heap. Whenever a variable is called from the struct, the correct one will be extracted from this Muple.
+The way structs are implemented is mostly based on the way we implement similar things. The functions of a struct are added to the code in much the same way that 'normal' or global functions are added. The compiler knows which one to call at which point because of the type-checker, as mentioned before. The variables of a struct are stored similarly to the global variables: in a single Muple that is stored in the heap. Whenever a variable is called from the struct, the correct one will be extracted from this Muple.\\
+\\
+It's also possible to include the new 'this' keyword in any expression that is within a struct. If the this keyword is outside of a struct, the parser will throw an error (much like when return is found outside of a function). 'This' will give the struct instance that is the current domain back as a variable, so the instance can be used in its own body.
 
 \appendix
 \section{SPL Grammar}
@@ -226,8 +228,7 @@ EXP =& \text{ BoolExp2}
  \\&|\text{ NumRng} 
  \\&|\text{ SetExp }
  \\&|\text{ '(' Mexp ')'}
- \\&|\text{ 'null'}
- \\&|\text{ 'new' id '(' [ ActArgs ] ')'} \\
+ \\&|\text{ 'null'}\\
 Mexp =& \text{ EXP [ ',' Mexp ]}\\
 BoolExp2 =& \text{ BoolExp1 ('\&\&' $|$ '$||$') BoolExp2}
  \\&|\text{ NumRng ('==' $|$ '!=' $|$ '$<$' $|$ '$>$' $|$ '$<$=' $|$ '$>$=') NumRng}
@@ -235,8 +236,7 @@ BoolExp2 =& \text{ BoolExp1 ('\&\&' $|$ '$||$') BoolExp2}
 BoolExp1 =& \text{ [ ! ] BoolExp0}\\
 BoolExp0 =& \text{ 'True'}
  \\&|\text{ 'False'}
- \\&|\text{ id Field}
- \\&|\text{ FunCall}
+ \\&|\text{ CallUp }
  \\&|\text{ '(' BoolExp2 ')'}\\
 NumRng =& \text{ NumFld ('+' $|$ '-') NumRng}
  \\&|\text{ NumFld}\\
@@ -244,17 +244,17 @@ NumFld =& \text{ Neg ('\%' $|$ '/' $|$ '*') NumFld}
  \\&|\text{ Neg}\\
 Neg =& \text{ [ - ] NumSng}\\
 NumSng =& \text{ int}
- \\&|\text{ '(' char ')' }
- \\&|\text{ FunCall }
- \\&|\text{ id Field}
+ \\&|\text{ char }
+ \\&|\text{ CallUp Field}
  \\&|\text{ '(' NumRng ')' }\\
+CallUp =& \text{ id}
+ \\&|\text{ 'this' }
+ \\&|\text{ FunCall }
+ \\&|\text{ 'new' id '(' [ ActArgs ] ')' } \\
 Field =&\text{ '.' ('hd' $|$ 'tl' $|$ id $|$ '[' int ']' $|$ Funcall) }\\
 FunCall =&\text{ id '(' [ ActArgs ] ')'} \\
 ActArgs =&\text{ EXP }
  \\&|\text{ EXP ',' ActArgs }
 \end{aligned}
 \end{math}
-\section{Examples}
-%tuple access
-%print/isEmpty
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 JUN 2018 21:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  14 JUN 2018 21:32
 entering extended mode
 **./FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
 (FinalReport_FlipVanSpaendonck_LarsKuijpers.tex
@@ -653,12 +653,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 163--167
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 176--181
+Underfull \hbox (badness 10000) in paragraph at lines 176--183
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 176--181
+Underfull \hbox (badness 10000) in paragraph at lines 176--183
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--183
 
  []
 
@@ -666,7 +671,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 176--181
 Here is how much of TeX's memory you used:
  2748 strings out of 493312
  35091 string characters out of 3138903
- 102499 words of memory out of 3000000
+ 103499 words of memory out of 3000000
  6242 multiletter control sequences out of 15000+200000
  11849 words of font info for 46 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -680,7 +685,7 @@ e1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
 0.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
 Output written on FinalReport_FlipVanSpaendonck_LarsKuijpers.pdf (12 pages, 161
-149 bytes).
+721 bytes).
 PDF statistics:
  78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
