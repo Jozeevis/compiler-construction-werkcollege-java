@@ -25,7 +25,7 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable {
 
 	public final FunDeclNode funDecl;
 
-	public ReturnNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
+	public ReturnNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalReturnException {
 		super(frontier);
 
 		if (oldKnot.children.length == 2)
@@ -36,6 +36,8 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable {
 		SyntaxNode father = frontier;
 		while (!(father instanceof FunDeclNode)) {
 			father = father.parent;
+			if (father == null)
+				throw new IllegalReturnException();
 		}
 		funDecl = (FunDeclNode) father;
 	}

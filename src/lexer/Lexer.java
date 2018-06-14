@@ -275,6 +275,9 @@ public class Lexer {
 		String result = resultBuilder.toString();
 
 		// Reserved keywords
+		if(result.equals("this")) {
+			return new Token(TokenType.TOK_KW_THIS);
+		}
 		if (result.equals("new")) {
 			return new Token(TokenType.TOK_KW_NEW);
 		}

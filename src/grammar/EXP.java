@@ -33,13 +33,11 @@ public class EXP extends ExpressionTree {
 		
 		
 		try {
-			//addExpressionTo("~BoolExp2", "BoolExp", "Exp");
+			addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 			addExpressionTo("~NumRng", "NumExp","Exp");
 			addExpressionTo("~SetExp", "SetExp", "Exp");
 			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
 			addExpressionTo("'null'", "Null", "Exp");
-			addExpressionTo("'new' ~id '(' ')'", "Init","Exp");
-			addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","Exp");
 			
 			addExpressionTo("~Exp ","Mexp");
 			addExpressionTo("~Exp ',' ~Mexp ","Mexp");
@@ -76,25 +74,33 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
-			addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "BoolExp0");
-			addExpressionTo(" ~FunCall", "funcall", "BoolExp0");
+			addExpressionTo("~CallUp ~Field","callup","NumSng");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
-			
+			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
 			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
 			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
 			addExpressionTo(" ~NumFld ", "NumRng");
+			
+			addExpressionTo(" ~Neg'%' ~NumFld ", "modulo", "NumFld");
+			addExpressionTo(" ~Neg '/' ~NumFld ", "divide", "NumFld");
+			addExpressionTo(" ~Neg '*' ~NumFld ", "multiply", "NumFld");
+			addExpressionTo(" ~Neg", "NumFld");
 			
 			addExpressionTo(" ~NumSng", "Neg");
 			addExpressionTo("'-' ~NumSng", "negative", "Neg");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
-			addExpressionTo(" ~FunCall", "funcall", "NumSng");
-			addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");
+			addExpressionTo("~CallUp ~Field","callup","NumSng");
 			addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
+			
 
-			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
+			addExpressionTo(" ~FunCall", "funcall", "CallUp");
+			addExpressionTo("'this'","this","CallUp");
+			addExpressionTo(" .TOK_IDENTIFIER  ", "variable", "CallUp");
+			addExpressionTo("'new' ~id '(' ')'", "Init","CallUp");
+			addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","CallUp");
 			
 			addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
 			addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");

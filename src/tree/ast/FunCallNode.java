@@ -11,6 +11,7 @@ import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.ast.expressions.FunCall;
+import tree.ast.expressions.IllegalThisException;
 import tree.ast.types.specials.VoidType;
 
 /**
@@ -24,8 +25,9 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 	
 	/**
 	 * @param frontier
+	 * @throws IllegalThisException 
 	 */
-	public FunCallNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
+	public FunCallNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalThisException {
 		super(frontier);
 		this.funCall = new FunCall((SyntaxExpressionKnot) oldKnot.children[0]);
 	}

@@ -32,7 +32,7 @@ public class FunCall extends BaseExpr {
 	/** The types for the arguments for this function */
 	public final Type[] argumentTypes;
 
-	public FunCall(SyntaxExpressionKnot funcall) {
+	public FunCall(SyntaxExpressionKnot funcall) throws IllegalThisException {
 		id = ((TokenIdentifier) ((SyntaxLeaf) funcall.children[0]).leaf).value;
 
 		if (funcall.children.length == 3) {

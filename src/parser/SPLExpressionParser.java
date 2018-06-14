@@ -9,13 +9,14 @@ import java.util.List;
 import lexer.Token;
 import lexer.TokenExpression;
 import lexer.TokenType;
+import tree.ast.expressions.IllegalThisException;
 
 /**
  * @author Flip van Spaendonck
  */
 public class SPLExpressionParser {
 
-	public static final void packExpressions(List<Token> tokens) throws ParsingException {
+	public static final void packExpressions(List<Token> tokens) throws ParsingException, IllegalThisException {
 		loop: for (int i = 0; i < tokens.size(); i++) {
 			TokenType current = tokens.get(i).getTokenType();
 			if (current == TokenType.TOK_ASS | current == TokenType.TOK_KW_RETURN | current == TokenType.TOK_KW_PRINT) {

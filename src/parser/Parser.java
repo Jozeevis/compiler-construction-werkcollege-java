@@ -14,6 +14,7 @@ import lexer.TokenType;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
 import tree.SyntaxTree;
+import tree.ast.expressions.IllegalThisException;
 
 /**
  * @author Flip van Spaendonck
@@ -34,7 +35,7 @@ public class Parser {
 		tokenList = l.allNextTokens();
 		try {
 			SPLExpressionParser.packExpressions(tokenList);
-		} catch (ParsingException e) {
+		} catch (ParsingException | IllegalThisException e) {
 			e.printStackTrace();
 		}
 		System.out.println(tokenList);

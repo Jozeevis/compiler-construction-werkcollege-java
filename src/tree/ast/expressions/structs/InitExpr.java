@@ -14,6 +14,7 @@ import tree.SyntaxLeaf;
 import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
+import tree.ast.expressions.IllegalThisException;
 import tree.ast.types.CustomType;
 import tree.ast.types.StructType;
 import tree.ast.types.Type;
@@ -31,7 +32,7 @@ public class InitExpr extends BaseExpr {
 	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
 	
-	public InitExpr(SyntaxExpressionKnot initCall) {
+	public InitExpr(SyntaxExpressionKnot initCall) throws IllegalThisException {
 		id = ((TokenIdentifier) ((SyntaxLeaf) initCall.children[1]).leaf).value;
 
 		if (initCall.children.length == 4) {

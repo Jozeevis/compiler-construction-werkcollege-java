@@ -29,14 +29,10 @@ import tree.ast.types.Type;
 public class Variable extends NoArg {
 
 	private String variable;
-	private final Accessor[] accessors;
 	private int linkNumber;
 
-	public Variable(String variable, SyntaxExpressionKnot fieldStar) {
+	public Variable(String variable) {
 		this.variable = variable;
-		
-		accessors = TreeProcessing.processFieldStar(fieldStar);
-		
 	}
 
 	public String getID() {
@@ -56,9 +52,6 @@ public class Variable extends NoArg {
 		}
 		if (innerType == null)
 			throw new DeclarationException("Variable with id: " + variable + " has not yet been declared.");
-		for(Accessor accessor : accessors) {
-			innerType = accessor.checkTypes(domain, innerType);
-		}
 		return innerType;
 	}
 
@@ -69,9 +62,6 @@ public class Variable extends NoArg {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldl " + linkNumber);
-		for (Accessor accessor : accessors) {
-			accessor.addCodeToStack(stack);
-		}
 		stack.add("ldh 0");
 	}
 

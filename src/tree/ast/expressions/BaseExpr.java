@@ -68,8 +68,9 @@ public abstract class BaseExpr {
 	 * 
 	 * @param knot
 	 * @return
+	 * @throws IllegalThisException 
 	 */
-	public final static BaseExpr convertToExpr(SyntaxExpressionKnot knot) {
+	public final static BaseExpr convertToExpr(SyntaxExpressionKnot knot) throws IllegalThisException {
 		if (knot.expression instanceof ExpressionWithAST) {
 			switch (((ExpressionWithAST) knot.expression).id) {
 			// BaseExp
@@ -164,11 +165,15 @@ public abstract class BaseExpr {
 			case "Init":
 				return new InitExpr((SyntaxExpressionKnot) knot.children[0]);
 			// Mixed
+			case "callup":
+				return new CallUp(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
+						(SyntaxExpressionKnot) knot.children[1]);
+			case "this":
+				return new This(knot);
 			case "funcall":
 				return new FunCall((SyntaxExpressionKnot) knot.children[0]);
 			case "variable":
-				return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value,
-						(SyntaxExpressionKnot) knot.children[1]);
+				return new Variable(((TokenIdentifier) ((SyntaxLeaf) knot.children[0]).leaf).value);
 			case "brackets":
 				return convertToExpr((SyntaxExpressionKnot) knot.children[1]);
 			case "isEmpty":
