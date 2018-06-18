@@ -30,7 +30,7 @@ public class FunDeclNode extends ASyntaxKnot {
 	public final FunctionType funtype;
 	/** The variables that are declared at the start of the function body **/
 	public final VarDeclNode[] varDecls;
-	/** The size with which a link should be made **/
+	/** The label used in the SSM code **/
 	private String branchAddress;
 	/** The TokenExpression that denotes the function body **/
 	public final SyntaxNode body;
@@ -120,7 +120,8 @@ public class FunDeclNode extends ASyntaxKnot {
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		// TODO: Make this work with overloaded functions
+		// Label to skip the function body if the code comes here some other way
+		stack.add("bra " + branchAddress + "Skip");
 		// Label to jump to the function body
 		stack.add(branchAddress + ": ldl 1");
 		stack.add("link " + (funArgs.length + varDecls.length));
@@ -133,10 +134,13 @@ public class FunDeclNode extends ASyntaxKnot {
 		}
 		// Generate the code of the function body
 		body.addCodeToStack(stack, counter);
+		// Void functions don't need a return type, so we'll add one in just in case
 		if (funtype.returnType instanceof VoidType) {
 			stack.add("unlink");
 			stack.add("ret");
 		}
+		// Label for the skip to go to
+		stack.add(branchAddress + "Skip: nop");
 	}
 
 }
