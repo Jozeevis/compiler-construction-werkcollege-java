@@ -74,7 +74,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
-			addExpressionTo("~CallUp ~Field","callup","NumSng");
+			addExpressionTo("~CallUp ~Field","callup","BoolExp0");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
