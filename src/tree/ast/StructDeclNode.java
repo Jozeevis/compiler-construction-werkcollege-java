@@ -119,7 +119,7 @@ public class StructDeclNode extends ASyntaxKnot {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		//load the global environment address
 		stack.add(branchAddress + ": ldl 1");
-		stack.add("link " + cArgs.length + varDecls.length);
+		stack.add("link " + (cArgs.length + varDecls.length));
 		//store the global environment address in the new local memory
 		stack.add("stl 1");
 		stack.add("stml 3 " + cArgs.length);
@@ -137,6 +137,7 @@ public class StructDeclNode extends ASyntaxKnot {
 		body.addCodeToStack(stack, counter);
 		//Put the address of the struct on top of the stack.
 		stack.add("ldl 2");
+		stack.add("swap");
 		stack.add("unlink");
 		//Return back to where we were.
 		stack.add("ret");

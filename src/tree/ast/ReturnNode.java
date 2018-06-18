@@ -72,7 +72,9 @@ public class ReturnNode extends ASyntaxKnot {
 		}
 		// Pop the old PC from the stack and return to that point, leaving the
 		// returnvalue (if any) on top of the stack
+		stack.add("unlink");
 		stack.add("ret");
+		
 	}
 
 }

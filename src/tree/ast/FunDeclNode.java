@@ -122,7 +122,9 @@ public class FunDeclNode extends ASyntaxKnot {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// TODO: Make this work with overloaded functions
 		// Label to jump to the function body
-		stack.add(branchAddress + ": link " + funArgs.length + varDecls.length);
+		stack.add(branchAddress + ": ldl 1");
+		stack.add("link " + (funArgs.length + varDecls.length));
+		stack.add("stl 1");
 		stack.add("stml 3 " + funArgs.length);
 		// Generate the code for the variable declarations at the beginning of the code
 		// body.
@@ -131,8 +133,10 @@ public class FunDeclNode extends ASyntaxKnot {
 		}
 		// Generate the code of the function body
 		body.addCodeToStack(stack, counter);
-		if (funtype.returnType instanceof VoidType)
+		if (funtype.returnType instanceof VoidType) {
+			stack.add("unlink");
 			stack.add("ret");
+		}
 	}
 
 }
