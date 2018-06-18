@@ -51,8 +51,8 @@ public class SPL extends ExpressionTree {
 	
 			addExpressionTo("~id '{'~VarDeclStar ~Constructor ~FunDeclStar'}'", "StructDecl");
 	
-			addExpressionTo("~id '(' ')' '{'~VarDeclStar ~StmtPlus '}' ", "Constructor");
-			addExpressionTo("~id '(' ~CArgs ')' '{'~VarDeclStar ~StmtPlus '}'", "Constructor");
+			addExpressionTo("~id '(' ')' '{'~VarDeclStar ~StmtStar '}' ", "Constructor");
+			addExpressionTo("~id '(' ~CArgs ')' '{'~VarDeclStar ~StmtStar '}'", "Constructor");
 			
 			addExpressionTo("~Type ~id","CArgs");
 			addExpressionTo("~Type ~id ',' ~CArgs","CArgs");
