@@ -11,6 +11,7 @@ import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
 import tree.IDDeclarationBlock.Scope;
+import tree.ast.types.CustomType;
 import tree.ast.types.Type;
 import tree.ast.types.specials.FunctionType;
 import tree.ast.types.specials.VoidType;
@@ -106,11 +107,19 @@ public class FunDeclNode extends ASyntaxKnot {
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		branchAddress = domain.addFunDeclaration(id, funtype, scope);
 		IDDeclarationBlock temp = new IDDeclarationBlock(domain, Scope.LOCAL);
+		for(Type type : funtype.inputTypes) {
+			if (type instanceof CustomType) {
+				domain.findStructDeclaration(((CustomType) type).typeName);
+			}
+		}
+		if (funtype.returnType instanceof CustomType) {
+			domain.findStructDeclaration(((CustomType)funtype.returnType).typeName);
+		}
 		if(funArgs.length != funtype.inputTypes.length) {
 			throw new DeclarationException("This function declaration has "+funArgs.length+" nr. of arguments, while it has "+funtype.inputTypes.length+" nr. of input-types.");
 		}
 		for(int i=0; i<funArgs.length; i++) {
-			temp.addIDDeclaration(id, funtype.inputTypes[i], Scope.LOCAL);
+			temp.addIDDeclaration(funArgs[i], funtype.inputTypes[i], Scope.LOCAL);
 		}
 		for(VarDeclNode varDecl : varDecls) {
 			varDecl.checkTypes(temp, Scope.LOCAL);
@@ -124,7 +133,7 @@ public class FunDeclNode extends ASyntaxKnot {
 		stack.add("bra " + branchAddress + "Skip");
 		// Label to jump to the function body
 		stack.add(branchAddress + ": ldl 1");
-		stack.add("link " + (funArgs.length + varDecls.length));
+		stack.add("link " + (funArgs.length + varDecls.length+2));
 		stack.add("stl 1");
 		stack.add("stml 3 " + funArgs.length);
 		// Generate the code for the variable declarations at the beginning of the code

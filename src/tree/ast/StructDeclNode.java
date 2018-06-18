@@ -121,7 +121,7 @@ public class StructDeclNode extends ASyntaxKnot {
 		stack.add("bra " + branchAddress + "Skip");
 		//load the global environment address
 		stack.add(branchAddress + ": ldl 1");
-		stack.add("link " + (cArgs.length + varDecls.length));
+		stack.add("link " + (cArgs.length + varDecls.length+2));
 		//store the global environment address in the new local memory
 		stack.add("stl 1");
 		stack.add("stml 3 " + cArgs.length);

@@ -47,7 +47,7 @@ public class LargeTests {
 			
 			SyntaxTree t = TreeProcessing.processIntoAST(p.tree.root);
 			System.out.println(TreeProcessing.checkWellTyped(t));
-			System.out.println(CodeGenerator.generateCode(t.root));
+			System.out.println(CodeGenerator.generateCode(t));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

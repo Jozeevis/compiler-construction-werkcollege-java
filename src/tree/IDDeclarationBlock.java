@@ -123,14 +123,12 @@ public class IDDeclarationBlock {
 		switch(scope) {
 		case GLOBAL:
 			globalFuncs.add(new FunDeclaration(id, funtype, "F"+id));
-			return id;
+			return "F"+id;
 		case STRUCT:
 			if (currentStruct != null)
 				return currentStruct.findFunDeclaration(id).branchAddress;
 		default:
-			System.err.println("Function could not be declared at scope: "+scope);
-			return "ERRRRRRRROOOORRRR";
-		
+			throw new DeclarationException("No case declared at scopelevel "+scope);
 		}
 	}
 	
