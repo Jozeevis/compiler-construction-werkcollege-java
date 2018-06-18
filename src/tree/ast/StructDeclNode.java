@@ -34,7 +34,7 @@ public class StructDeclNode extends ASyntaxKnot {
 	/** The variables that are declared at the start of the constructors body **/
 	public final VarDeclNode[] varDecls;
 	public final SyntaxNode body;
-
+	/** The label used in the SSM code */
 	private String branchAddress;
 
 	public StructDeclNode(SyntaxKnot oldKnot, SyntaxKnot frontier) throws Exception {
@@ -117,6 +117,8 @@ public class StructDeclNode extends ASyntaxKnot {
 	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		// Label to skip the struct declaration if the code comes here some other way
+		stack.add("bra " + branchAddress + "Skip");
 		//load the global environment address
 		stack.add(branchAddress + ": ldl 1");
 		stack.add("link " + (cArgs.length + varDecls.length));
@@ -142,9 +144,12 @@ public class StructDeclNode extends ASyntaxKnot {
 		//Return back to where we were.
 		stack.add("ret");
 		
+		// Generate the code for all the functions in the struct
 		for(FunDeclNode funDecl : functions) {
 			funDecl.addCodeToStack(stack, counter);
 		}
+		// Label for the skip to go to
+		stack.add(branchAddress + "Skip: nop");
 	}
 
 
