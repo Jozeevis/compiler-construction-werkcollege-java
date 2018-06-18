@@ -294,7 +294,7 @@ public class Lexer {
 			return new Token(TokenType.TOK_KW_VAR);
 		}
 		
-		if (result.equals("Void")) {
+		if (result.equals("void")) {
 			return new Token(TokenType.TOK_KW_VOID);
 		}
 		
