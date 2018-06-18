@@ -186,31 +186,31 @@ It's also possible to include the new 'this' keyword in any expression that is w
 \begin{math}
 \centering
 \begin{aligned}
-SPL =& \text{Decl+}\\
-Decl  =& \text{VarDecl}
+SPL =& \text{ Decl+}\\
+Decl  =& \text{ VarDecl}
  \\&| \text{ FunDecl }
  \\&| \text{ StructDecl}\\
-VarDecl =& \text{Type id [ '=' Exp ] ';'}\\
-FunDecl =& \text{id '(' [ FArgs ] ')' '::' FunType '\{' VarDecl Stmt'\}' }\\
-FArgs =& \text{id }
- \\&| \text{id ',' FArgs}\\
-FunType =& \text{Type* '-$>$' RetType}\\
-RetType =& \text{Type}
- \\ &| \text{'void'} \\
-StructDecl =& \text{id '\{' VarDecl* Constructor Stmt+ '\}'}\\
-Constructor =&\text{ id '(' [ CArgs ] ')' '\{' VarDecl* Constructor Stmt+ '\}' }\\
-CArgs =& \text{Type id }
- \\&| \text{Type id ',' CArgs}\\
-Type =& \text{Bool}
- \\&| \text{ Int}
- \\&| \text{ Char}
- \\&| \text{'(' Mype ')'} 
- \\&| \text{'[' Type ']'} 
+VarDecl =& \text{ Type id [ '=' EXP ] ';'}\\
+FunDecl =& \text{ id '(' [ FArgs ] ')' '::' FunType '\{' VarDecl* Stmt+ '\}' }\\
+FArgs =& \text{ id }
+ \\&| \text{ id ',' FArgs}\\
+FunType =& \text{ Type* '-$>$' RetType}\\
+RetType =& \text{ Type}
+ \\ &| \text{ 'void'} \\
+StructDecl =& \text{ id '\{' VarDecl* Constructor FunDecl* '\}'}\\
+Constructor =&\text{ id '(' [ CArgs ] ')' '\{' VarDecl* Stmt* '\}' }\\
+CArgs =& \text{ Type id }
+ \\&| \text{ Type id ',' CArgs}\\
+Type =& \text{ 'Bool'}
+ \\&| \text{ 'Int'}
+ \\&| \text{ 'Char'}
+ \\&| \text{ '(' Mype ')'} 
+ \\&| \text{ '[' Type ']'} 
  \\&|\text{ id }\\
 Mype =&\text{ Type}
  \\&|\text{ Type ',' Mype}\\
-Stmt =&\text{ 'if' '(' EXP ')' '{' Stmt* '} ['else' '{' Stmt* '}'}
- \\&|\text{ 'while' '(' EXP ')' '{' Stmt* '}'}
+Stmt =&\text{ 'if' '(' EXP ')' '\{' Stmt* '\}' ['else' '\{' Stmt* '\}']}
+ \\&|\text{ 'while' '(' EXP ')' '\{' Stmt* '\}'}
  \\&|\text{ id Field* '=' EXP ';'}
  \\&|\text{ FunCall ';'}
  \\&|\text{ 'print' EXP ';'}
@@ -233,16 +233,16 @@ Mexp =& \text{ EXP [ ',' Mexp ]}\\
 BoolExp2 =& \text{ BoolExp1 ('\&\&' $|$ '$||$') BoolExp2}
  \\&|\text{ NumRng ('==' $|$ '!=' $|$ '$<$' $|$ '$>$' $|$ '$<$=' $|$ '$>$=') NumRng}
  \\&|\text{ BoolExp1}\\
-BoolExp1 =& \text{ [ ! ] BoolExp0}\\
+BoolExp1 =& \text{ [ '!' ] BoolExp0}\\
 BoolExp0 =& \text{ 'True'}
  \\&|\text{ 'False'}
- \\&|\text{ CallUp }
+ \\&|\text{ CallUp Field }
  \\&|\text{ '(' BoolExp2 ')'}\\
 NumRng =& \text{ NumFld ('+' $|$ '-') NumRng}
  \\&|\text{ NumFld}\\
 NumFld =& \text{ Neg ('\%' $|$ '/' $|$ '*') NumFld}
  \\&|\text{ Neg}\\
-Neg =& \text{ [ - ] NumSng}\\
+Neg =& \text{ [ '-' ] NumSng}\\
 NumSng =& \text{ int}
  \\&|\text{ char }
  \\&|\text{ CallUp Field}
@@ -251,7 +251,7 @@ CallUp =& \text{ id}
  \\&|\text{ 'this' }
  \\&|\text{ FunCall }
  \\&|\text{ 'new' id '(' [ ActArgs ] ')' } \\
-Field =&\text{ '.' ('hd' $|$ 'tl' $|$ id $|$ '[' int ']' $|$ Funcall) }\\
+Field =&\text{ '.' ('hd' $|$ 'tl' $|$ id $|$ '[' int ']' $|$ FunCall) }\\
 FunCall =&\text{ id '(' [ ActArgs ] ')'} \\
 ActArgs =&\text{ EXP }
  \\&|\text{ EXP ',' ActArgs }
