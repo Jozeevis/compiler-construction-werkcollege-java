@@ -127,7 +127,9 @@ public final class TreeProcessing {
 
 	public static boolean checkWellTyped(SyntaxTree tree) {
 		try {
-			tree.root.checkTypes(new IDDeclarationBlock(), Scope.GLOBAL);
+			IDDeclarationBlock domain = new IDDeclarationBlock();
+			tree.root.checkTypes(domain, Scope.GLOBAL);
+			tree.nrOfGlobals = domain.globalVars.size();
 		} catch (TypeException e) {
 			e.printStackTrace();
 			return false;
