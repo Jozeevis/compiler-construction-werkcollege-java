@@ -21,6 +21,7 @@ public class CodeGenerator {
 			stack.add("ldc 0");
 		stack.add("ldmh "+tree.nrOfGlobals);
 		stack.add("stl 1");
+		stack.add("bra "+tree.mainAddress);
 		tree.root.addCodeToStack(stack, counter);
 		return stack;
 	}

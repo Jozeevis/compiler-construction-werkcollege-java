@@ -130,6 +130,7 @@ public final class TreeProcessing {
 			IDDeclarationBlock domain = new IDDeclarationBlock();
 			tree.root.checkTypes(domain, Scope.GLOBAL);
 			tree.nrOfGlobals = domain.globalVars.size();
+			tree.mainAddress = domain.findFunDeclaration("main").branchAddress;
 		} catch (TypeException e) {
 			e.printStackTrace();
 			return false;
