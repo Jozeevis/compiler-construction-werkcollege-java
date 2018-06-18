@@ -1,8 +1,11 @@
 package lexer;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Lexer {
 	public String input = null;
-	int currentPosition = 0;
+	public int currentPosition = 0;
 
 	public Lexer(String inp) {
 		input = inp;
@@ -43,9 +46,13 @@ public class Lexer {
 		if (match('-')) {
 			currentPosition++;
 			// Negative integer
-			if (Character.isDigit(input.charAt(currentPosition))) {
+			if (input.length() < currentPosition && Character.isDigit(input.charAt(currentPosition))) {
 				currentPosition++;
 				return lexInteger(true);
+			}
+			if (match('>')) {
+				currentPosition++;
+				return new Token(TokenType.TOK_MAPSTO);
 			}
 			return new Token(TokenType.TOK_MINUS);
 		}
@@ -57,6 +64,26 @@ public class Lexer {
 
 		if (match('/')) {
 			currentPosition++;
+			if (input.length() > currentPosition) {
+				if (input.charAt(currentPosition) == '/') {
+					currentPosition++;
+					while(input.length() < currentPosition && input.charAt(currentPosition) != '\n') {
+						currentPosition++;
+					}
+					currentPosition++;
+					return nextToken();
+				} else if (input.charAt(currentPosition) == '*') {
+					currentPosition++;
+					while(!(input.substring(currentPosition, currentPosition+2).equals("*/"))) {
+						currentPosition++;
+						if (currentPosition >= input.length()) {
+							return new TokenError("Multiline comment (/*) found but not ended (*/).");
+						}
+					}
+					currentPosition +=2;
+					return nextToken();
+				}
+			}
 			return new Token(TokenType.TOK_DIV);
 		}
 
@@ -186,18 +213,6 @@ public class Lexer {
 			currentPosition++;
 			return new Token(TokenType.TOK_COMMA);
 		}
-
-		// mapsto (->) for function types
-		if (match('-')) {
-			currentPosition++;
-			if (match('>')) {
-				currentPosition++;
-				return new Token(TokenType.TOK_MAPSTO);
-			}
-			return new TokenError("Unknown character in input: '"
-					+ input.charAt(currentPosition) + "'");
-		}
-
 		// Chars
 		if (match('\'')) {
 			currentPosition++;
@@ -260,6 +275,21 @@ public class Lexer {
 		String result = resultBuilder.toString();
 
 		// Reserved keywords
+		if(result.equals("this")) {
+			return new Token(TokenType.TOK_KW_THIS);
+		}
+		if (result.equals("new")) {
+			return new Token(TokenType.TOK_KW_NEW);
+		}
+		if (result.equals("print")) {
+			return new Token(TokenType.TOK_KW_PRINT);
+		}
+		if (result.equals("isEmpty")) {
+			return new Token(TokenType.TOK_KW_ISEMPTY);
+		}
+		if (result.equals("null")) {
+			return TokenNull.instanceOf;
+		}
 		if (result.equals("var")) {
 			return new Token(TokenType.TOK_KW_VAR);
 		}
@@ -287,11 +317,11 @@ public class Lexer {
 		// List/tuple basic functions
 		
 		if (result.equals("hd")) {
-			return new TokenListFunction(ListFunction.LISTFUNC_HEAD);
+			return new Token(TokenType.TOK_LISTFUNC_HEAD);
 		}
 		
 		if (result.equals("tl")) {
-			return new TokenListFunction(ListFunction.LISTFUNC_TAIL);
+			return new Token(TokenType.TOK_LISTFUNC_TAIL);
 		}
 		
 		if (result.equals("fst")) {
@@ -331,5 +361,15 @@ public class Lexer {
 		
 		// Identifier is not a keyword, so we treat it as identifier
 		return new TokenIdentifier(result);
+	}
+
+	public List<Token> allNextTokens() {
+		List<Token> out = new LinkedList<>();
+		Token token;
+		while(!(token = nextToken()).getTokenType().equals(TokenType.TOK_EOF)) {
+			out.add(token);
+		}
+		out.add(new Token(TokenType.TOK_EOF));
+		return out;
 	}
 }

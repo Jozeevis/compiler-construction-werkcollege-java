@@ -7,7 +7,7 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.NoArg;
 import tree.ast.types.BaseType;
@@ -19,17 +19,15 @@ import tree.ast.types.Type;
  */
 public class CharConstant extends NoArg {
 
+	public final char value;
+	
 	public CharConstant(char value) {
-		// TODO Auto-generated constructor stub
+		this.value = value;
 	}
 
-	/* (non-Javadoc)
-	 * @see tree.ast.expressions.BaseExpr#addCodeToStack(java.util.List, tree.ast.LabelCounter)
-	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		// TODO Auto-generated method stub
-
+		stack.add("ldc "+String.format("%04x", (int) value));
 	}
 
 	@Override

@@ -3,6 +3,9 @@ package tree;
 import java.util.List;
 
 import grammar.Expression;
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.LabelCounter;
 
 /**
@@ -17,19 +20,27 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 	
 	public SyntaxExpressionKnot(Expression expression, SyntaxKnot frontier) {
 		super(frontier);
-		
 		this.expression = expression;
-	}
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return  new SyntaxExpressionKnot[expression.expression.length];
+		children = new SyntaxNode[expression.expression.length];
 	}
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+		System.out.println(expression);
 		for(SyntaxNode child : children) {
 			child.addCodeToStack(stack, counter);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return expression+":" +super.toString();
+	}
+
+	@Override
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		for(SyntaxNode child : children)
+			child.checkTypes(domain, scope);
+	}
+
 }

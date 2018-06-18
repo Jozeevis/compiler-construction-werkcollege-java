@@ -19,21 +19,26 @@ public abstract class ExpressionTree {
 	protected ExpressionTree(Node root) {
 		this.root = root;
 		nodes = new LinkedList<Node>();
+		nodes.add(root);
 	}
 
 	/**
 	 * Adds an expression to one of the nodes in this syntax.
+	 * @throws Exception 
 	 */
-	protected final void addExpressionTo(String expression, String parentID) {
+	protected final void addExpressionTo(String expression, String parentID) throws Exception {
 
 		Expression expr = new Expression(expression, this);
-		// TODO: If no matching nodes are found, the method should throw a custom
-		// exception.
+		boolean isSuccesful = false;
 		for (Node node : nodes) {
 			if (node.id.equals(parentID)) {
 				node.expressions.add(expr);
+				isSuccesful = true;
+				break;
 			}
 		}
+		if (!isSuccesful)
+			throw new Exception("No node with ID: "+parentID+ " was found.");
 	}
 	
 	protected final void addExpressionTo(String expression, String expressionID, String parentID) {
@@ -88,8 +93,7 @@ public abstract class ExpressionTree {
 		for (Node node : nodes) {
 			String out = node.id + " = ";
 			for (Expression expression : node.expressions) {
-				for (Object o : expression.expression)
-					out += o + " ";
+				out += expression;
 				out += " | ";
 			}
 			System.out.println(out);

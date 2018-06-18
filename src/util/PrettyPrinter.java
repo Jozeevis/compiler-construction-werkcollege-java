@@ -9,7 +9,6 @@ import lexer.TokenChar;
 import lexer.TokenInteger;
 
 import lexer.TokenPrimitiveType;
-import lexer.TokenListFunction;
 import lexer.TokenTupleFunction;
 import lexer.TokenIdentifier;
 
@@ -166,19 +165,6 @@ public class PrettyPrinter {
 			}
 			result.append(output);
 		break;
-
-		// Primitive list functions
-		case TOK_PRIM_FUNC_LIST:
-			output = "";
-			switch(((TokenListFunction)t).getType()) {
-				case LISTFUNC_HEAD: output = "hd"; break;
-				case LISTFUNC_TAIL: output = "tl"; break;
-				default:
-					throw new Error("PrettyPrinter: cannot print token " + t);
-			}
-			result.append(output);
-		break;
-
 		// Primitive tuple functions
 		case TOK_PRIM_FUNC_TUPLE:
 			output = "";

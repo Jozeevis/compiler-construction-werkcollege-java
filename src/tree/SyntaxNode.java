@@ -3,6 +3,9 @@ package tree;
 import java.util.List;
 
 import lexer.Token;
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.LabelCounter;
 
 /**
@@ -44,4 +47,6 @@ public abstract class SyntaxNode {
 	}
 
 	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
+
+	public abstract void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException;
 }

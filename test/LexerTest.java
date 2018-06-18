@@ -45,6 +45,13 @@ public class LexerTest {
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_MINUS, t.getTokenType());
 	}
+	
+	@Test
+	public void testMapsTo() {
+		Lexer l = new Lexer("->");
+		Token t = l.nextToken();
+		assertEquals(TokenType.TOK_MAPSTO, t.getTokenType());
+	}
 
 	@Test
 	public void testSingleMult() {
@@ -146,5 +153,34 @@ public class LexerTest {
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_BOOL, t.getTokenType());
 		assertEquals(true, ((TokenBool)t).getValue());
+	}
+	
+	@Test
+	public void testSingleLineComment() {
+		Lexer l = new Lexer("//adasdasdasdasdasd \n 1");
+		Token t = l.nextToken();
+		assertEquals(TokenType.TOK_INT, t.getTokenType());
+	}
+	
+	@Test
+	public void testMultyLineComment() {
+		Lexer l = new Lexer("/*adasdasdas \n \n \ndasdasd \n */1");
+		Token t = l.nextToken();
+		assertEquals(TokenType.TOK_INT, t.getTokenType());
+	}
+	
+	@Test
+	public void testPrintKW() {
+		Lexer l = new Lexer("print 3+3+4");
+		Token t = l.nextToken();
+		assertEquals(TokenType.TOK_KW_PRINT, t.getTokenType());
+	}
+	
+	@Test
+	public void testInputEdit() {
+		Lexer l = new Lexer("");
+		l.input = "==";
+		Token t =  l.nextToken();
+		assertEquals(TokenType.TOK_EQUALS, t.getTokenType());
 	}
 }

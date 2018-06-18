@@ -1,6 +1,6 @@
 package tree.ast.expressions;
 
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
 
 /**
  *

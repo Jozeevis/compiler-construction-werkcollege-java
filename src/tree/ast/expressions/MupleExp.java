@@ -4,19 +4,21 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
 import tree.ast.LabelCounter;
-import tree.ast.types.TupleType;
+import tree.ast.types.MupleType;
 import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck
  *
  */
-public class TupleExp extends TwoArg {
+public class MupleExp extends BaseExpr {
 
-	public TupleExp(BaseExpr left, BaseExpr right) {
-		super(left, right);
+	public final BaseExpr[] exps;
+	
+	public MupleExp(BaseExpr[] exps) {
+		this.exps = exps;
 	}
 
 	/* (non-Javadoc)
@@ -24,23 +26,28 @@ public class TupleExp extends TwoArg {
 	 */
 	@Override
 	public BaseExpr optimize() {
-		left.optimize();
-		right.optimize();
+		for(int i=0; i < exps.length; i++) {
+			exps[i]  = exps[i].optimize();
+		}
 		return this;
 	}
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		left.addCodeToStack(stack, counter);
-		stack.add("sth");
-		right.addCodeToStack(stack, counter);
-		stack.add("sth");
-		stack.add("stmh 2");
+		for(BaseExpr exp: exps) {
+			exp.addCodeToStack(stack, counter);
+			stack.add("sth");
+		}
+		stack.add("stmh "+exps.length);
 	}
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return new TupleType(left.checkTypes(domain), right.checkTypes(domain));
+		Type[] types = new Type[exps.length];
+		for(int i=0; i < exps.length; i++) {
+			types[i] = exps[i].checkTypes(domain);
+		}
+		return new MupleType(types);
 	}
 
 }

@@ -5,19 +5,22 @@ import java.util.List;
 import lexer.PrimitiveType;
 import lexer.TokenExpression;
 import processing.DeclarationException;
+import processing.TreeProcessing;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
-import tree.TreeProcessing;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
+import tree.ast.types.Type;
 
 /**
  * An abstract syntax knot representing a while statement.
  * @author Lars Kuijpers and Flip van Spaendonck
  */
-public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
+public class WhileStmtKnot extends ASyntaxKnot {
 	/** The TokenExpression that denotes the boolean expression that is checked in the while **/
 	public final BaseExpr check;
 	/** The TokenExpression that denotes the function body **/
@@ -28,21 +31,16 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 
 		check = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
 		body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
+		children = new SyntaxNode[] {body};
 	}
 
 	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		try {
-			return (check.checkTypes(domain).equals(BaseType.instanceBool));
-		} catch (TypeException | DeclarationException e) {
-			e.printStackTrace();
-			return false;
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		Type checkType;
+		if (!(checkType = check.checkTypes(domain)).equals(BaseType.instanceBool)) {
+			throw new TypeException("Check was of type: "+checkType+", while type Bool was expected.");
 		}
-	}
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[] {body};
+		body.checkTypes(domain, scope);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ public class SyntaxTree {
 	public final SyntaxKnot root;
 	/** The bottom-left most knot in this tree that has not yet been completely filled, is null when the tree has been completely filled.**/
 	public SyntaxKnot frontier;
+	public int nrOfGlobals;
 	
 	public SyntaxTree(SyntaxKnot root) {
 		this.root = root;
@@ -18,6 +19,11 @@ public class SyntaxTree {
 	}
 	
 	public void addToFrontier(SyntaxNode node) {
+		
+	}
+
+	public void printTree() {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -14,9 +14,11 @@ public class EXP extends ExpressionTree {
 	
 	private EXP() {
 		super(new Node("Exp"));
+		addNode(new Node("Mexp"));
 		addNode(new Node("SetExp"));
-		addNode(new Node("ConCat"));
-		addNode(new PlusNode("ConCat", this));
+		addNode(new Node("Concat"));
+		addNode(new PlusNode("Concat", this));
+		addNode(new Node("Field"));
 		addNode(new Node("SetDef"));
 		addNode(new Node("BoolExp2"));
 		addNode(new Node("NumRng"));
@@ -26,67 +28,87 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("NumSng"));
 		addNode(new Node("Type"));
 		addNode(new Node("FunCall"));
-		
-		addExpressionTo("~BoolExp2", "BoolExp", "Exp");
-		addExpressionTo("~NumRng", "NumExp","Exp");
-		addExpressionTo("~SetExp", "SetExp", "Exp");
-		addExpressionTo("'(' ~Exp ',' ~Exp ')'", "TupleExp","Exp");
-		
-		addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
-		addExpressionTo("'('~Type ',' ~Type ')'", "TupleType", "Type");
-		addExpressionTo("'['~Type ']'", "ListType", "Type");
-		addExpressionTo("~id", "CustomType","Type");
-		
-		addExpressionTo("'&' ~ConcatPlus ~SetDef", "SetConcat", "~SetExp");
-		addExpressionTo("~SetDef", "~SetExp");
-		
-		addExpressionTo("~Exp ':'", "Concat");
-		
-		addExpressionTo("~Type '[' ']'", "emptySet", "SetDef");
-		addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "SetDef");
-		
-		addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
-		addExpressionTo("~BoolExp1 '||' ~BoolExp2 ", "or", "BoolExp2");
-		addExpressionTo("~NumRng '==' ~NumRng ", "eq", "BoolExp2");
-		addExpressionTo("~NumRng '!=' ~NumRng ", "neq", "BoolExp2");
-		addExpressionTo("~NumRng '<' ~NumRng ", "smaller", "BoolExp2");
-		addExpressionTo("~NumRng '>' ~NumRng ", "larger", "BoolExp2");
-		addExpressionTo("~NumRng '<=' ~NumRng ", "smallerEq", "BoolExp2");
-		addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
-		addExpressionTo("~BoolExp1 ", "BoolExp2");
+		addNode(new Node("ActArgs"));
+		addNode(new Node("Neg"));
 		
 		
-		addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
-		addExpressionTo("~BoolExp0 ", "BoolExp1");
-		
-		addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
-		addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "BoolExp0");
-		addExpressionTo(" ~FunCall", "funcall", "BoolExp0");
-		addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
-		
-		addExpressionTo(" ~NumFld '%' ~NumRng ", "modulo", "NumRng");
-		addExpressionTo(" ~NumFld '/' ~NumRng ", "divide", "NumRng");
-		addExpressionTo(" ~NumFld '*' ~NumRng ", "multiply", "NumRng");
-		addExpressionTo(" ~NumFld", "NumRng");
-		
-		addExpressionTo(" ~NumSng '+' ~NumFld ", "plus", "NumFld");
-		addExpressionTo(" ~NumSng '-' ~NumFld ", "minus", "NumFld");
-		addExpressionTo(" ~NumSng ", "NumFld");
-		
-		addExpressionTo(" .TOK_INT ", "int", "NumSng");
-		addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
-		addExpressionTo(" ~FunCall", "funcall", "NumSng");
-		addExpressionTo(" .TOK_IDENTIFIER ~Field ", "variable", "NumSng");
-		addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
-		
-		addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
-		addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");
-		addExpressionTo("~Exp","ActArgs");
-		addExpressionTo("~Exp ','~ActArgs","ActArgs");	
-		
-		
-		
-		// TODO Auto-generated constructor stub
+		try {
+			addExpressionTo("~BoolExp2", "BoolExp", "Exp");
+			addExpressionTo("~NumRng", "NumExp","Exp");
+			addExpressionTo("~SetExp", "SetExp", "Exp");
+			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
+			addExpressionTo("'null'", "Null", "Exp");
+			
+			addExpressionTo("~Exp ","Mexp");
+			addExpressionTo("~Exp ',' ~Mexp ","Mexp");
+			
+			addExpressionTo(".TOK_PRIM_TYPE ", "BaseType", "Type");
+			addExpressionTo("'('~Type ',' ~Type ')'", "MupleType", "Type");
+			addExpressionTo("'['~Type ']'", "ListType", "Type");
+			addExpressionTo("~id", "CustomType","Type");
+			
+			addExpressionTo("'&' ~ConcatPlus ~SetDef", "SetConcat", "SetExp");
+			addExpressionTo("~SetDef", "SetExp");
+			
+			addExpressionTo("~Exp ':'", "Concat");
+			
+			addExpressionTo("'[' ']'", "emptySet", "SetDef");
+			addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "SetDef");
+			
+			addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
+			addExpressionTo("~BoolExp1 '||' ~BoolExp2 ", "or", "BoolExp2");
+			addExpressionTo("~NumRng '==' ~NumRng ", "eq", "BoolExp2");
+			addExpressionTo("~NumRng '!=' ~NumRng ", "neq", "BoolExp2");
+			addExpressionTo("~NumRng '<' ~NumRng ", "smaller", "BoolExp2");
+			addExpressionTo("~NumRng '>' ~NumRng ", "larger", "BoolExp2");
+			addExpressionTo("~NumRng '<=' ~NumRng ", "smallerEq", "BoolExp2");
+			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
+			addExpressionTo("~BoolExp1 ", "BoolExp2");
+			
+			addExpressionTo("'.hd'", "Field");
+			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
+			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
+			
+			addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
+			addExpressionTo("~BoolExp0 ", "BoolExp1");
+			
+			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
+			addExpressionTo("~CallUp ~Field","callup","NumSng");
+			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
+			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
+			
+			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
+			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
+			addExpressionTo(" ~NumFld ", "NumRng");
+			
+			addExpressionTo(" ~Neg'%' ~NumFld ", "modulo", "NumFld");
+			addExpressionTo(" ~Neg '/' ~NumFld ", "divide", "NumFld");
+			addExpressionTo(" ~Neg '*' ~NumFld ", "multiply", "NumFld");
+			addExpressionTo(" ~Neg", "NumFld");
+			
+			addExpressionTo(" ~NumSng", "Neg");
+			addExpressionTo("'-' ~NumSng", "negative", "Neg");
+			
+			addExpressionTo(" .TOK_INT ", "int", "NumSng");
+			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
+			addExpressionTo("~CallUp ~Field","callup","NumSng");
+			addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
+			
+
+			addExpressionTo(" ~FunCall", "funcall", "CallUp");
+			addExpressionTo("'this'","this","CallUp");
+			addExpressionTo(" .TOK_IDENTIFIER  ", "variable", "CallUp");
+			addExpressionTo("'new' ~id '(' ')'", "Init","CallUp");
+			addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","CallUp");
+			
+			addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
+			addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");
+			addExpressionTo("~Exp","ActArgs");
+			addExpressionTo("~Exp ','~ActArgs","ActArgs");	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

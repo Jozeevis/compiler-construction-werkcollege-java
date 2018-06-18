@@ -3,106 +3,57 @@
  */
 package tree.ast;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import lexer.ListFunction;
 import lexer.TokenExpression;
-import lexer.TokenField;
 import lexer.TokenIdentifier;
-import lexer.TokenListFunction;
-import lexer.TokenTupleFunction;
-import lexer.TupleFunction;
 import processing.DeclarationException;
+import processing.TreeProcessing;
 import processing.TypeException;
 import tree.IDDeclaration;
+import tree.IDDeclarationBlock;
+import tree.IDDeclarationBlock.Scope;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
-import tree.SyntaxNode;
+import tree.ast.accessors.Accessor;
 import tree.ast.expressions.BaseExpr;
-import tree.ast.types.ListType;
-import tree.ast.types.TupleType;
+import tree.ast.expressions.IllegalThisException;
 import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
-public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
+public class AssignmentNode extends ASyntaxKnot {
 
 	public final String id;
-	private int linkNumber;
-	public final TokenField[] accessors;
+	public final Accessor[] accessors;
 	public final BaseExpr expression;
 	
-	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
+	private int linkNumber;
+	private Scope scope;
+	
+	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalThisException {
 		super(frontier);
 		
 		id = ((TokenIdentifier)oldKnot.children[0].reduceToToken()).value;
-		accessors = extractFieldTokens((SyntaxExpressionKnot) oldKnot.children[1]);
+		accessors = TreeProcessing.processFieldStar((SyntaxExpressionKnot) oldKnot.children[1]);
 		expression = ((TokenExpression)oldKnot.children[0].reduceToToken()).expression;
 	}
 	
 
-	private static TokenField[] extractFieldTokens(SyntaxExpressionKnot fieldStar) {
-		List<TokenField> tokens = new LinkedList<>(); 
-		SyntaxExpressionKnot currentKnot = fieldStar;
-		while (currentKnot.children.length == 2) {
-			tokens.add((TokenField) currentKnot.children[0].reduceToToken());
-			currentKnot = (SyntaxExpressionKnot)currentKnot.children[1];
-		}
-		return (TokenField[]) tokens.toArray();
-	}
-
 	@Override
-	public boolean checkTypes(IDDeclarationBlock domain) {
-		Type varType = null;
-		for(int i=domain.block.length-1; i>=0; i--) {
-			IDDeclaration declaration = domain.block[i];
-			if (declaration.id.equals(id)) {
-				varType = declaration.type;
-				linkNumber = i + 1;
-				break;
-			}
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		Type expectedType = expression.checkTypes(domain);
+		IDDeclaration varDef = domain.findIDDeclaration(id);
+		Type innerType = varDef.type;
+		linkNumber = varDef.offset;
+		scope = varDef.scope;
+		for(Accessor accessor : accessors) {
+			innerType = accessor.checkTypes(domain, innerType);
 		}
-		if (varType == null)
-			return false;
-		
-		Type expectedType = varType;
-		for(TokenField accessor : accessors) {
-			if (accessor instanceof TokenTupleFunction) {
-				if (expectedType instanceof TupleType) {
-					if (((TokenTupleFunction) accessor).type == TupleFunction.TUPLEFUNC_FIRST) 
-						expectedType = ((TupleType) expectedType).leftType;
-					else
-						expectedType = ((TupleType) expectedType).rightType;
-				} else {
-					return false;
-				}
-			} else if (accessor instanceof TokenListFunction) {
-				if (expectedType instanceof ListType) {
-					if (((TokenListFunction)accessor).type == ListFunction.LISTFUNC_HEAD) 
-						expectedType = ((ListType) expectedType).listedType;
-					else
-						;//ExpectedType stays the same when continuing in the list
-				} else {
-					return false;
-				}
-			} else
-				return false;
-		}
-		try {
-			return expression.checkTypes(domain).equals(expectedType);
-		} catch (TypeException | DeclarationException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-
-	@Override
-	protected SyntaxNode[] initializeChildrenArray() {
-		return new SyntaxNode[0];
+		if (!expectedType.equals(innerType))
+			throw new TypeException("Expression was of Type: "+expectedType + ", while type "+innerType+" was expected.");
 	}
 
 	public int getLinkNumber() {
@@ -115,11 +66,27 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 		// Generate code for the assignment body
 		expression.addCodeToStack(stack, counter);
 		// Save the result in the heap address given by the linknumber
-		stack.add("ldl" + linkNumber);
-		for(TokenField accessor : accessors) {
-			accessor.addCodeToStack(stack);
+		switch(scope) {
+		case GLOBAL:
+			stack.add("ldl 1");
+			stack.add("ldh "+ (-linkNumber));
+			break;
+		case STRUCT:
+			stack.add("ldl 2");
+			stack.add("ldh "+ (-linkNumber));
+			break;
+		case LOCAL:
+			stack.add("ldl "+(3+linkNumber));
+			break;
+		default:
+			System.err.println("No case defined for scope: "+scope);
+			break;
 		}
-		stack.add("sth 0");
+		stack.add("ldl" + linkNumber);
+		for(Accessor accessor : accessors) {
+			accessor.addCodeToStack(stack, null);
+		}
+		stack.add("sta 0");
 	}
 
 

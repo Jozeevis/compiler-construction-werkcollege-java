@@ -7,7 +7,7 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.OneArg;

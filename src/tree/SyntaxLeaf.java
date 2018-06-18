@@ -3,6 +3,9 @@ package tree;
 import java.util.List;
 
 import lexer.Token;
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.LabelCounter;
 
 /**
@@ -30,4 +33,13 @@ public class SyntaxLeaf extends SyntaxNode {
 		return;
 	}
 
+	@Override
+	public String toString() {
+		return leaf.toString();
+	}
+
+	@Override
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		return;
+	}
 }
