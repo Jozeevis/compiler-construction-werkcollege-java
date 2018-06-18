@@ -41,7 +41,7 @@ public abstract class ExpressionTree {
 			throw new Exception("No node with ID: "+parentID+ " was found.");
 	}
 	
-	protected final void addExpressionTo(String expression, String expressionID, String parentID) {
+	protected final void addExpressionTo(String expression, String expressionID, String parentID) throws Exception {
 
 		Expression expr = new ExpressionWithAST(expression, expressionID,this);
 		// TODO: If no matching nodes are found, the method should throw a custom
@@ -49,8 +49,10 @@ public abstract class ExpressionTree {
 		for (Node node : nodes) {
 			if (node.id.equals(parentID)) {
 				node.expressions.add(expr);
+				return;
 			}
 		}
+		throw new Exception("No node with ID: "+parentID+ " was found.");
 	}
 	
 

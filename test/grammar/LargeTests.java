@@ -24,18 +24,6 @@ import tree.SyntaxTree;
  *
  */
 public class LargeTests {
-
-	/*@Test
-	public void testEXPParsing() {
-		//EXP.INSTANCE.printTree();
-		String code = "'h'";
-		Lexer l = new Lexer(code);
-		List<Token> tokens = l.allNextTokens();
-		List<TokenTrace> tt = Parser.explorino(EXP.INSTANCE, tokens);
-		SyntaxTree t = Parser.convertZambinos(tt);
-		
-		System.out.println(((ExpressionWithAST)((SyntaxExpressionKnot)t.root).expression).id);
-	}*/
 	
 	@Test
 	public void testHelloWorld() {
@@ -53,4 +41,6 @@ public class LargeTests {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

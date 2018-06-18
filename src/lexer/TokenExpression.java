@@ -7,6 +7,7 @@ import java.util.List;
 
 import grammar.EXP;
 import parser.Parser;
+import parser.ParsingException;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxTree;
 import tree.ast.expressions.BaseExpr;
@@ -21,7 +22,7 @@ public class TokenExpression extends Token {
 
 	public final BaseExpr expression;
 	
-	public TokenExpression(List<Token> list) throws IllegalThisException {
+	public TokenExpression(List<Token> list) throws IllegalThisException, ParsingException {
 		super(TokenType.TOK_EXP);
 		System.out.println("test2:" +list);
 		SyntaxTree tree = Parser.convertTokenTraces(Parser.parseCode(EXP.INSTANCE, list));

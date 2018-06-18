@@ -15,8 +15,6 @@ public class SPL extends ExpressionTree {
 		System.out.println("SPL is being constructed");
 		addNode(new Node("Decl"));
 		addNode(new PlusNode("Decl", this));
-		// addNode(new Node("DeclMini"));
-		// addNode(new StarNode("DeclMini", this));
 		addNode(new Node("StructDecl"));
 		addNode(new Node("Constructor"));
 		addNode(new PlusNode("Constructor", this));
@@ -49,7 +47,7 @@ public class SPL extends ExpressionTree {
 			addExpressionTo("~FunDecl", "Decl");
 			addExpressionTo("~StructDecl", "Decl");
 	
-			addExpressionTo("~id '{'~VarDeclStar ~Constructor ~FunDeclStar'}'", "StructDecl");
+			addExpressionTo("~id '{'~VarDeclStar ~Constructor ~FunDeclStar '}' ", "StructDecl");
 	
 			addExpressionTo("~id '(' ')' '{'~VarDeclStar ~StmtStar '}' ", "Constructor");
 			addExpressionTo("~id '(' ~CArgs ')' '{'~VarDeclStar ~StmtStar '}'", "Constructor");

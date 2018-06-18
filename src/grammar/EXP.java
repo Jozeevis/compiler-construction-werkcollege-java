@@ -19,6 +19,7 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("Concat"));
 		addNode(new PlusNode("Concat", this));
 		addNode(new Node("Field"));
+		addNode(new StarNode("Field", this));
 		addNode(new Node("SetDef"));
 		addNode(new Node("BoolExp2"));
 		addNode(new Node("NumRng"));
@@ -30,14 +31,14 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("FunCall"));
 		addNode(new Node("ActArgs"));
 		addNode(new Node("Neg"));
-		
+		addNode(new Node("CallUp"));
 		
 		try {
 			addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 			addExpressionTo("~NumRng", "NumExp","Exp");
-			addExpressionTo("~SetExp", "SetExp", "Exp");
-			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
-			addExpressionTo("'null'", "Null", "Exp");
+			//addExpressionTo("~SetExp", "SetExp", "Exp");
+			//addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
+			//addExpressionTo("'null'", "Null", "Exp");
 			
 			addExpressionTo("~Exp ","Mexp");
 			addExpressionTo("~Exp ',' ~Mexp ","Mexp");
@@ -53,7 +54,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~Exp ':'", "Concat");
 			
 			addExpressionTo("'[' ']'", "emptySet", "SetDef");
-			addExpressionTo(".TOK_IDENTIFIER ~Field", "variable", "SetDef");
+			addExpressionTo(".TOK_IDENTIFIER ~FieldStar", "variable", "SetDef");
 			
 			addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
 			addExpressionTo("~BoolExp1 '||' ~BoolExp2 ", "or", "BoolExp2");
@@ -74,7 +75,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
-			addExpressionTo("~CallUp ~Field","callup","BoolExp0");
+			addExpressionTo("~CallUp ~FieldStar","callup","BoolExp0");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
@@ -92,7 +93,7 @@ public class EXP extends ExpressionTree {
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
-			addExpressionTo("~CallUp ~Field","callup","NumSng");
+			addExpressionTo(" ~CallUp ~FieldStar","callup","NumSng");
 			addExpressionTo(" '(' ~NumRng ')' ", "brackets", "NumSng");
 			
 

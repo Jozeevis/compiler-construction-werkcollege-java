@@ -65,9 +65,6 @@ public class Expression {
 				end = front+1;
 				while(expression.charAt(end) != '\'')
 					end++;
-				if (expression.substring(front+1, end).equals("==")) {
-					System.out.println(expression.substring(front+1, end));
-				}
 				tokenizer.input = expression.substring(front+1, end);
 				tokenizer.currentPosition = 0;
 				array.add(tokenizer.nextToken());

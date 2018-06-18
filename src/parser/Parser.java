@@ -41,14 +41,19 @@ public class Parser {
 		System.out.println(tokenList);
 		//Parses the list of tokens and turns it into a syntax tree.
 		System.out.println("Tokens have been succesfully packed. \n Parsing now commences.");
-		List<TokenTrace> lineage = parseCode(SPL.INSTANCE, tokenList);
-		if (lineage == null) {
-			System.err.println("This code is a pile of flaming hot garbage and thus could not be parsed.");
-			return;
-		}
-		System.out.println("Code has been parsed succesfully");
-		tree = convertTokenTraces(lineage);
+		List<TokenTrace> lineage;
+		try {
+			lineage = parseCode(SPL.INSTANCE, tokenList);
+			if (lineage == null) {
+				System.err.println("This code is a pile of flaming hot garbage and thus could not be parsed.");
+				return;
+			}
+			System.out.println("Code has been parsed succesfully");
+			tree = convertTokenTraces(lineage);
 
+		} catch (ParsingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Parser(String input) {
@@ -59,7 +64,7 @@ public class Parser {
 	// Support functions and methods
 	// ==========================================================
 
-	public static List<TokenTrace> parseCode(ExpressionTree syntax, List<Token> code) {
+	public static List<TokenTrace> parseCode(ExpressionTree syntax, List<Token> code) throws ParsingException {
 		List<TokenTrace> currentZambinos = TokenTrace.getAllTokenTracesFromNode(null, syntax.root, new LinkedList<Pair>());
 		List<TokenTrace> newZambinos = new LinkedList<>();
 		while(!code.isEmpty()) {
@@ -67,6 +72,7 @@ public class Parser {
 			System.out.println("Trying to fit: "+token);
 			if (token.getTokenType() == TokenType.TOK_EOF)
 				break;
+			System.out.println(currentZambinos);
 			newZambinos = new LinkedList<>();
 			for(TokenTrace zambino : currentZambinos) {
 				if(zambino.token.getTokenType() == TokenType.TOK_NIL) {
@@ -90,8 +96,8 @@ public class Parser {
 		List<TokenTrace> legalZambinos = new LinkedList<>();
 		for(TokenTrace zambino : currentZambinos) {
 			if (zambino.token.getTokenType() == TokenType.TOK_EOF) {
-				//System.out.println("3===D");
 				TokenTrace current = zambino;
+				System.out.println(current);
 				legalZambinos.add(current);
 				while(current.leftTokenTrace != null) {
 					current = current.leftTokenTrace;
@@ -102,21 +108,21 @@ public class Parser {
 			}
 			
 		}
-		return null;
+		throw new ParsingException("No correct parse was possible");
 	}
 
 	/**
 	 * Transforms a list of Zambinos into a syntax tree.
 	 */
-	public static SyntaxTree convertTokenTraces(List<TokenTrace> zambinos) {
+	public static SyntaxTree convertTokenTraces(List<TokenTrace> tokenTraces) {
 		//prune possible EOF tokentrace
-		if (zambinos.get(zambinos.size()-1).token.getTokenType() == TokenType.TOK_EOF) {
-			zambinos.remove(zambinos.size()-1);
+		if (tokenTraces.get(tokenTraces.size()-1).token.getTokenType() == TokenType.TOK_EOF) {
+			tokenTraces.remove(tokenTraces.size()-1);
 			//System.out.println("trace pruned\n"+zambinos.get(0).token );
 		}
 		System.out.println("fixing time");
-		SyntaxTree tree = new SyntaxTree( new SyntaxExpressionKnot(zambinos.get(0).expressions.get(0).expression, null));
-		for(TokenTrace currentZambino : zambinos) {
+		SyntaxTree tree = new SyntaxTree( new SyntaxExpressionKnot(tokenTraces.get(0).expressions.get(0).expression, null));
+		for(TokenTrace currentZambino : tokenTraces) {
 			currentZambino.affixTo(tree);
 		}
 		
@@ -160,7 +166,17 @@ public class Parser {
 		}
 		
 		public List<TokenTrace> next() {
-			return next(this.expressions,this);
+			List<TokenTrace> nextTraces = next(this.expressions,this);
+			int i=0;
+			while (i < nextTraces.size()) {
+				if(nextTraces.get(i).token.getTokenType() == TokenType.TOK_NIL) {
+					TokenTrace nilTrace = nextTraces.remove(i);
+					nextTraces.addAll(i, nilTrace.next());
+				} else {
+					i++;
+				}
+			}
+			return nextTraces;
 		}
 		
 		public static List<TokenTrace> next(List<Pair> pairs ,TokenTrace prevOne) {
@@ -211,7 +227,7 @@ public class Parser {
 		 * Affixes the list of expressions to the current tree.
 		 */
 		public void affixTo(SyntaxTree tree) {
-			System.out.print("Affixing: "+this.token);
+			System.out.println("Affixing: "+this.token);
 			for(int d=tree.frontier.depth+1; d < expressions.size(); d++) {
 				SyntaxExpressionKnot currentNode = new SyntaxExpressionKnot(expressions.get(d).expression, (SyntaxExpressionKnot) tree.frontier);
 				tree.frontier.addChild(currentNode);
@@ -223,6 +239,12 @@ public class Parser {
 			}
 		}
 		
+		@Override
+		public String toString() {
+			if (expressions.size() == 0)
+				return "End Token Trace";
+			return token+ " in expression: "+expressions.get(expressions.size()-1);
+		}
 		
 		
 	}
