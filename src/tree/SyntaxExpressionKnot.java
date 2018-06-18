@@ -3,6 +3,9 @@ package tree;
 import java.util.List;
 
 import grammar.Expression;
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.LabelCounter;
 
 /**
@@ -32,6 +35,12 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 	@Override
 	public String toString() {
 		return expression+":" +super.toString();
+	}
+
+	@Override
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		for(SyntaxNode child : children)
+			child.checkTypes(domain, scope);
 	}
 
 }

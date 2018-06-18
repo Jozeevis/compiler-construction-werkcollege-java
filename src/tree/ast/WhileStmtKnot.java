@@ -7,9 +7,11 @@ import lexer.TokenExpression;
 import processing.DeclarationException;
 import processing.TreeProcessing;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
 import tree.ast.types.Type;
@@ -18,7 +20,7 @@ import tree.ast.types.Type;
  * An abstract syntax knot representing a while statement.
  * @author Lars Kuijpers and Flip van Spaendonck
  */
-public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
+public class WhileStmtKnot extends ASyntaxKnot {
 	/** The TokenExpression that denotes the boolean expression that is checked in the while **/
 	public final BaseExpr check;
 	/** The TokenExpression that denotes the function body **/
@@ -33,12 +35,12 @@ public class WhileStmtKnot extends ASyntaxKnot implements ITypeCheckable {
 	}
 
 	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		Type checkType;
 		if (!(checkType = check.checkTypes(domain)).equals(BaseType.instanceBool)) {
 			throw new TypeException("Check was of type: "+checkType+", while type Bool was expected.");
 		}
-		return domain;
+		body.checkTypes(domain, scope);
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
 import tree.SyntaxNode;
 import tree.ast.FunDeclNode;
-import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.StructDeclNode;
 import tree.ast.types.CustomType;
@@ -47,7 +47,11 @@ public class This extends NoArg {
 	 */
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return new CustomType(structDecl.id);
+		if (domain.currentStruct == null) {
+			//This should not happen since this is fished out when checking whether the this is placed inside of a structDeclNode.
+			throw new DeclarationException("this statement used while no current struct was declared.");
+		}
+		return domain.currentStruct;
 	}
 
 }

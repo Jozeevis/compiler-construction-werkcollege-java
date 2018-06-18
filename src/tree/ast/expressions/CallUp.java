@@ -8,8 +8,8 @@ import java.util.List;
 import processing.DeclarationException;
 import processing.TreeProcessing;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
-import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.accessors.Accessor;
 import tree.ast.types.Type;
@@ -22,7 +22,7 @@ public class CallUp extends OneArg {
 	
 	private final Accessor[] accessors;
 
-	public CallUp(BaseExpr expr, SyntaxExpressionKnot fieldStar) {
+	public CallUp(BaseExpr expr, SyntaxExpressionKnot fieldStar) throws IllegalThisException {
 		super(expr);
 		accessors = TreeProcessing.processFieldStar(fieldStar);	
 		}
@@ -43,8 +43,9 @@ public class CallUp extends OneArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		val.addCodeToStack(stack, counter);
 		for (Accessor accessor : accessors) {
-			accessor.addCodeToStack(stack);
+			accessor.addCodeToStack(stack, null);
 		}
+		stack.add("ldh 0");
 	}
 
 	/* (non-Javadoc)

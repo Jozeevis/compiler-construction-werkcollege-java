@@ -4,27 +4,26 @@
 package tree;
 
 import tree.IDDeclarationBlock.Scope;
+import tree.ast.types.StructType;
 import tree.ast.types.Type;
+import tree.ast.types.specials.FunctionType;
 
 /**
- * A String, Type tuple storing what type the id is.
- * 
  * @author Flip van Spaendonck
+ *
  */
-public class IDDeclaration {
+public class FunDeclaration{
 
 	/** The type of the variable or function. **/
-	public final Type type;
+	public final FunctionType type;
 	/** The identifier used for the variable or function. **/
 	public final String id;
-	public final int offset;
-	public final Scope scope;
+	public final String branchAddress;
 
-	public IDDeclaration(String id, Type type, Scope scope, int offset) {
+	public FunDeclaration(String id, FunctionType type, String branchAddress) {
 		this.type = type;
 		this.id = id;
-		this.offset = offset;
-		this.scope = scope;
+		this.branchAddress = branchAddress;
 	}
 
 }

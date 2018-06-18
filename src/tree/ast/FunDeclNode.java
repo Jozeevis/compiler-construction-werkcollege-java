@@ -1,20 +1,16 @@
 package tree.ast;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import lexer.Token;
-import lexer.TokenExpression;
 import lexer.TokenIdentifier;
-import lexer.TokenType;
 import processing.DeclarationException;
 import processing.TreeProcessing;
 import processing.TypeException;
-import tree.CodeGenerator;
-import tree.IDDeclaration;
+import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.types.Type;
 import tree.ast.types.specials.FunctionType;
 import tree.ast.types.specials.VoidType;
@@ -24,18 +20,18 @@ import tree.ast.types.specials.VoidType;
  * 
  * @author Lars Kuijpers and Flip van Spaendonck
  */
-public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
+public class FunDeclNode extends ASyntaxKnot {
 
 	/** The identifier of the function **/
 	public final String id;
 	/** The identifiers of the arguments of the function **/
-	public final IDDeclaration[] funArgs;
+	public final String[] funArgs;
 	/** The type of the function **/
 	public final FunctionType funtype;
 	/** The variables that are declared at the start of the function body **/
 	public final VarDeclNode[] varDecls;
 	/** The size with which a link should be made **/
-	private int linkSize;
+	private String branchAddress;
 	/** The TokenExpression that denotes the function body **/
 	public final SyntaxNode body;
 
@@ -45,7 +41,7 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
 		if (oldKnot.children.length == 9) { // Function declaration without Function arguments
 			// "~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
-			funArgs = new IDDeclaration[0];
+			funArgs = new String[0];
 			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[4]);
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[6]);
 			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[7]).root;
@@ -53,22 +49,21 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 					// "~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 					// Get identifiers of the function arguments out of the FArgs expression
 			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[5]);
-			funArgs = new IDDeclaration[funtype.inputTypes.length];
+			//TODO: funArgs has to be parsed without inferring to funtype, at the moment no error is thrown if there are more funargs then inputtypes.
+			funArgs = new String[funtype.inputTypes.length];
 			SyntaxExpressionKnot fArgKnot = (SyntaxExpressionKnot) oldKnot.children[2];
 			int i = 0;
 			while (fArgKnot.children.length != 1) {
-				funArgs[i] = new IDDeclaration(funtype.inputTypes[i],
-						((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value);
+				funArgs[i] = ((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value;
 				fArgKnot = (SyntaxExpressionKnot) fArgKnot.children[2];
 				i++;
 			}
-			funArgs[i] = new IDDeclaration(funtype.inputTypes[i],
-					((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value);
+			funArgs[i] = ((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value;
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[7]);
 			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8]).root;
 		}
-		
-		children = new SyntaxNode[] {body};
+
+		children = new SyntaxNode[] { body };
 	}
 
 	/**
@@ -86,7 +81,7 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 		}
 		return variables;
 	}
-	
+
 	/**
 	 * Extracts the FunctionType from the given SyntaxKnot and returns it
 	 */
@@ -94,7 +89,7 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 		List<SyntaxNode> typeNodes = TreeProcessing.extractFromStarNode((SyntaxKnot) funtype.children[0]);
 		Type[] left = new Type[typeNodes.size()];
 		int counter = 0;
-		for(SyntaxNode typeNode : typeNodes) {
+		for (SyntaxNode typeNode : typeNodes) {
 			left[counter] = Type.inferType((SyntaxExpressionKnot) typeNode);
 			counter++;
 		}
@@ -108,31 +103,36 @@ public class FunDeclNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
+		branchAddress = domain.addFunDeclaration(id, funtype, scope);
+		IDDeclarationBlock temp = new IDDeclarationBlock(domain, Scope.LOCAL);
+		if(funArgs.length != funtype.inputTypes.length) {
+			throw new DeclarationException("This function declaration has "+funArgs.length+" nr. of arguments, while it has "+funtype.inputTypes.length+" nr. of input-types.");
+		}
+		for(int i=0; i<funArgs.length; i++) {
+			temp.addIDDeclaration(id, funtype.inputTypes[i], Scope.LOCAL);
+		}
+		for(VarDeclNode varDecl : varDecls) {
+			varDecl.checkTypes(temp, Scope.LOCAL);
+		}
+		body.checkTypes(temp, Scope.LOCAL);
+	}
+
+	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// TODO: Make this work with overloaded functions
 		// Label to jump to the function body
-		stack.add(id + ": link "+linkSize);
-		// Generate the code for the variable declarations at the beginning of the code body.
-		for(VarDeclNode varDeclaration : varDecls) {
+		stack.add(branchAddress + ": link " + funArgs.length + varDecls.length);
+		stack.add("stml 3 " + funArgs.length);
+		// Generate the code for the variable declarations at the beginning of the code
+		// body.
+		for (VarDeclNode varDeclaration : varDecls) {
 			varDeclaration.addCodeToStack(stack, counter);
 		}
 		// Generate the code of the function body
 		body.addCodeToStack(stack, counter);
-	}
-
-	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		IDDeclaration[] block = new IDDeclaration[funArgs.length + varDecls.length + 1];
-		block[0] = new IDDeclaration(funtype, id);
-		for (int i = 0; i < funArgs.length; i++) {
-			block[i + 1] = funArgs[i];
-		}
-		for (int i = 0; i < varDecls.length; i++) {
-			block[funArgs.length + i + 1] = new IDDeclaration(varDecls[i].type, varDecls[i].id);
-		}
-		IDDeclarationBlock out = new IDDeclarationBlock(domain, block);
-		linkSize = out.block.length;
-		return out;
+		if (funtype.returnType instanceof VoidType)
+			stack.add("ret");
 	}
 
 }

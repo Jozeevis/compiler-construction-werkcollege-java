@@ -7,6 +7,8 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
+import tree.IDDeclarationBlock.Scope;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
@@ -18,7 +20,7 @@ import tree.ast.types.specials.VoidType;
  * @author Flip van Spaendonck
  *
  */
-public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
+public class FunCallNode extends ASyntaxKnot {
 
 	
 	public final FunCall funCall;
@@ -33,10 +35,8 @@ public class FunCallNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		funCall.checkTypes(domain);
-		return domain;
-		
 	}
 
 	@Override

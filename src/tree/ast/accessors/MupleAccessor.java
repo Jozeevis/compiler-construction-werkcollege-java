@@ -7,7 +7,8 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.types.MupleType;
 import tree.ast.types.Type;
 
@@ -42,7 +43,7 @@ public class MupleAccessor extends Accessor {
 	 * @see tree.ast.accessors.Accessor#addCodeToStack(java.util.List)
 	 */
 	@Override
-	public void addCodeToStack(List<String> stack) {
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldh "+ -1*index);
 	}
 

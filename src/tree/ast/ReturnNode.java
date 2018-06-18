@@ -8,9 +8,11 @@ import java.util.List;
 import lexer.TokenExpression;
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxNode;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.Type;
 import tree.ast.types.specials.VoidType;
@@ -19,7 +21,7 @@ import tree.ast.types.specials.VoidType;
  * @author Flip van Spaendonck
  *
  */
-public class ReturnNode extends ASyntaxKnot implements ITypeCheckable {
+public class ReturnNode extends ASyntaxKnot {
 
 	public final BaseExpr returnedValue;
 
@@ -43,16 +45,16 @@ public class ReturnNode extends ASyntaxKnot implements ITypeCheckable {
 	}
 
 	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		if (returnedValue == null) {
 			if (funDecl.funtype.returnType.equals(VoidType.instance))
-				return domain;
+				return;
 			else
 				throw new TypeException("Function: " + funDecl.id + " should return nothing.");
 		} else {
 			Type returnedType;
 			if (funDecl.funtype.returnType.equals(returnedType = returnedValue.checkTypes(domain)))
-				return domain;
+				return;
 			else
 				throw new TypeException("Function: " + funDecl.id + " should return type: " + funDecl.funtype.returnType
 						+ " while Type: " + returnedType + "was returned.");

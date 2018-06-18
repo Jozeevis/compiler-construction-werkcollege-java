@@ -20,19 +20,22 @@ import tree.ast.accessors.Accessor;
 import tree.ast.accessors.ListHeadAccessor;
 import tree.ast.accessors.ListTailAccessor;
 import tree.ast.accessors.MupleAccessor;
+import tree.ast.accessors.StructFuncAccessor;
 import tree.ast.accessors.StructVarAccessor;
+import tree.ast.expressions.FunCall;
+import tree.ast.expressions.IllegalThisException;
+import tree.IDDeclarationBlock;
 import tree.PrintNode;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
 import tree.SyntaxNode;
 import tree.SyntaxTree;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.ASyntaxKnot;
 import tree.ast.AssignmentNode;
 import tree.ast.FunCallNode;
 import tree.ast.FunDeclNode;
-import tree.ast.IDDeclarationBlock;
-import tree.ast.ITypeCheckable;
 
 /**
  * A class containing utility functions for processing syntax trees.
@@ -123,25 +126,14 @@ public final class TreeProcessing {
 	}
 
 	public static boolean checkWellTyped(SyntaxTree tree) {
-		List<SyntaxNode> frontier = new LinkedList<>();
-
-		IDDeclarationBlock block = new IDDeclarationBlock();
-		frontier.add(tree.root);
-		while (!frontier.isEmpty()) {
-			SyntaxNode current = frontier.remove(0);
-			if (current instanceof ITypeCheckable) {
-				try {
-					block = ((ITypeCheckable) current).checkTypes(block);
-				} catch (TypeException | DeclarationException e) {
-					e.printStackTrace();
-					return false;
-				}
-			}
-			if (current instanceof SyntaxKnot) {
-				for (SyntaxNode node : ((SyntaxKnot) current).getChildren()) {
-					frontier.add(node);
-				}
-			}
+		try {
+			tree.root.checkTypes(new IDDeclarationBlock(), Scope.GLOBAL);
+		} catch (TypeException e) {
+			e.printStackTrace();
+			return false;
+		} catch (DeclarationException e) {
+			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
@@ -170,7 +162,7 @@ public final class TreeProcessing {
 		return nodes;
 	}
 
-	public static Accessor[] processFieldStar(SyntaxExpressionKnot fieldStar) {
+	public static Accessor[] processFieldStar(SyntaxExpressionKnot fieldStar) throws IllegalThisException {
 		List<SyntaxNode> fieldNodes = TreeProcessing.extractFromStarNode(fieldStar);		
 		Accessor[] accessors = new Accessor[fieldNodes.size()];
 		int counter = 0;
@@ -187,6 +179,8 @@ public final class TreeProcessing {
 					int index = ((TokenInteger)((SyntaxKnot) fieldNode).children[2].reduceToToken()).value;
 					accessors[counter] = new MupleAccessor(index);
 				}
+			} else {
+				accessors[counter] = new StructFuncAccessor(new FunCall((SyntaxExpressionKnot) ((SyntaxKnot) fieldNode).children[1]));
 			}
 			//TODO: handle funcalls
 			counter++;

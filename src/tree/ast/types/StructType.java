@@ -4,7 +4,12 @@
 package tree.ast.types;
 
 
-import tree.ast.IDDeclarationBlock;
+import java.util.List;
+
+import processing.DeclarationException;
+import tree.FunDeclaration;
+import tree.IDDeclaration;
+import tree.IDDeclarationBlock;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.structs.NullExpr;
 import tree.ast.types.specials.WildType;
@@ -18,14 +23,19 @@ import tree.ast.types.specials.WildType;
  */
 public class StructType extends Type {
 
-	public final IDDeclarationBlock declarations;
 	public final String structName;
+	public final List<IDDeclaration> structVars;
+	public final List<FunDeclaration> structFuncs;
 	
-	public StructType(String structName, IDDeclarationBlock declBlock) {
-		this.structName = structName;
-		declarations = declBlock;
+	
+
+	
+	public StructType(String id, List<IDDeclaration> structVars, List<FunDeclaration> structFuncs) {
+		structName = id;
+		this.structVars =structVars;
+		this.structFuncs = structFuncs;
 	}
-	
+
 	/**
 	 * It should be noted that checking type equality with a StructType and another type should not be done.
 	 */
@@ -46,13 +56,20 @@ public class StructType extends Type {
 		return NullExpr.instanceOf;
 	}
 
-	/**
-	 * Returns the matching constructor branch name with the given type signature, if no matching constructor was found this returns null.
-	 * @param argumentTypes
-	 * @return
-	 */
-	public String getMatchingConstructor(Type[] argumentTypes) {
-		return null;
+	public FunDeclaration findFunDeclaration(String id) throws DeclarationException {
+		for(FunDeclaration structFun : structFuncs) {
+			if(structFun.id.equals(id))
+				return structFun;
+		}
+		throw new DeclarationException("No function with id: " + id + " has been declared.");
+	}
+
+	public IDDeclaration findIDDeclaration(String id) throws DeclarationException {
+		for(IDDeclaration structVar : structVars) {
+			if(structVar.id.equals(id))
+				return structVar;
+		}
+		throw new DeclarationException("No function with id: " + id + " has been declared.");
 	}
 
 }

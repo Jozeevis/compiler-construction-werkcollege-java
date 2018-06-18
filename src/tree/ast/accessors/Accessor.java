@@ -7,7 +7,8 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.types.Type;
 
 /**
@@ -18,6 +19,11 @@ public abstract class Accessor {
 
 	public abstract Type checkTypes(IDDeclarationBlock domain, Type suppliedType) throws TypeException, DeclarationException;
 
-	public abstract void addCodeToStack(List<String> stack);
+	/**
+	 * The addCodeToStack for an accessor should create the code that:
+	 *  Given an address of the correct object is on the stack transforms that into an address of the next object.
+	 * @param counter TODO
+	 */
+	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
 
 }

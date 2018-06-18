@@ -11,24 +11,29 @@ import processing.DeclarationException;
 import processing.TreeProcessing;
 import processing.TypeException;
 import tree.IDDeclaration;
+import tree.IDDeclarationBlock;
+import tree.IDDeclarationBlock.Scope;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.ast.accessors.Accessor;
 import tree.ast.expressions.BaseExpr;
+import tree.ast.expressions.IllegalThisException;
 import tree.ast.types.Type;
 
 /**
  * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
-public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
+public class AssignmentNode extends ASyntaxKnot {
 
 	public final String id;
-	private int linkNumber;
 	public final Accessor[] accessors;
 	public final BaseExpr expression;
 	
-	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) {
+	private int linkNumber;
+	private Scope scope;
+	
+	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalThisException {
 		super(frontier);
 		
 		id = ((TokenIdentifier)oldKnot.children[0].reduceToToken()).value;
@@ -38,25 +43,17 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 	
 
 	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		Type expectedType = expression.checkTypes(domain);
-		Type innerType = null;
-		for(int i=domain.block.length-1; i>=0; i--) {
-			IDDeclaration declaration = domain.block[i];
-			if (declaration.id.equals(id)) {
-				innerType = declaration.type;
-				linkNumber = i + 1;
-				break;
-			}
-		}
-		if (innerType == null)
-			throw new DeclarationException("No variable with id: "+id+ " is currently defined.");
+		IDDeclaration varDef = domain.findIDDeclaration(id);
+		Type innerType = varDef.type;
+		linkNumber = varDef.offset;
+		scope = varDef.scope;
 		for(Accessor accessor : accessors) {
 			innerType = accessor.checkTypes(domain, innerType);
 		}
 		if (!expectedType.equals(innerType))
 			throw new TypeException("Expression was of Type: "+expectedType + ", while type "+innerType+" was expected.");
-		return domain;
 	}
 
 	public int getLinkNumber() {
@@ -69,11 +66,27 @@ public class AssignmentNode extends ASyntaxKnot implements ITypeCheckable{
 		// Generate code for the assignment body
 		expression.addCodeToStack(stack, counter);
 		// Save the result in the heap address given by the linknumber
+		switch(scope) {
+		case GLOBAL:
+			stack.add("ldl 1");
+			stack.add("ldh "+ (-linkNumber));
+			break;
+		case STRUCT:
+			stack.add("ldl 2");
+			stack.add("ldh "+ (-linkNumber));
+			break;
+		case LOCAL:
+			stack.add("ldl "+(3+linkNumber));
+			break;
+		default:
+			System.err.println("No case defined for scope: "+scope);
+			break;
+		}
 		stack.add("ldl" + linkNumber);
 		for(Accessor accessor : accessors) {
-			accessor.addCodeToStack(stack);
+			accessor.addCodeToStack(stack, null);
 		}
-		stack.add("sth 0");
+		stack.add("sta 0");
 	}
 
 

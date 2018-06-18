@@ -9,9 +9,10 @@ import lexer.TokenIdentifier;
 import processing.DeclarationException;
 import processing.TypeException;
 import tree.IDDeclaration;
+import tree.IDDeclarationBlock;
+import tree.StructDeclaration;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxLeaf;
-import tree.ast.IDDeclarationBlock;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.IllegalThisException;
@@ -28,10 +29,11 @@ public class InitExpr extends BaseExpr {
 	/** The identifier for this function */
 	public final String id;
 	public String branchName;
-	
+
 	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
-	
+	private String branchAddress;
+
 	public InitExpr(SyntaxExpressionKnot initCall) throws IllegalThisException {
 		id = ((TokenIdentifier) ((SyntaxLeaf) initCall.children[1]).leaf).value;
 
@@ -58,8 +60,10 @@ public class InitExpr extends BaseExpr {
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tree.ast.expressions.BaseExpr#optimize()
 	 */
 	@Override
@@ -69,55 +73,39 @@ public class InitExpr extends BaseExpr {
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see tree.ast.expressions.BaseExpr#addCodeToStack(java.util.List, tree.ast.LabelCounter)
-	 */
-	@Override
-	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		
-		//TODO: load the local variables.
-		
-		// Follow a function call, evaluating its arguments and saving them as local
-		// variables and jumping to the label of the function itself.
-		// If the function has any arguments
-		if (arguments.length > 0) {
-			// Make space on the stack for these arguments
-			stack.add("link " + arguments.length);
-			// For every argument
-			for (int i = 0; i < this.arguments.length; i++) {
-				// Add the code to evaluate the argument
-				arguments[i].addCodeToStack(stack, counter);
-				// Save the result to the space freed by the link function
-				stack.add("stl " + i);
-			}
-		}
-		// Jump to the label of the function where the function code will be executed
-		// TODO: currently doesn't work for overloaded functions (should be fixed in the
-		// declaration and then use the right id here)
-		stack.add("bsr " + branchName);
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tree.ast.expressions.BaseExpr#checkTypes(tree.ast.IDDeclarationBlock)
 	 */
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		for(IDDeclaration declaration : domain.block) {
-			if(declaration.id.equals(id)) {
-				if (declaration.type instanceof StructType) {
-					Type[] argumentTypes = new Type[arguments.length];
-					for(int i=0; i<arguments.length; i++) {
-						argumentTypes[i] = arguments[i].checkTypes(domain);
-					}
-					branchName = ((StructType)declaration.type).getMatchingConstructor(argumentTypes);
-					if (branchName == null)
-						throw new DeclarationException("No "+id+" constructor with signature: "+argumentTypes+ " is defined.");
-					return new CustomType(id);
-				} else 
-					throw new TypeException("The id used by this initialization does not correspond to a struct declaration: "+id+".");
+		StructDeclaration structDecl = domain.findStructDeclaration(id);
+		branchAddress = structDecl.constructorBranchAddress;
+		if (arguments.length != structDecl.constructorArgumentTypes.length) {
+			throw new DeclarationException(
+					"The constructor declared with id: " + id + " has " + structDecl.constructorArgumentTypes.length
+							+ " arguments, while " + arguments.length + " where expected.");
+		}
+		for (int i = 0; i < arguments.length; i++) {
+			Type type;
+			if (!(type = arguments[i].checkTypes(domain)).matches(structDecl.constructorArgumentTypes[i])) {
+				throw new TypeException(
+						"Argument " + i + " was expected to have type: " + structDecl.constructorArgumentTypes[i]
+								+ ", however an expression of type " + type + " was used.");
 			}
 		}
-		throw new DeclarationException("No struct with id: "+id+", has been defined.");
+		return structDecl.structType;
+	}
+
+	@Override
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
+
+		for (BaseExpr argument : arguments) {
+			argument.addCodeToStack(stack, counter);
+			stack.add("sth");
+		}
+		stack.add("bsr " + branchAddress);
 	}
 
 }

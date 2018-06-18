@@ -5,9 +5,8 @@ import java.util.List;
 import lexer.TokenExpression;
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclarationBlock.Scope;
 import tree.ast.ASyntaxKnot;
-import tree.ast.IDDeclarationBlock;
-import tree.ast.ITypeCheckable;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
@@ -17,7 +16,7 @@ import tree.ast.types.Type;
  * @author Flip van Spaendonck
  *
  */
-public class PrintNode extends ASyntaxKnot implements ITypeCheckable{
+public class PrintNode extends ASyntaxKnot {
 
 	public final BaseExpr expression;
 	
@@ -43,9 +42,8 @@ public class PrintNode extends ASyntaxKnot implements ITypeCheckable{
 	}
 
 	@Override
-	public IDDeclarationBlock checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
+	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		expressionType = expression.checkTypes(domain);
-		return domain;
 	}
 }
 

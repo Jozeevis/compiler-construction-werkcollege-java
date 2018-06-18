@@ -6,7 +6,8 @@ package tree.ast.accessors;
 import java.util.List;
 
 import processing.TypeException;
-import tree.ast.IDDeclarationBlock;
+import tree.IDDeclarationBlock;
+import tree.ast.LabelCounter;
 import tree.ast.types.ListType;
 import tree.ast.types.Type;
 
@@ -27,7 +28,7 @@ public class ListTailAccessor extends Accessor{
 	}
 
 	@Override
-	public void addCodeToStack(List<String> stack) {
+	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		stack.add("ldh 0");
 	}
 	

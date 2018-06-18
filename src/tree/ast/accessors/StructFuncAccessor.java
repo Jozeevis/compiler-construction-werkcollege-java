@@ -7,9 +7,11 @@ import java.util.List;
 
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.FunDeclaration;
 import tree.IDDeclaration;
 import tree.IDDeclarationBlock;
 import tree.ast.LabelCounter;
+import tree.ast.expressions.FunCall;
 import tree.ast.types.CustomType;
 import tree.ast.types.StructType;
 import tree.ast.types.Type;
@@ -18,14 +20,12 @@ import tree.ast.types.Type;
  * @author Flip van Spaendonck
  *
  */
-public class StructVarAccessor extends Accessor {
+public class StructFuncAccessor extends Accessor {
 
-	public final String accessor;
-
-	private int offset;
-
-	public StructVarAccessor(String id) {
-		accessor = id;
+	public final FunCall funcall;
+	
+	public StructFuncAccessor(FunCall funcall) {
+		this.funcall = funcall;
 	}
 
 	@Override
@@ -34,14 +34,8 @@ public class StructVarAccessor extends Accessor {
 			suppliedType = domain.findStructDeclaration(((CustomType)suppliedType).typeName).structType;
 		}
 		if (suppliedType instanceof StructType) {
-			try {
-				IDDeclaration attributeDeclaration = ((StructType)suppliedType).findIDDeclaration(accessor);
-				offset = attributeDeclaration.offset;
-				return attributeDeclaration.type;
-			} catch (DeclarationException e) {
-				throw new DeclarationException(
-						((StructType) suppliedType).structName + " does not have a variable with id: " + accessor + ".");
-			}
+			FunDeclaration attributeDeclaration = ((StructType)suppliedType).findFunDeclaration(funcall.id);
+			return funcall.checkTypes(attributeDeclaration, domain);
 		}
 		throw new TypeException(
 				"Left supplied type was of type: " + suppliedType + ", while a StructType was expected.");
@@ -49,7 +43,7 @@ public class StructVarAccessor extends Accessor {
 	
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldh " + -1 * offset);
+		funcall.addCodeToStack(stack, counter);
 	}
 
 }
