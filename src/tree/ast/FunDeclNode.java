@@ -95,8 +95,8 @@ public class FunDeclNode extends ASyntaxKnot {
 			counter++;
 		}
 		Type right;
-		if (((SyntaxKnot) funtype.children[0]).children[0] instanceof SyntaxExpressionKnot) {
-			right = Type.inferType((SyntaxExpressionKnot) ((SyntaxKnot) funtype.children[0]).children[0]);
+		if (((SyntaxKnot) funtype.children[2]).children[0] instanceof SyntaxExpressionKnot) {
+			right = Type.inferType((SyntaxExpressionKnot) ((SyntaxKnot) funtype.children[2]).children[0]);
 		} else {
 			right = VoidType.instance;
 		}
@@ -112,6 +112,7 @@ public class FunDeclNode extends ASyntaxKnot {
 				domain.findStructDeclaration(((CustomType) type).typeName);
 			}
 		}
+		System.out.println(funtype.returnType.getClass());
 		if (funtype.returnType instanceof CustomType) {
 			domain.findStructDeclaration(((CustomType)funtype.returnType).typeName);
 		}

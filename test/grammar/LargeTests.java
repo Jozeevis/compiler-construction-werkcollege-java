@@ -39,7 +39,7 @@ public class LargeTests {
 	
 	@Test
 	public void testHelloWorld() {
-		String code = "main() :: -> Void {print 'h';print 'e';}";
+		String code = "main() :: -> void {print 'h';print 'e';}";
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
 		System.out.println(p.tree.root);
@@ -52,11 +52,5 @@ public class LargeTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*
-		 * Dear Lars,
-		 * the code seems to get stuck while parsing, after the expressions have been packed.
-		 * It seems to be happening at the construction of SPL.
-		 */
 	}
 }

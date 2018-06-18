@@ -71,7 +71,7 @@ public class SPL extends ExpressionTree {
 			addExpressionTo("~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'", "FunDecl", "FunDecl");
 	
 			addExpressionTo("~Type", "RetType");
-			addExpressionTo("'Void'", "RetType");
+			addExpressionTo("'void'", "RetType");
 	
 			addExpressionTo("~TypeStar '->' ~RetType", "FunType");
 	
