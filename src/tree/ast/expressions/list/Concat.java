@@ -15,6 +15,7 @@ import tree.ast.expressions.BaseExpr;
 import tree.ast.expressions.TwoArg;
 import tree.ast.types.ListType;
 import tree.ast.types.Type;
+import tree.ast.types.specials.WildType;
 
 /**
  * @author Flip van Spaendonck
@@ -50,7 +51,7 @@ public class Concat extends TwoArg {
 		Type listType;
 		if ((listType = right.checkTypes(domain)) instanceof ListType) {
 			Type leftType;
-			if (!(leftType = left.checkTypes(domain)).equals(((ListType) listType).listedType))
+			if (!(leftType = left.checkTypes(domain)).matches(((ListType) listType).listedType))
 				throw new TypeException("Left expression was of type: " + leftType + " while Type "
 						+ ((ListType) listType).listedType + " was expected.");
 		} else

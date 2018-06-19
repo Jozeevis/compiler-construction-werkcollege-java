@@ -4,7 +4,7 @@
 package grammar;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class EXP extends ExpressionTree {
@@ -66,8 +66,8 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
 			addExpressionTo("~BoolExp1 ", "BoolExp2");
 			
-			addExpressionTo("'.hd'", "Field");
-			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.' 'hd'", "Field");
+			addExpressionTo("'.' 'tl'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
@@ -77,7 +77,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
 			addExpressionTo("~CallUp ~FieldStar","callup","BoolExp0");
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
-			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
+			addExpressionTo(" 'isEmpty' ~SetDef", "isEmpty", "BoolExp0");
 			
 			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
 			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
@@ -105,8 +105,9 @@ public class EXP extends ExpressionTree {
 			
 			addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
 			addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");
+			
 			addExpressionTo("~Exp","ActArgs");
-			addExpressionTo("~Exp ','~ActArgs","ActArgs");	
+			addExpressionTo("~Exp ',' ~ActArgs","ActArgs");	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

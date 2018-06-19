@@ -29,7 +29,7 @@ public class ListType extends Type {
 
 	@Override
 	public boolean matches(Type t) {
-		if (t instanceof WildType)
+		if (t instanceof WildType || listedType instanceof WildType)
 			return true;
 		if (t instanceof ListType) {
 			return ((ListType) t).listedType == listedType;

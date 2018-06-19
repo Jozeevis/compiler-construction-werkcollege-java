@@ -3,7 +3,7 @@ package grammar;
 /**
  * A singleton class representing the SPL grammar's ExpressionTree.
  * 
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  */
 public class SPL extends ExpressionTree {
 
@@ -84,8 +84,8 @@ public class SPL extends ExpressionTree {
 			addExpressionTo("~id", "FArgs");
 			addExpressionTo("~id ','~FArgs", "FArgs");
 	
-			addExpressionTo("'.hd'", "Field");
-			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.' 'hd'", "Field");
+			addExpressionTo("'.' 'tl'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
@@ -106,7 +106,7 @@ public class SPL extends ExpressionTree {
 			addExpressionTo(".TOK_IDENTIFIER '('~ActArgs ')'", "FunCall");
 	
 			addExpressionTo("~Exp", "ActArgs");
-			addExpressionTo("~Exp ','~ActArgs", "ActArgs");
+			addExpressionTo("~Exp ',' ~ActArgs", "ActArgs");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

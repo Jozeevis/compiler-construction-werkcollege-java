@@ -29,10 +29,7 @@ public class IsEmpty extends OneArg {
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		// Number that will be used for all labels in this statement
-        counter.incr();
-        Integer count = counter.getCount();
-        // Put code for the expression evaluating to the argument on the stack
+		// Put code for the expression evaluating to the argument on the stack
         val.addCodeToStack(stack, counter);
 
         // Put zero on top of the stack
@@ -40,9 +37,6 @@ public class IsEmpty extends OneArg {
         // Check if the evaluated argument is equal to zero and add the result to the
         // stack (1 for true, 0 for false)
         stack.add("eq");
-        stack.add("brf ENDLABEL" + count);
-        stack.add("ldc " + 0xFFFFFFFF);
-        stack.add("ENDLABEL" + count + ": nop");
 	}
 
 	@Override

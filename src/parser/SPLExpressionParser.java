@@ -90,7 +90,7 @@ public class SPLExpressionParser {
 						if ((token.getTokenType() == TokenType.TOK_COMMA )& brackCount == 0) {
 							tokens.add(i++, new TokenExpression(argument));
 							tokens.add(i++, token);
-							arguments.clear();
+							argument.clear();
 						} else if (token.getTokenType() == TokenType.TOK_BRACK_OPEN) {
 							brackCount++;
 						} else if (token.getTokenType() == TokenType.TOK_BRACK_CLOSE) {

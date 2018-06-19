@@ -47,20 +47,21 @@ public class WhileStmtKnot extends ASyntaxKnot {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Number that will be used for all labels in this statement
 		counter.incr();
+		int count = counter.getCount();
 
 		// Label for checking the condition loop
-		stack.add("CHECKLABEL" + counter.getCount());
+		stack.add("CHECKLABEL" + count + ": nop");
 		// Generate the check expression body
 		check.addCodeToStack(stack, counter);
 		// If the condition is false, jump out of the loop
-		stack.add("brf ENDLABEL" + counter.getCount());
+		stack.add("brf ENDLABEL" + count);
 
 		body.addCodeToStack(stack, counter);
 		// Jump back to the while check
-		stack.add("bra CHECKLABEL" + counter.getCount());
+		stack.add("bra CHECKLABEL" + count);
 
 		// Label for jumping out of the loop
-		stack.add("ENDLABEL" + counter.getCount() + ": nop");
+		stack.add("ENDLABEL" + count + ": nop");
 	}
 
 }

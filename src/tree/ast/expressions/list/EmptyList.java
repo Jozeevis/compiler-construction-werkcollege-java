@@ -15,7 +15,7 @@ import tree.ast.types.Type;
 import tree.ast.types.specials.WildType;
 
 /**
- * @author Flip van Spaendonck
+ * @author Flip van Spaendonck and Lars Kuijpers
  *
  */
 public class EmptyList extends NoArg {
@@ -32,7 +32,7 @@ public class EmptyList extends NoArg {
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return WildType.instanceOf;
+		return new ListType(WildType.instanceOf);
 	}
 
 }

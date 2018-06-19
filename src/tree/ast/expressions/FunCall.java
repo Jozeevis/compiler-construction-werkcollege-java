@@ -20,6 +20,7 @@ import tree.ast.LabelCounter;
 import tree.ast.types.Type;
 import tree.ast.types.specials.FunctionType;
 import tree.ast.types.BaseType;
+import tree.ast.types.ListType;
 
 /**
  * @author Flip van Spaendonck and Lars Kuijpers
@@ -31,6 +32,8 @@ public class FunCall extends BaseExpr {
 
 	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
+	
+	private Type[] argumentTypes;
 
 	private String branchAddress;
 	
@@ -80,22 +83,28 @@ public class FunCall extends BaseExpr {
 		if (type.inputTypes.length != arguments.length)
 			throw new DeclarationException("The function declared with id: " + id + " has " + type.inputTypes.length
 					+ " arguments, while " + arguments.length + " where expected.");
+		argumentTypes = new Type[arguments.length];
 		for (int i = 0; i < arguments.length; i++) {
 			Type argumentExpressionType;
 			if (!(argumentExpressionType = arguments[i].checkTypes(domain)).equals(type.inputTypes[i]))
 				throw new TypeException("Argument " + i + " was expected to have type: " + type.inputTypes[i]
 						+ ", however an expression of type " + argumentExpressionType + " was used.");
+			argumentTypes[i] = argumentExpressionType;
 		}
 		return type.returnType;
 	}
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		for(BaseExpr argument : arguments) {
+		for(int i = 0; i < arguments.length; i++) {
+			BaseExpr argument = arguments[i];
 			argument.addCodeToStack(stack, counter);
-			stack.add("sth");
+			if (!(argumentTypes[i] instanceof ListType))
+				stack.add("sth");
+			else
+				stack.add("ajs -1");
 		}
-		stack.add("stmh 0"+arguments.length);
+		stack.add("stmh "+arguments.length);
 		stack.add("str 5");
 		stack.add("bsr " + branchAddress);
 	}

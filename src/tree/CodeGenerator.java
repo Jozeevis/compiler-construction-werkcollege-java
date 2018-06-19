@@ -19,7 +19,7 @@ public class CodeGenerator {
 		stack.add("link 2");
 		for(int i=0; i<tree.nrOfGlobals; i++)
 			stack.add("ldc 0");
-		stack.add("stmh 0 "+tree.nrOfGlobals);
+		stack.add("stmh "+tree.nrOfGlobals);
 		stack.add("stl 1");
 		stack.add("bsr "+tree.mainAddress);
 		stack.add("halt");
