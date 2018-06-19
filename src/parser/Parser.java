@@ -72,19 +72,20 @@ public class Parser {
 			System.out.println("Trying to fit: "+token);
 			if (token.getTokenType() == TokenType.TOK_EOF)
 				break;
-			System.out.println(currentZambinos);
+			//System.out.println(currentZambinos);
 			newZambinos = new LinkedList<>();
 			for(TokenTrace zambino : currentZambinos) {
-				if(zambino.token.getTokenType() == TokenType.TOK_NIL) {
+				/*if(zambino.token.getTokenType() == TokenType.TOK_NIL) {
 					for(TokenTrace next : zambino.next()) {
 						if(next.token.getTokenType() == token.getTokenType()) {
 							next.token = token;
 							newZambinos.addAll(next.next());
 						}
 					}
-				}
+				}*/
 				//System.out.println("Trying to match "+zambino.token.getTokenType()+" with "+token.getTokenType()+".");
 				if(zambino.token.getTokenType() == token.getTokenType()) {
+					System.out.println("WE GOT A MATCH"+zambino);
 					zambino.token = token;
 					newZambinos.addAll(zambino.next());
 				} else {
@@ -213,6 +214,7 @@ public class Parser {
 		 */
 		public static List<TokenTrace> getAllTokenTracesFromNode(TokenTrace leftTokenTrace, Node node, List<Pair> expressionsNotCoveredUnderTokenTrace) {
 			List<TokenTrace> out = new LinkedList<>();
+			System.out.println("Getting next from:"+node);
 			for (Expression expression : node.expressions) {
 				List<Pair> newlyEncounteredExpressions = new LinkedList<>(expressionsNotCoveredUnderTokenTrace);
 				newlyEncounteredExpressions.add(new Pair(expression, 0));
@@ -245,7 +247,8 @@ public class Parser {
 		public String toString() {
 			if (expressions.size() == 0)
 				return "End Token Trace";
-			return token+ " in expression: "+expressions.get(expressions.size()-1);
+			//return token+ " in expression: "+expressions.get(expressions.size()-1) + "\n  ,  ";
+			return token + "  in :"+expressions;
 		}
 		
 		

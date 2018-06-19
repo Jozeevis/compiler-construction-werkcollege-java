@@ -41,6 +41,11 @@ public class StructType extends Type {
 	 */
 	@Override
 	public boolean matches(Type t) {
+		if (t instanceof CustomType) {
+			return ((CustomType)t).typeName.equals(structName);
+		}
+		if (t instanceof StructType)
+			return ((StructType) t).structName.equals(structName);
 		if (t instanceof WildType)
 			return true;
 		return false;

@@ -47,7 +47,7 @@ public class VarDeclNode extends ASyntaxKnot {
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		Type expressionType;
 		System.out.println(initialValue.getClass());
-		if (!(expressionType = initialValue.checkTypes(domain)).equals(type)) {
+		if (!(expressionType = initialValue.checkTypes(domain)).matches(type)) {
 			throw new TypeException("Expression was of type: "+expressionType+", while type: "+type+" was expected.");
 		}
 		linkNumber = domain.addIDDeclaration(id, type, scope);
@@ -57,7 +57,6 @@ public class VarDeclNode extends ASyntaxKnot {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		initialValue.addCodeToStack(stack, counter);
-		stack.add("sth 0");
 		switch(scope) {
 		case GLOBAL:
 			stack.add("ldl 1");

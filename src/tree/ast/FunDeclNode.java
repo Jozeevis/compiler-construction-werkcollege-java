@@ -71,14 +71,11 @@ public class FunDeclNode extends ASyntaxKnot {
 	 * Extracts all variable declarations out of the given syntax knot and returns
 	 * them as an array
 	 */
-	private static VarDeclNode[] ExtractVariables(SyntaxExpressionKnot vardecls) {
-		VarDeclNode[] variables = {};
-		int counter = 0;
-		SyntaxExpressionKnot currentKnot = vardecls;
-		while (currentKnot.children.length == 2) {
-			variables[counter] = new VarDeclNode((SyntaxExpressionKnot) currentKnot.children[0], currentKnot);
-			counter++;
-			currentKnot = (SyntaxExpressionKnot) currentKnot.children[1];
+	private VarDeclNode[] ExtractVariables(SyntaxExpressionKnot vardecls) {
+		List<SyntaxNode> nodes = TreeProcessing.extractFromStarNode(vardecls);
+		VarDeclNode[] variables = new VarDeclNode[nodes.size()];
+		for(int i=0; i< variables.length; i++) {
+			variables[i] = new VarDeclNode((SyntaxExpressionKnot) nodes.get(i), this);
 		}
 		return variables;
 	}
@@ -134,8 +131,16 @@ public class FunDeclNode extends ASyntaxKnot {
 		stack.add("bra " + branchAddress + "Skip");
 		// Label to jump to the function body
 		stack.add(branchAddress + ": ldl 1");
+		stack.add("str 6");
+		stack.add("ldl 2");
+		stack.add("str 7");
 		stack.add("link " + (funArgs.length + varDecls.length+2));
+		stack.add("ldr 6");
 		stack.add("stl 1");
+		stack.add("ldr 7");
+		stack.add("stl 2");
+		stack.add("ldr 5");
+		stack.add("ldmh 0 " +funArgs.length);
 		stack.add("stml 3 " + funArgs.length);
 		// Generate the code for the variable declarations at the beginning of the code
 		// body.

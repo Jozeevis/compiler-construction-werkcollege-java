@@ -27,7 +27,7 @@ public class LargeTests {
 	
 	@Test
 	public void testHelloWorld() {
-		String code = "main() :: -> void {print 'h';print 'e';}";
+		String code = "main() :: -> void {(Char, Char, Char, Char, Char) hello = ('h', 'e', 'l', 'l', 'o'); print hello.[0];}";
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
 		System.out.println(p.tree.root);

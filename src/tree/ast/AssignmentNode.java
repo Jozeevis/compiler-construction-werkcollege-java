@@ -82,7 +82,7 @@ public class AssignmentNode extends ASyntaxKnot {
 			System.err.println("No case defined for scope: "+scope);
 			break;
 		}
-		stack.add("ldl" + linkNumber);
+		//stack.add("ldl " + linkNumber);
 		for(Accessor accessor : accessors) {
 			accessor.addCodeToStack(stack, null);
 		}

@@ -105,6 +105,8 @@ public class InitExpr extends BaseExpr {
 			argument.addCodeToStack(stack, counter);
 			stack.add("sth");
 		}
+		stack.add("stmh 0"+arguments.length);
+		stack.add("str 5");
 		stack.add("bsr " + branchAddress);
 	}
 

@@ -30,11 +30,19 @@ public class CustomType extends Type {
 		if (t instanceof CustomType) {
 			return ((CustomType) t).typeName.equals(typeName);
 		}
+		if (t instanceof StructType) {
+			return ((StructType) t).structName.equals(typeName);
+		}
 		return false;
 	}
 
 	@Override
 	public BaseExpr getNullValue() {
 		return NullExpr.instanceOf;
+	}
+	
+	@Override
+	public String toString() {
+		return "CustomType with id:"+typeName;
 	}
 }

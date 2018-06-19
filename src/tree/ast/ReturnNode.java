@@ -69,12 +69,17 @@ public class ReturnNode extends ASyntaxKnot {
 		// If this is not a void function, the returnvalue is on top of the stack and
 		// the old PC right under it
 		// These should then be swapped
-		if (returnedValue != null) {
-			stack.add("swp");
-		}
+		
 		// Pop the old PC from the stack and return to that point, leaving the
 		// returnvalue (if any) on top of the stack
+		if (returnedValue != null) {
+			stack.add("str 4");
+		}
 		stack.add("unlink");
+		if (returnedValue != null) {
+			stack.add("ldr 4");
+			stack.add("swp");
+		}
 		stack.add("ret");
 		
 	}

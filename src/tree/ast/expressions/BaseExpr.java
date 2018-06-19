@@ -163,7 +163,7 @@ public abstract class BaseExpr {
 			case "Null":
 				return NullExpr.instanceOf;
 			case "Init":
-				return new InitExpr((SyntaxExpressionKnot) knot.children[0]);
+				return new InitExpr( knot);
 			// Mixed
 			case "callup":
 				return new CallUp(convertToExpr((SyntaxExpressionKnot) knot.children[0]),

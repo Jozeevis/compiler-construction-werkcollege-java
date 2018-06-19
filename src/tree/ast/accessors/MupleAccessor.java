@@ -19,6 +19,7 @@ import tree.ast.types.Type;
 public class MupleAccessor extends Accessor {
 
 	public final int index;
+	public int mupleSize;
 
 	public MupleAccessor(int index) {
 		this.index = index;
@@ -28,6 +29,7 @@ public class MupleAccessor extends Accessor {
 	public Type checkTypes(IDDeclarationBlock domain, Type suppliedType) throws TypeException, DeclarationException {
 		if (suppliedType instanceof MupleType) {
 			if (index < ((MupleType) suppliedType).types.length | index < 0) {
+				mupleSize = ((MupleType) suppliedType).types.length;
 				return ((MupleType) suppliedType).types[index];
 			} else
 				throw new TypeException("Left supplied expression is a muple with "
@@ -44,7 +46,7 @@ public class MupleAccessor extends Accessor {
 	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldh "+ -1*index);
+		stack.add("ldh "+ (-mupleSize+1+ index));
 	}
 
 }

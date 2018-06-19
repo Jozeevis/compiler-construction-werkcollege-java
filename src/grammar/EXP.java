@@ -36,9 +36,9 @@ public class EXP extends ExpressionTree {
 		try {
 			addExpressionTo("~BoolExp2", "BoolExp", "Exp");
 			addExpressionTo("~NumRng", "NumExp","Exp");
-			//addExpressionTo("~SetExp", "SetExp", "Exp");
-			//addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
-			//addExpressionTo("'null'", "Null", "Exp");
+			addExpressionTo("~SetExp", "SetExp", "Exp");
+			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
+			addExpressionTo("'null'", "Null", "Exp");
 			
 			addExpressionTo("~Exp ","Mexp");
 			addExpressionTo("~Exp ',' ~Mexp ","Mexp");
@@ -100,8 +100,8 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~FunCall", "funcall", "CallUp");
 			addExpressionTo("'this'","this","CallUp");
 			addExpressionTo(" .TOK_IDENTIFIER  ", "variable", "CallUp");
-			addExpressionTo("'new' ~id '(' ')'", "Init","CallUp");
-			addExpressionTo("'new' ~id '('~ActArgs ')'", "Init","CallUp");
+			addExpressionTo("'new' .TOK_IDENTIFIER '(' ')'", "Init","CallUp");
+			addExpressionTo("'new' .TOK_IDENTIFIER '(' ~ActArgs ')'", "Init","CallUp");
 			
 			addExpressionTo(" .TOK_IDENTIFIER '('')'","FunCall");
 			addExpressionTo(" .TOK_IDENTIFIER '('~ActArgs ')'","FunCall");

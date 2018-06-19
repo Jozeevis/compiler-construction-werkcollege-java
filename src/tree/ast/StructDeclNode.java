@@ -124,9 +124,13 @@ public class StructDeclNode extends ASyntaxKnot {
 		stack.add("bra " + branchAddress + "Skip");
 		//load the global environment address
 		stack.add(branchAddress + ": ldl 1");
+		stack.add("str 6");
 		stack.add("link " + (cArgs.length + varDecls.length+2));
+		
 		//store the global environment address in the new local memory
+		stack.add("ldr 6");
 		stack.add("stl 1");
+		stack.add("ldr 5");
 		stack.add("stml 3 " + cArgs.length);
 		for(int i=0; i<attributes.length;i++)
 			stack.add("ldc 0");
@@ -138,12 +142,14 @@ public class StructDeclNode extends ASyntaxKnot {
 		for(VarDeclNode varDecl : varDecls) {
 			varDecl.addCodeToStack(stack, counter);
 		}
-		// Generate the code of the function body
+		// Generate the code of the constructor body
 		body.addCodeToStack(stack, counter);
 		//Put the address of the struct on top of the stack.
 		stack.add("ldl 2");
-		stack.add("swap");
+		stack.add("str 4");
 		stack.add("unlink");
+		stack.add("ldr 4");
+		stack.add("swp");
 		//Return back to where we were.
 		stack.add("ret");
 		
