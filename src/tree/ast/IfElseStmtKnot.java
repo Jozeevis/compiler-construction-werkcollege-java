@@ -43,10 +43,10 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 		super(parent);
 
 		check = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
-		ifBody = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[5]).root;
+		ifBody = oldKnot.children[5].getASTEquivalent(this);
 		// Check if there is an else to this if-statement
-		if (oldKnot.children.length > 6) {
-			elseBody = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8]).root;
+		if (oldKnot.children.length > 7) {
+			elseBody = oldKnot.children[8].getASTEquivalent(this);
 		} else {
 			elseBody = null;
 		}
@@ -61,7 +61,8 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 			throw new TypeException("Check was of type: " + checkType + ", while type Bool was expected.");
 		}
 		ifBody.checkTypes(domain, scope);
-		elseBody.checkTypes(domain, scope);
+		if (elseBody != null)
+			elseBody.checkTypes(domain, scope);
 	}
 
 	private SyntaxNode[] initializeChildrenArray() {
@@ -87,7 +88,8 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 		// Label used when the condition is false to skip the if-body
 		stack.add("ELSELABEL" + counter.getCount() + ": nop");
 		// Add the code for the elsebody
-		elseBody.addCodeToStack(stack, counter);
+		if (elseBody != null)
+			elseBody.addCodeToStack(stack, counter);
 
 		// Label used when the condition is true to skip the else-body
 		stack.add("ENDLABEL" + counter.getCount() + ": nop");

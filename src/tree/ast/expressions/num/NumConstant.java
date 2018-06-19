@@ -33,7 +33,7 @@ public class NumConstant extends NoArg{
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return BaseType.instanceBool;
+		return BaseType.instanceInt;
 	}
     
     

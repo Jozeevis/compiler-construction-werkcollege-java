@@ -50,8 +50,8 @@ public class StructDeclNode extends ASyntaxKnot {
 		List<SyntaxNode> funcKnots = TreeProcessing.extractFromStarNode((SyntaxKnot) oldKnot.children[4]);
 		functions = new FunDeclNode[funcKnots.size()];
 		counter = 0;
-		for (SyntaxNode varDeclKnot : varKnots) {
-			functions[counter++] = new FunDeclNode((SyntaxExpressionKnot) varDeclKnot, frontier);
+		for (SyntaxNode funcDeclKnot : funcKnots) {
+			functions[counter++] = new FunDeclNode((SyntaxExpressionKnot) funcDeclKnot, frontier);
 		}
 
 		// ==== Processing the actual constructor ====
@@ -78,9 +78,12 @@ public class StructDeclNode extends ASyntaxKnot {
 			}
 			cArgs.add(((TokenIdentifier) cArgKnot.children[1].reduceToToken()).value);
 			cArgTypes.add(Type.inferType((SyntaxExpressionKnot) cArgKnot.children[0]));
-					
-			this.cArgs = (String[]) cArgs.toArray();
-			this.cArgTypes = (Type[]) cArgTypes.toArray();
+			this.cArgs = new String[cArgs.size()];
+			for(int i=0; i<this.cArgs.length; i++)
+				this.cArgs[i] = cArgs.get(i);
+			this.cArgTypes = new Type[cArgTypes.size()];
+			for(int i=0; i<this.cArgTypes.length; i++)
+				this.cArgTypes[i] = cArgTypes.get(i);
 			varDeclKnots = TreeProcessing.extractFromStarNode((SyntaxKnot) constructor.children[5]);
 			body = TreeProcessing.processIntoAST((SyntaxKnot) constructor.children[6]).root;
 		}

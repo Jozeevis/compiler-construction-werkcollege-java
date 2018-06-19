@@ -88,7 +88,8 @@ public class Expression {
 			if (o instanceof Node) {
 				out+= "~"+o;
 			} else if (o instanceof Token) {
-				out += "."+((Token)o).getTokenType().name();
+				//out += "."+((Token)o).getTokenType().name();
+				out += o;
 			} 
 			out += ",";
 		}

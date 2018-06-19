@@ -46,6 +46,7 @@ public class VarDeclNode extends ASyntaxKnot {
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		Type expressionType;
+		System.out.println(initialValue.getClass());
 		if (!(expressionType = initialValue.checkTypes(domain)).equals(type)) {
 			throw new TypeException("Expression was of type: "+expressionType+", while type: "+type+" was expected.");
 		}

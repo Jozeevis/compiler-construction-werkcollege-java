@@ -35,10 +35,10 @@ public class AssignmentNode extends ASyntaxKnot {
 	
 	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalThisException {
 		super(frontier);
-		
+		System.out.println("Assignment:"+oldKnot.expression);
 		id = ((TokenIdentifier)oldKnot.children[0].reduceToToken()).value;
 		accessors = TreeProcessing.processFieldStar((SyntaxExpressionKnot) oldKnot.children[1]);
-		expression = ((TokenExpression)oldKnot.children[0].reduceToToken()).expression;
+		expression = ((TokenExpression)oldKnot.children[3].reduceToToken()).expression;
 	}
 	
 
@@ -48,7 +48,7 @@ public class AssignmentNode extends ASyntaxKnot {
 		IDDeclaration varDef = domain.findIDDeclaration(id);
 		Type innerType = varDef.type;
 		linkNumber = varDef.offset;
-		scope = varDef.scope;
+		this.scope = varDef.scope;
 		for(Accessor accessor : accessors) {
 			innerType = accessor.checkTypes(domain, innerType);
 		}

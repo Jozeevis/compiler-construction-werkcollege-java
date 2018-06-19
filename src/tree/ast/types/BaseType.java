@@ -55,4 +55,9 @@ public class BaseType extends Type {
 		return nullValue;
 	}
 	
+	@Override
+	public String toString() {
+		return type.name();
+	}
+	
 }

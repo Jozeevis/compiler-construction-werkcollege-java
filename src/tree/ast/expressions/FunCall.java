@@ -3,9 +3,11 @@
  */
 package tree.ast.expressions;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import lexer.PrimitiveType;
+import lexer.TokenExpression;
 import lexer.TokenIdentifier;
 import processing.DeclarationException;
 import processing.TypeException;
@@ -29,36 +31,27 @@ public class FunCall extends BaseExpr {
 
 	/** The expressions denoting the arguments for this function */
 	public final BaseExpr[] arguments;
-	/** The types for the arguments for this function */
-	public final Type[] argumentTypes;
 
 	private String branchAddress;
 	
 	public FunCall(SyntaxExpressionKnot funcall) throws IllegalThisException {
+		System.out.println(funcall.expression);
 		id = ((TokenIdentifier) ((SyntaxLeaf) funcall.children[0]).leaf).value;
 
 		if (funcall.children.length == 3) {
 			arguments = new BaseExpr[0];
-			argumentTypes = new Type[0];
 		} else {
-			int n = 0;
-			SyntaxExpressionKnot currentArgument = (SyntaxExpressionKnot) funcall.children[3];
+			SyntaxExpressionKnot currentArgument = (SyntaxExpressionKnot) funcall.children[2];
+			List<BaseExpr> arguments = new LinkedList<>();
+			System.out.println(currentArgument);
 			while (currentArgument.children.length == 3) {
+				arguments.add(((TokenExpression) currentArgument.children[0].reduceToToken()).expression);
 				currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
-				n++;
 			}
-			arguments = new BaseExpr[n];
-			argumentTypes = new Type[n];
-			currentArgument = (SyntaxExpressionKnot) funcall.children[3];
-			int i = 0;
-			while (true) {
-				arguments[i] = BaseExpr.convertToExpr((SyntaxExpressionKnot) currentArgument.children[0]);
-				if (currentArgument.children.length == 3) {
-					currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
-					i++;
-				} else {
-					break;
-				}
+			arguments.add(((TokenExpression) currentArgument.children[0].reduceToToken()).expression);
+			this.arguments = new BaseExpr[arguments.size()];
+			for(int i=0; i< this.arguments.length; i++) {
+				this.arguments[i] = arguments.get(i);
 			}
 		}
 	}

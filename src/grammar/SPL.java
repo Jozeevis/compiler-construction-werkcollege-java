@@ -102,8 +102,8 @@ public class SPL extends ExpressionTree {
 			addExpressionTo(".TOK_EXP ", "Exp");
 			addExpressionTo(".TOK_IDENTIFIER ", "id");
 	
-			addExpressionTo("~id '('')'", "FunCall");
-			addExpressionTo("~id '('~ActArgs ')'", "FunCall");
+			addExpressionTo(".TOK_IDENTIFIER '('')'", "FunCall");
+			addExpressionTo(".TOK_IDENTIFIER '('~ActArgs ')'", "FunCall");
 	
 			addExpressionTo("~Exp", "ActArgs");
 			addExpressionTo("~Exp ','~ActArgs", "ActArgs");

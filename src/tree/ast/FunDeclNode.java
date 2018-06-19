@@ -38,7 +38,7 @@ public class FunDeclNode extends ASyntaxKnot {
 
 	public FunDeclNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws Exception {
 		super(frontier);
-
+		System.out.println(oldKnot.expression);
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
 		if (oldKnot.children.length == 9) { // Function declaration without Function arguments
 			// "~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
