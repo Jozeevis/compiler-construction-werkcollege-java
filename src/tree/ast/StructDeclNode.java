@@ -93,7 +93,7 @@ public class StructDeclNode extends ASyntaxKnot {
 
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
-		domain.addStructDeclaration(id, attributes, functions, cArgTypes);
+		branchAddress = domain.addStructDeclaration(id, attributes, functions, cArgTypes);
 		IDDeclarationBlock tempDomain = new IDDeclarationBlock(domain, Scope.STRUCT);
 		for (VarDeclNode varDecl : attributes) {
 			varDecl.checkTypes(tempDomain, Scope.STRUCT);

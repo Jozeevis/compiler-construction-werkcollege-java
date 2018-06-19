@@ -1,5 +1,8 @@
 package tree;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * A data-tree representing a syntactically correct program code.
  * @author Flip van Spaendonck
@@ -17,5 +20,23 @@ public class SyntaxTree {
 	public SyntaxTree(SyntaxKnot root) {
 		this.root = root;
 		frontier = root;
+	}
+	
+	@Override
+	public String toString() {
+		return printChildren(root, 0);
+	}
+	
+	private String printChildren(SyntaxNode node, int nrOfIndents) {
+		String out = "";
+		for(int i=0; i<nrOfIndents; i++)
+			out+= "    ";
+		out+= node + "\n";
+		if (node instanceof SyntaxKnot) {
+			for(SyntaxNode child: ((SyntaxKnot) node).children) {
+				out+= printChildren(child, nrOfIndents+1);
+			}
+		}
+		return out;
 	}
 }

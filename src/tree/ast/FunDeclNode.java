@@ -45,7 +45,7 @@ public class FunDeclNode extends ASyntaxKnot {
 			funArgs = new String[0];
 			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[4]);
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[6]);
-			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[7]).root;
+			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[7], this).root;
 		} else { // Function declaration with Function arguments
 					// "~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 					// Get identifiers of the function arguments out of the FArgs expression
@@ -61,7 +61,7 @@ public class FunDeclNode extends ASyntaxKnot {
 			}
 			funArgs[i] = ((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value;
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[7]);
-			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8]).root;
+			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8], this).root;
 		}
 
 		children = new SyntaxNode[] { body };
@@ -151,6 +151,11 @@ public class FunDeclNode extends ASyntaxKnot {
 		}
 		// Label for the skip to go to
 		stack.add(branchAddress + "Skip: nop");
+	}
+	
+	@Override
+	public String toString() {
+		return "funDecl:"+id;
 	}
 
 }

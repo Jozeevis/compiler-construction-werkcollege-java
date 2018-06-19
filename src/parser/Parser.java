@@ -94,6 +94,8 @@ public class Parser {
 			currentZambinos = newZambinos;
 		}
 		List<TokenTrace> legalZambinos = new LinkedList<>();
+		System.out.println("Finished parsing attempt");
+		System.out.println(currentZambinos.size());
 		for(TokenTrace zambino : currentZambinos) {
 			if (zambino.token.getTokenType() == TokenType.TOK_EOF) {
 				TokenTrace current = zambino;

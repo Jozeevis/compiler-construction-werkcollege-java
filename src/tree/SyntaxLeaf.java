@@ -19,7 +19,7 @@ public class SyntaxLeaf extends SyntaxNode {
 	/** The token that is represented by this leaf **/
 	public final Token leaf;
 
-	public SyntaxLeaf(Token token, SyntaxExpressionKnot parent) {
+	public SyntaxLeaf(Token token, SyntaxKnot parent) {
 		super(parent);
 
 		leaf = token;
@@ -41,5 +41,10 @@ public class SyntaxLeaf extends SyntaxNode {
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		return;
+	}
+
+	@Override
+	public SyntaxNode getASTEquivalent(SyntaxKnot parent) throws Exception {
+		return new SyntaxLeaf(leaf, parent);
 	}
 }

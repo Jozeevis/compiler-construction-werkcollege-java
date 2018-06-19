@@ -18,7 +18,7 @@ public abstract class SyntaxNode {
 	/** The depth at which this node is placed in the syntax-tree **/
 	public final int depth;
 	/** The syntax-knot above this node, is null when this node is the tree's root**/
-	public final SyntaxKnot parent;
+	public SyntaxKnot parent;
 	
 	protected SyntaxNode(SyntaxKnot parent2) {
 		if (parent2 == null) {
@@ -49,4 +49,6 @@ public abstract class SyntaxNode {
 	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
 
 	public abstract void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException;
+	
+	public abstract SyntaxNode getASTEquivalent(SyntaxKnot parent) throws Exception;
 }

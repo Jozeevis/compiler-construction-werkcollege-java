@@ -19,13 +19,15 @@ public class SPLExpressionParser {
 	public static final void packExpressions(List<Token> tokens) throws ParsingException, IllegalThisException {
 		loop: for (int i = 0; i < tokens.size(); i++) {
 			TokenType current = tokens.get(i).getTokenType();
-			System.out.println("Is this a"+current);
 			if (current == TokenType.TOK_ASS | current == TokenType.TOK_KW_RETURN | current == TokenType.TOK_KW_PRINT) {
 				i++;
 				int end = i;
 				try {
 					while (tokens.get(end).getTokenType() != TokenType.TOK_EOS)
 						end++;
+					//In case of a return;
+					if (end == i)
+						continue loop;
 					System.out.println("t:"+tokens.subList(i, end));
 					TokenExpression expressionToken = new TokenExpression(new LinkedList<>(tokens.subList(i, end)));
 					while (end - i > 0) {

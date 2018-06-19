@@ -4,19 +4,42 @@ import org.junit.Test;
 
 import lexer.Lexer;
 import parser.Parser;
+import processing.TreeProcessing;
+import tree.CodeGenerator;
+import tree.SyntaxTree;
 
 public class DogTest {
 
 	
-	/*@Test
+	@Test
 	public void smollDogTest() {
 		String code = "Dog {\r\n" + 
-				"	Dog () {}\r\n" + 
-				"}\r\n";
+				"	Dog ( ) {}\r\n" + 
+				"}\r\n" +
+				"\r\n" + 
+				"main () ::->void {\r\n" + 
+				"return;\r\n" + 
+				"}";
+		System.out.println(code);
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
-	}*/
-	@Test
+		System.out.println(p.tree.root);
+		try {
+			
+			SyntaxTree t = TreeProcessing.processIntoAST(p.tree.root);
+			System.out.println("=====");
+			System.out.println(t);
+			System.out.println("=====");
+			
+			System.out.println(TreeProcessing.checkWellTyped(t));
+			System.out.println(CodeGenerator.generateCode(t));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*@Test
 	public void dogTest() {
 		String code = "Dog {\r\n" + 
 				"	Int nrOfBarksLeft = 5;\r\n" + 
@@ -36,13 +59,21 @@ public class DogTest {
 				"			nrOfBarksLeft = nrOfBarksLeft - 1;\r\n" + 
 				"			barkRecursive();\r\n" + 
 				"		}\r\n" + 
-				"	}\r\n" + 
-				"}\r\n" + 
-				"\r\n" + 
-				"main () ::->void {\r\n" + 
-				"	\r\n" + 
-				"}";
+				"	}\r\n }" ;
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
-	}
+try {
+			
+			SyntaxTree t = TreeProcessing.processIntoAST(p.tree.root);
+			System.out.println("=====");
+			System.out.println(t);
+			System.out.println("=====");
+			
+			System.out.println(TreeProcessing.checkWellTyped(t));
+			System.out.println(CodeGenerator.generateCode(t));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 }

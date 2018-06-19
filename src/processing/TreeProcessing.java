@@ -44,6 +44,9 @@ import tree.ast.FunDeclNode;
  */
 public final class TreeProcessing {
 
+	public static SyntaxTree processIntoAST(SyntaxKnot originalKnot) throws Exception {
+		return processIntoAST(originalKnot, null);
+	}
 	/**
 	 * Tries to detect knots with an expression that has an abstract syntax tree
 	 * equivallent and converts does knots into ASyntaxKnots.
@@ -56,18 +59,19 @@ public final class TreeProcessing {
 	 *         SyntaxKnot.
 	 * @throws Exception
 	 */
-	public static SyntaxTree processIntoAST(SyntaxKnot originalKnot) throws Exception {
-		List<SyntaxExpressionKnot> oldTreefrontier = new LinkedList<>();
+	public static SyntaxTree processIntoAST(SyntaxKnot originalKnot, SyntaxKnot fatheredInKnot) throws Exception {
+		/*List<SyntaxExpressionKnot> oldTreefrontier = new LinkedList<>();
 		SyntaxTree asTree = new SyntaxTree(
-				new SyntaxExpressionKnot(((SyntaxExpressionKnot) originalKnot).expression, null));
+				new SyntaxExpressionKnot(((SyntaxExpressionKnot) originalKnot).expression, fatheredInKnot));
 		for (SyntaxNode node : originalKnot.children) {
 			if (node instanceof SyntaxExpressionKnot) {
 				oldTreefrontier.add((SyntaxExpressionKnot) node);
 			}
 		}
 		while (!oldTreefrontier.isEmpty()) {
+			System.out.println(asTree);
 			SyntaxExpressionKnot current = oldTreefrontier.remove(0);
-			System.out.println("Processing: " + current);
+			//System.out.println("Processing: " + current);
 			if (current.expression instanceof ExpressionWithAST) {
 				ASyntaxKnot aKnot;
 				switch (((ExpressionWithAST) current.expression).id) {
@@ -117,11 +121,12 @@ public final class TreeProcessing {
 				/*
 				 * while(asTree.frontier != null && asTree.frontier.isComplete()) {
 				 * asTree.frontier = asTree.frontier.parent; }
-				 */
+				 
 			}
 
-			System.out.println("Frontier: " + asTree.frontier);
-		}
+			//System.out.println("Frontier: " + asTree.frontier);
+		} */
+		SyntaxTree asTree = new SyntaxTree((SyntaxKnot) originalKnot.getASTEquivalent(fatheredInKnot));
 		return asTree;
 	}
 

@@ -12,5 +12,10 @@ public class TokenIdentifier extends Token {
 		super(TokenType.TOK_IDENTIFIER);
 		value = val;
 	}
+	
+	@Override
+	public String toString() {
+		return "id:"+value;
+	}
 
 }

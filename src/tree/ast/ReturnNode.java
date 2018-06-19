@@ -37,11 +37,13 @@ public class ReturnNode extends ASyntaxKnot {
 
 		SyntaxNode father = frontier;
 		while (!(father instanceof FunDeclNode)) {
+			System.out.println("father="+father);
 			father = father.parent;
 			if (father == null)
 				throw new IllegalReturnException();
 		}
 		funDecl = (FunDeclNode) father;
+		System.out.println("fundecl:=" +funDecl.id);
 	}
 
 	@Override

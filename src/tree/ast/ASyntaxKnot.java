@@ -3,6 +3,10 @@ package tree.ast;
 import java.util.List;
 
 import grammar.Expression;
+import processing.DeclarationException;
+import processing.TypeException;
+import tree.IDDeclarationBlock;
+import tree.IDDeclarationBlock.Scope;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
@@ -27,5 +31,12 @@ public abstract class ASyntaxKnot extends SyntaxKnot{
 	public boolean isComplete() {
 		return true;
 	}
+
+	@Override
+	public SyntaxNode getASTEquivalent(SyntaxKnot parent) throws Exception {
+		throw new Exception("This node is already an ASyntaxKnot and should not be converted!");
+	}
+	
+	
 	
 }
