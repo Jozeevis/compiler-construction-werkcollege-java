@@ -30,20 +30,19 @@ public class ReturnNode extends ASyntaxKnot {
 	public ReturnNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalReturnException {
 		super(frontier);
 
+		//System.out.println(oldKnot.children[2].reduceToToken());
 		if (oldKnot.children.length == 2)
 			returnedValue = null;
 		else
-			returnedValue = ((TokenExpression) oldKnot.children[2].reduceToToken()).expression;
+			returnedValue = ((TokenExpression) oldKnot.children[1].reduceToToken()).expression;
 
 		SyntaxNode father = frontier;
 		while (!(father instanceof FunDeclNode)) {
-			System.out.println("father="+father);
 			father = father.parent;
 			if (father == null)
 				throw new IllegalReturnException();
 		}
 		funDecl = (FunDeclNode) father;
-		System.out.println("fundecl:=" +funDecl.id);
 	}
 
 	@Override
@@ -73,6 +72,7 @@ public class ReturnNode extends ASyntaxKnot {
 		// Pop the old PC from the stack and return to that point, leaving the
 		// returnvalue (if any) on top of the stack
 		if (returnedValue != null) {
+			returnedValue.addCodeToStack(stack, counter);
 			stack.add("str 4");
 		}
 		stack.add("unlink");
@@ -82,6 +82,11 @@ public class ReturnNode extends ASyntaxKnot {
 		}
 		stack.add("ret");
 		
+	}
+
+	@Override
+	public boolean alwaysReturns() {
+		return true;
 	}
 
 }

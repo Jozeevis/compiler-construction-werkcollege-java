@@ -12,6 +12,7 @@ import lexer.TokenInteger;
 import lexer.TokenTupleFunction;
 import lexer.TokenType;
 import tree.ast.IfElseStmtKnot;
+import tree.ast.PrintNode;
 import tree.ast.ReturnNode;
 import tree.ast.StructDeclNode;
 import tree.ast.VarDeclNode;
@@ -25,7 +26,6 @@ import tree.ast.accessors.StructVarAccessor;
 import tree.ast.expressions.FunCall;
 import tree.ast.expressions.IllegalThisException;
 import tree.IDDeclarationBlock;
-import tree.PrintNode;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
@@ -60,72 +60,6 @@ public final class TreeProcessing {
 	 * @throws Exception
 	 */
 	public static SyntaxTree processIntoAST(SyntaxKnot originalKnot, SyntaxKnot fatheredInKnot) throws Exception {
-		/*List<SyntaxExpressionKnot> oldTreefrontier = new LinkedList<>();
-		SyntaxTree asTree = new SyntaxTree(
-				new SyntaxExpressionKnot(((SyntaxExpressionKnot) originalKnot).expression, fatheredInKnot));
-		for (SyntaxNode node : originalKnot.children) {
-			if (node instanceof SyntaxExpressionKnot) {
-				oldTreefrontier.add((SyntaxExpressionKnot) node);
-			}
-		}
-		while (!oldTreefrontier.isEmpty()) {
-			System.out.println(asTree);
-			SyntaxExpressionKnot current = oldTreefrontier.remove(0);
-			//System.out.println("Processing: " + current);
-			if (current.expression instanceof ExpressionWithAST) {
-				ASyntaxKnot aKnot;
-				switch (((ExpressionWithAST) current.expression).id) {
-				case "VarInit":
-					aKnot = new VarDeclNode(current, asTree.frontier);
-					break;
-				case "FunDecl":
-					aKnot = new FunDeclNode(current, asTree.frontier);
-					break;
-				case "StructDecl":
-					aKnot = new StructDeclNode(current, asTree.frontier);
-					break;
-				case "IfElseStmt":
-					aKnot = new IfElseStmtKnot(current, asTree.frontier);
-					break;
-				case "WhileStmt":
-					aKnot = new WhileStmtKnot(current, asTree.frontier);
-					break;
-				case "FunCall":
-					aKnot = new FunCallNode(current, asTree.frontier);
-					break;
-				case "Assign":
-					aKnot = new AssignmentNode(current, asTree.frontier);
-					break;
-				case "Return":
-					aKnot = new ReturnNode(current, asTree.frontier);
-					break;
-				case "Print":
-					aKnot = new PrintNode(current, asTree.frontier);
-					break;
-				default:
-					throw (new Exception("ExpressionWithAST: " + (((ExpressionWithAST) current.expression).id)
-							+ " encountered, however no option has been programmed in."));
-					// TODO: Add other Expressions that can be converted to AST Nodes.
-				}
-				asTree.frontier.addChild(aKnot);
-			} else {
-				SyntaxExpressionKnot knot;
-
-				asTree.frontier.addChild(knot = new SyntaxExpressionKnot(current.expression, asTree.frontier));
-				for (SyntaxNode node : current.children) {
-					if (node instanceof SyntaxExpressionKnot) {
-						oldTreefrontier.add(0, (SyntaxExpressionKnot) node);
-					}
-				}
-				asTree.frontier = knot;
-				/*
-				 * while(asTree.frontier != null && asTree.frontier.isComplete()) {
-				 * asTree.frontier = asTree.frontier.parent; }
-				 
-			}
-
-			//System.out.println("Frontier: " + asTree.frontier);
-		} */
 		SyntaxTree asTree = new SyntaxTree((SyntaxKnot) originalKnot.getASTEquivalent(fatheredInKnot));
 		return asTree;
 	}

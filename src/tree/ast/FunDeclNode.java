@@ -38,14 +38,13 @@ public class FunDeclNode extends ASyntaxKnot {
 
 	public FunDeclNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws Exception {
 		super(frontier);
-		System.out.println(oldKnot.expression);
 		id = ((TokenIdentifier) oldKnot.children[0].reduceToToken()).getValue();
 		if (oldKnot.children.length == 9) { // Function declaration without Function arguments
 			// "~id '('')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 			funArgs = new String[0];
 			funtype = ExtractFunctionType((SyntaxExpressionKnot) oldKnot.children[4]);
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[6]);
-			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[7], this).root;
+			body = oldKnot.children[7].getASTEquivalent(this);
 		} else { // Function declaration with Function arguments
 					// "~id '('~FArgs ')''::'~FunType '{'~VarDeclStar ~StmtPlus '}'","FunDecl"
 					// Get identifiers of the function arguments out of the FArgs expression
@@ -61,9 +60,12 @@ public class FunDeclNode extends ASyntaxKnot {
 			}
 			funArgs[i] = ((TokenIdentifier) fArgKnot.children[0].reduceToToken()).value;
 			varDecls = ExtractVariables((SyntaxExpressionKnot) oldKnot.children[7]);
-			body = TreeProcessing.processIntoAST((SyntaxKnot) oldKnot.children[8], this).root;
+			body = oldKnot.children[8].getASTEquivalent(this);
 		}
-
+		if (!(funtype.returnType instanceof VoidType)) {
+			if (!body.alwaysReturns())
+				throw new Exception("Function "+id+" does not always hit a return statement.");
+		}
 		children = new SyntaxNode[] { body };
 	}
 
@@ -109,7 +111,6 @@ public class FunDeclNode extends ASyntaxKnot {
 				domain.findStructDeclaration(((CustomType) type).typeName);
 			}
 		}
-		System.out.println(funtype.returnType.getClass());
 		if (funtype.returnType instanceof CustomType) {
 			domain.findStructDeclaration(((CustomType)funtype.returnType).typeName);
 		}
@@ -161,6 +162,11 @@ public class FunDeclNode extends ASyntaxKnot {
 	@Override
 	public String toString() {
 		return "funDecl:"+id;
+	}
+
+	@Override
+	public boolean alwaysReturns() {
+		return false;
 	}
 
 }

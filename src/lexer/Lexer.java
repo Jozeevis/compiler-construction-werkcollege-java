@@ -216,7 +216,7 @@ public class Lexer {
 		// Chars
 		if (match('\'')) {
 			currentPosition++;
-			if (Character.isAlphabetic(input.charAt(currentPosition))) {
+			if (input.charAt(currentPosition) >= 32) {
 				char value = input.charAt(currentPosition);
 				currentPosition++;
 				if (match('\'')) {

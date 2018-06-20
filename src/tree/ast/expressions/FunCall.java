@@ -35,25 +35,28 @@ public class FunCall extends BaseExpr {
 	private String branchAddress;
 	
 	public FunCall(SyntaxExpressionKnot funcall) throws IllegalThisException {
-		System.out.println(funcall.expression);
 		id = ((TokenIdentifier) ((SyntaxLeaf) funcall.children[0]).leaf).value;
-
+		System.out.println(funcall);
 		if (funcall.children.length == 3) {
 			arguments = new BaseExpr[0];
 		} else {
 			SyntaxExpressionKnot currentArgument = (SyntaxExpressionKnot) funcall.children[2];
 			List<BaseExpr> arguments = new LinkedList<>();
-			System.out.println(currentArgument);
 			while (currentArgument.children.length == 3) {
-				arguments.add(((TokenExpression) currentArgument.children[0].reduceToToken()).expression);
+				arguments.add(BaseExpr.convertToExpr((SyntaxExpressionKnot) currentArgument.children[0]));
 				currentArgument = (SyntaxExpressionKnot) currentArgument.children[2];
 			}
-			arguments.add(((TokenExpression) currentArgument.children[0].reduceToToken()).expression);
+			arguments.add(BaseExpr.convertToExpr((SyntaxExpressionKnot) currentArgument.children[0]));
 			this.arguments = new BaseExpr[arguments.size()];
 			for(int i=0; i< this.arguments.length; i++) {
 				this.arguments[i] = arguments.get(i);
 			}
 		}
+	}
+	
+	public FunCall(String id, BaseExpr[] arguments) {
+		this.id = id;
+		this.arguments = arguments;
 	}
 
 	/*
@@ -82,7 +85,7 @@ public class FunCall extends BaseExpr {
 					+ " arguments, while " + arguments.length + " where expected.");
 		for (int i = 0; i < arguments.length; i++) {
 			Type argumentExpressionType;
-			if (!(argumentExpressionType = arguments[i].checkTypes(domain)).equals(type.inputTypes[i]))
+			if (!(argumentExpressionType = arguments[i].checkTypes(domain)).matches(type.inputTypes[i]))
 				throw new TypeException("Argument " + i + " was expected to have type: " + type.inputTypes[i]
 						+ ", however an expression of type " + argumentExpressionType + " was used.");
 		}
@@ -93,7 +96,6 @@ public class FunCall extends BaseExpr {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		for(BaseExpr argument : arguments) {
 			argument.addCodeToStack(stack, counter);
-			stack.add("sth");
 		}
 		stack.add("stmh 0"+arguments.length);
 		stack.add("str 5");

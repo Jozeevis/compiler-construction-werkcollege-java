@@ -48,8 +48,8 @@ public class CallUp extends OneArg {
 		for (Accessor accessor : accessors) {
 			accessor.addCodeToStack(stack, counter);
 		}
-		if (finalType instanceof BaseType)
-			stack.add("ldh 0");
+		//if (finalType instanceof BaseType)
+		//	stack.add("ldh 0");
 	}
 
 	/* (non-Javadoc)

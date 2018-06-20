@@ -46,7 +46,6 @@ public class VarDeclNode extends ASyntaxKnot {
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		Type expressionType;
-		System.out.println(initialValue.getClass());
 		if (!(expressionType = initialValue.checkTypes(domain)).matches(type)) {
 			throw new TypeException("Expression was of type: "+expressionType+", while type: "+type+" was expected.");
 		}
@@ -73,6 +72,11 @@ public class VarDeclNode extends ASyntaxKnot {
 			System.err.println("No case defined for scope: "+scope);
 			break;
 		}
+	}
+
+	@Override
+	public boolean alwaysReturns() {
+		return false;
 	}
 
 	

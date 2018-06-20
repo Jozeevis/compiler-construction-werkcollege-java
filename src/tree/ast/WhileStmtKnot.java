@@ -63,4 +63,9 @@ public class WhileStmtKnot extends ASyntaxKnot {
 		stack.add("ENDLABEL" + counter.getCount() + ": nop");
 	}
 
+	@Override
+	public boolean alwaysReturns() {
+		return body.alwaysReturns();
+	}
+
 }

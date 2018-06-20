@@ -1,13 +1,13 @@
-package tree;
+package tree.ast;
 
 import java.util.List;
 
 import lexer.TokenExpression;
 import processing.DeclarationException;
 import processing.TypeException;
+import tree.IDDeclarationBlock;
+import tree.SyntaxKnot;
 import tree.IDDeclarationBlock.Scope;
-import tree.ast.ASyntaxKnot;
-import tree.ast.LabelCounter;
 import tree.ast.expressions.BaseExpr;
 import tree.ast.types.BaseType;
 import tree.ast.types.Type;
@@ -24,7 +24,6 @@ public class PrintNode extends ASyntaxKnot {
 	
 	public PrintNode(SyntaxKnot oldKnot, SyntaxKnot parent) {
 		super(parent);
-		System.out.println(oldKnot);
 		expression = ((TokenExpression) oldKnot.children[1].reduceToToken()).expression;
 	}
 
@@ -44,6 +43,11 @@ public class PrintNode extends ASyntaxKnot {
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
 		expressionType = expression.checkTypes(domain);
+	}
+
+	@Override
+	public boolean alwaysReturns() {
+		return false;
 	}
 }
 

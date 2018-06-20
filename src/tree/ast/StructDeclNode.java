@@ -161,6 +161,11 @@ public class StructDeclNode extends ASyntaxKnot {
 		stack.add(branchAddress + "Skip: nop");
 	}
 
+	@Override
+	public boolean alwaysReturns() {
+		return false;
+	}
+
 
 
 }

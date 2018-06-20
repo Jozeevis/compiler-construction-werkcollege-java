@@ -182,6 +182,7 @@ public abstract class BaseExpr {
 				return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 			}
 		}
+		System.out.println(knot);
 		return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 	}
 }

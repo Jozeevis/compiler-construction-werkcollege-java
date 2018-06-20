@@ -27,7 +27,8 @@ public class LargeTests {
 	
 	@Test
 	public void testHelloWorld() {
-		String code = "main() :: -> void {(Char, Char, Char, Char, Char) hello = ('h', 'e', 'l', 'l', 'o'); print hello.[0];}";
+		String code = "printPentuple( muple ) :: (Char, Char, Char, Char, Char) -> Char {Int i = 4; print muple.[0]; print muple.[1]; print muple.[2]; print muple.[3]; print muple.[4]; return '!';}"
+				+ "main() :: -> void {(Char, Char, Char, Char, Char) hello = ('h', 'e', 'l', 'l', 'o'); print printPentuple( hello);}";
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
 		System.out.println(p.tree.root);

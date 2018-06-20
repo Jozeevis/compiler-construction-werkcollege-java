@@ -13,6 +13,7 @@ import tree.ast.FunCallNode;
 import tree.ast.FunDeclNode;
 import tree.ast.IfElseStmtKnot;
 import tree.ast.LabelCounter;
+import tree.ast.PrintNode;
 import tree.ast.ReturnNode;
 import tree.ast.StructDeclNode;
 import tree.ast.VarDeclNode;
@@ -36,7 +37,6 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		System.out.println(expression);
 		for(SyntaxNode child : children) {
 			child.addCodeToStack(stack, counter);
 		}
@@ -49,7 +49,6 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 
 	@Override
 	public void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException {
-		System.out.println(this);
 		for(SyntaxNode child : children)
 			child.checkTypes(domain, scope);
 	}
@@ -99,6 +98,15 @@ public class SyntaxExpressionKnot extends SyntaxKnot{
 			}
 			return clone;
 		}
+	}
+
+	@Override
+	public boolean alwaysReturns() {
+		for(SyntaxNode child : children) {
+			if (child.alwaysReturns())
+				return true;
+		}
+		return false;
 	}
 
 }

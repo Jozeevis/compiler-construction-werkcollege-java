@@ -51,4 +51,6 @@ public abstract class SyntaxNode {
 	public abstract void checkTypes(IDDeclarationBlock domain, Scope scope) throws TypeException, DeclarationException;
 	
 	public abstract SyntaxNode getASTEquivalent(SyntaxKnot parent) throws Exception;
+	
+	public abstract boolean alwaysReturns();
 }

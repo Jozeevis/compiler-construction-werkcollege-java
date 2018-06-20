@@ -69,23 +69,14 @@ public class Parser {
 		List<TokenTrace> newZambinos = new LinkedList<>();
 		while(!code.isEmpty()) {
 			Token token = code.remove(0);
-			System.out.println("Trying to fit: "+token);
+			//System.out.println("Trying to fit: "+token);
 			if (token.getTokenType() == TokenType.TOK_EOF)
 				break;
-			//System.out.println(currentZambinos);
 			newZambinos = new LinkedList<>();
 			for(TokenTrace zambino : currentZambinos) {
-				/*if(zambino.token.getTokenType() == TokenType.TOK_NIL) {
-					for(TokenTrace next : zambino.next()) {
-						if(next.token.getTokenType() == token.getTokenType()) {
-							next.token = token;
-							newZambinos.addAll(next.next());
-						}
-					}
-				}*/
 				//System.out.println("Trying to match "+zambino.token.getTokenType()+" with "+token.getTokenType()+".");
 				if(zambino.token.getTokenType() == token.getTokenType()) {
-					System.out.println("WE GOT A MATCH"+zambino);
+					//System.out.println("WE GOT A MATCH"+zambino);
 					zambino.token = token;
 					newZambinos.addAll(zambino.next());
 				} else {
@@ -95,12 +86,9 @@ public class Parser {
 			currentZambinos = newZambinos;
 		}
 		List<TokenTrace> legalZambinos = new LinkedList<>();
-		System.out.println("Finished parsing attempt");
-		System.out.println(currentZambinos.size());
 		for(TokenTrace zambino : currentZambinos) {
 			if (zambino.token.getTokenType() == TokenType.TOK_EOF) {
 				TokenTrace current = zambino;
-				System.out.println(current);
 				legalZambinos.add(current);
 				while(current.leftTokenTrace != null) {
 					current = current.leftTokenTrace;
@@ -129,7 +117,7 @@ public class Parser {
 			currentZambino.affixTo(tree);
 		}
 		
-		System.out.println("boompje geplakt");
+		System.out.println("Tree build");
 		return tree;
 	}
 	
@@ -214,7 +202,6 @@ public class Parser {
 		 */
 		public static List<TokenTrace> getAllTokenTracesFromNode(TokenTrace leftTokenTrace, Node node, List<Pair> expressionsNotCoveredUnderTokenTrace) {
 			List<TokenTrace> out = new LinkedList<>();
-			System.out.println("Getting next from:"+node);
 			for (Expression expression : node.expressions) {
 				List<Pair> newlyEncounteredExpressions = new LinkedList<>(expressionsNotCoveredUnderTokenTrace);
 				newlyEncounteredExpressions.add(new Pair(expression, 0));
@@ -231,7 +218,6 @@ public class Parser {
 		 * Affixes the list of expressions to the current tree.
 		 */
 		public void affixTo(SyntaxTree tree) {
-			System.out.println("Affixing: "+this.token);
 			for(int d=tree.frontier.depth+1; d < expressions.size(); d++) {
 				SyntaxExpressionKnot currentNode = new SyntaxExpressionKnot(expressions.get(d).expression, (SyntaxExpressionKnot) tree.frontier);
 				tree.frontier.addChild(currentNode);

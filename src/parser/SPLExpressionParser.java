@@ -31,7 +31,7 @@ public class SPLExpressionParser {
 					System.out.println("t:"+tokens.subList(i, end));
 					TokenExpression expressionToken = new TokenExpression(new LinkedList<>(tokens.subList(i, end)));
 					while (end - i > 0) {
-						System.out.println("Removing: "+tokens.remove(i));
+						tokens.remove(i);
 						end--;
 					}
 					tokens.add(i, expressionToken);
@@ -81,7 +81,7 @@ public class SPLExpressionParser {
 					}
 					int brackCount = 0;
 					List<Token> argument = new LinkedList<>();
-					System.out.println("These tokens are the arguments of this funcall: "+arguments);
+					//System.out.println("These tokens are the arguments of this funcall: "+arguments);
 					if (arguments.isEmpty()) {
 						continue loop;
 					}
@@ -90,7 +90,7 @@ public class SPLExpressionParser {
 						if ((token.getTokenType() == TokenType.TOK_COMMA )& brackCount == 0) {
 							tokens.add(i++, new TokenExpression(argument));
 							tokens.add(i++, token);
-							arguments.clear();
+							argument.clear();
 						} else if (token.getTokenType() == TokenType.TOK_BRACK_OPEN) {
 							brackCount++;
 						} else if (token.getTokenType() == TokenType.TOK_BRACK_CLOSE) {

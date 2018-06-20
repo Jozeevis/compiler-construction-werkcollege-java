@@ -35,7 +35,6 @@ public class AssignmentNode extends ASyntaxKnot {
 	
 	public AssignmentNode(SyntaxExpressionKnot oldKnot, SyntaxKnot frontier) throws IllegalThisException {
 		super(frontier);
-		System.out.println("Assignment:"+oldKnot.expression);
 		id = ((TokenIdentifier)oldKnot.children[0].reduceToToken()).value;
 		accessors = TreeProcessing.processFieldStar((SyntaxExpressionKnot) oldKnot.children[1]);
 		expression = ((TokenExpression)oldKnot.children[3].reduceToToken()).expression;
@@ -69,24 +68,30 @@ public class AssignmentNode extends ASyntaxKnot {
 		switch(scope) {
 		case GLOBAL:
 			stack.add("ldl 1");
-			stack.add("ldh "+ (-linkNumber));
 			break;
 		case STRUCT:
 			stack.add("ldl 2");
-			stack.add("ldh "+ (-linkNumber));
 			break;
 		case LOCAL:
-			stack.add("ldl "+(3+linkNumber));
 			break;
 		default:
 			System.err.println("No case defined for scope: "+scope);
 			break;
 		}
-		//stack.add("ldl " + linkNumber);
+		//System.out.println("kaasplankje:"+ accessors.length);
 		for(Accessor accessor : accessors) {
 			accessor.addCodeToStack(stack, null);
 		}
-		stack.add("sta 0");
+		if (scope == Scope.LOCAL)
+			stack.add("stl"+(3+linkNumber));
+		else
+			stack.add("sta "+ (-linkNumber));
+	}
+
+
+	@Override
+	public boolean alwaysReturns() {
+		return false;
 	}
 
 

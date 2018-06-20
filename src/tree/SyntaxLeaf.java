@@ -47,4 +47,9 @@ public class SyntaxLeaf extends SyntaxNode {
 	public SyntaxNode getASTEquivalent(SyntaxKnot parent) throws Exception {
 		return new SyntaxLeaf(leaf, parent);
 	}
+
+	@Override
+	public boolean alwaysReturns() {
+		return false;
+	}
 }

@@ -95,4 +95,11 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 		stack.add("ENDLABEL" + counter.getCount() + ": nop");
 	}
 
+	@Override
+	public boolean alwaysReturns() {
+		if (elseBody == null)
+			return false;
+		return ifBody.alwaysReturns() & elseBody.alwaysReturns();
+	}
+
 }
