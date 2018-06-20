@@ -73,6 +73,7 @@ public class AssignmentNode extends ASyntaxKnot {
 			stack.add("ldl 2");
 			break;
 		case LOCAL:
+			
 			break;
 		default:
 			System.err.println("No case defined for scope: "+scope);
@@ -83,7 +84,7 @@ public class AssignmentNode extends ASyntaxKnot {
 			accessor.addCodeToStack(stack, null);
 		}
 		if (scope == Scope.LOCAL)
-			stack.add("stl"+(3+linkNumber));
+			stack.add("stl "+(3+linkNumber));
 		else
 			stack.add("sta "+ (-linkNumber));
 	}

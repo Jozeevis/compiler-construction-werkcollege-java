@@ -32,7 +32,7 @@ public class EmptyList extends NoArg {
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
-		return WildType.instanceOf;
+		return new ListType(WildType.instanceOf);
 	}
 
 }

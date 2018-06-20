@@ -32,7 +32,7 @@ public class ListType extends Type {
 		if (t instanceof WildType)
 			return true;
 		if (t instanceof ListType) {
-			return ((ListType) t).listedType == listedType;
+			return ((ListType) t).listedType.matches(listedType);
 		}
 		return false;
 	}
@@ -40,5 +40,9 @@ public class ListType extends Type {
 	@Override
 	public BaseExpr getNullValue() {
 		return EmptyList.instanceOf;
+	}
+	
+	public String toString() {
+		return "["+listedType+"]";
 	}
 }

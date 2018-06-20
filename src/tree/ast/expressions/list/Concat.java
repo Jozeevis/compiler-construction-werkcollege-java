@@ -48,15 +48,16 @@ public class Concat extends TwoArg {
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
 		Type listType;
+		Type leftType;
 		if ((listType = right.checkTypes(domain)) instanceof ListType) {
-			Type leftType;
-			if (!(leftType = left.checkTypes(domain)).equals(((ListType) listType).listedType))
+			
+			if (!(leftType = left.checkTypes(domain)).matches(((ListType) listType).listedType))
 				throw new TypeException("Left expression was of type: " + leftType + " while Type "
 						+ ((ListType) listType).listedType + " was expected.");
 		} else
 			throw new TypeException(
 					"Right expression was of type: " + listType + " while Type ListType[_] was expected.");
-		return listType;
+		return new ListType(leftType);
 	}
 
 }
