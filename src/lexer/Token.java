@@ -2,9 +2,11 @@ package lexer;
 
 public class Token {
 	private final TokenType tokenType;
+	public final int lineNumber;
 
-	public Token(TokenType tokType) {
+	public Token(TokenType tokType, int lineNumber) {
 		tokenType = tokType;
+		this.lineNumber = lineNumber;
 	}
 
 	public TokenType getTokenType() {

@@ -7,8 +7,8 @@ public class TokenBool extends Token {
 		return value;
 	}
 
-	public TokenBool(boolean value) {
-		super(TokenType.TOK_BOOL);
+	public TokenBool(boolean value, int lineNumber) {
+		super(TokenType.TOK_BOOL, lineNumber);
 		this.value = value;
 	}
 }

@@ -8,8 +8,8 @@ public class TokenIdentifier extends Token {
 		return value;
 	}
 
-	public TokenIdentifier(String val) {
-		super(TokenType.TOK_IDENTIFIER);
+	public TokenIdentifier(String val, int lineNumber) {
+		super(TokenType.TOK_IDENTIFIER, lineNumber);
 		value = val;
 	}
 	

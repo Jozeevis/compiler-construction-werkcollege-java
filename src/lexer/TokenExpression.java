@@ -23,8 +23,7 @@ public class TokenExpression extends Token {
 	public final BaseExpr expression;
 	
 	public TokenExpression(List<Token> list) throws IllegalThisException, ParsingException {
-		super(TokenType.TOK_EXP);
-		//System.out.println("test2:" +list);
+		super(TokenType.TOK_EXP, list.get(0).lineNumber);
 		SyntaxTree tree = Parser.convertTokenTraces(Parser.parseCode(EXP.INSTANCE, list));
 		BaseExpr tempExpression = BaseExpr.convertToExpr((SyntaxExpressionKnot) tree.root);
 		expression = tempExpression.optimize();

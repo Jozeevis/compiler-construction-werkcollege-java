@@ -151,7 +151,7 @@ public class Parser {
 		 * This one is used for the final tokentrace.
 		 */
 		private TokenTrace(TokenTrace prev) {
-			token = new Token(TokenType.TOK_EOF);
+			token = new Token(TokenType.TOK_EOF, prev.token.lineNumber);
 			expressions = new LinkedList<>();
 			leftTokenTrace= prev;
 		}

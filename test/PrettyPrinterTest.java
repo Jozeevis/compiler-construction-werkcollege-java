@@ -21,7 +21,7 @@ public class PrettyPrinterTest {
 	@Test
 	public void testInteger() {
 		List<Token> tokens = new ArrayList<Token>();
-		tokens.add(new TokenInteger(42));
+		tokens.add(new TokenInteger(42, 0));
 		PrettyPrinter pp = new PrettyPrinter();
 		assertEquals("42", pp.getResultString(tokens));
 	}
@@ -29,9 +29,9 @@ public class PrettyPrinterTest {
 	@Test
 	public void testPlus() {
 		List<Token> tokens = new ArrayList<Token>();
-		tokens.add(new TokenInteger(4));
-		tokens.add(new Token(TokenType.TOK_PLUS));
-		tokens.add(new TokenInteger(2));
+		tokens.add(new TokenInteger(4, 0));
+		tokens.add(new Token(TokenType.TOK_PLUS, 0));
+		tokens.add(new TokenInteger(2, 0));
 		PrettyPrinter pp = new PrettyPrinter();
 		assertEquals("4 + 2", pp.getResultString(tokens));
 	}

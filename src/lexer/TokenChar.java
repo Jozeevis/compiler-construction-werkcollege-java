@@ -7,8 +7,8 @@ public class TokenChar extends Token {
 		return value;
 	}
 
-	public TokenChar(char value) {
-		super(TokenType.TOK_CHAR);
+	public TokenChar(char value, int lineNumber) {
+		super(TokenType.TOK_CHAR, lineNumber);
 		this.value = value;
 	}
 

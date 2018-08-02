@@ -11,8 +11,8 @@ import java.util.List;
  */
 public abstract class TokenField extends Token {
 
-	protected TokenField(TokenType tokType) {
-		super(tokType);
+	protected TokenField(TokenType tokType, int lineNumber) {
+		super(tokType, lineNumber);
 	}
 
 	public abstract void addCodeToStack(List<String> stack);

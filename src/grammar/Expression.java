@@ -57,7 +57,7 @@ public class Expression {
 				end = front+1;
 				while(end < expression.length() && expression.charAt(end) != ' ')
 					end++;
-				array.add(new Token(TokenType.valueOf(expression.substring(front+1, end))));
+				array.add(new Token(TokenType.valueOf(expression.substring(front+1, end)), 0));
 				n++;
 				end++;
 				front = end;

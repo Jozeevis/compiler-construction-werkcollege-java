@@ -7,8 +7,8 @@ public class TokenPrimitiveType extends Token {
 		return type;
 	}
 
-	public TokenPrimitiveType(PrimitiveType type) {
-		super(TokenType.TOK_PRIM_TYPE);
+	public TokenPrimitiveType(PrimitiveType type, int lineNumber) {
+		super(TokenType.TOK_PRIM_TYPE, lineNumber);
 		this.type = type;
 	}
 }

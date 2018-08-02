@@ -7,8 +7,8 @@ public class TokenInteger extends Token {
 		return value;
 	}
 
-	public TokenInteger(int val) {
-		super(TokenType.TOK_INT);
+	public TokenInteger(int val, int lineNumber) {
+		super(TokenType.TOK_INT, lineNumber);
 		this.value = val;
 	}
 }

@@ -9,8 +9,8 @@ public class TokenTupleFunction extends TokenField {
 		return type;
 	}
 
-	public TokenTupleFunction(TupleFunction type) {
-		super(TokenType.TOK_PRIM_FUNC_TUPLE);
+	public TokenTupleFunction(TupleFunction type, int lineNumber) {
+		super(TokenType.TOK_PRIM_FUNC_TUPLE, lineNumber);
 		this.type = type;
 	}
 
