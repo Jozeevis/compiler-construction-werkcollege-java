@@ -9,6 +9,7 @@ import grammar.ExpressionTree;
 import grammar.Node;
 import grammar.SPL;
 import lexer.Lexer;
+import lexer.LexingException;
 import lexer.Token;
 import lexer.TokenType;
 import tree.SyntaxExpressionKnot;
@@ -32,7 +33,11 @@ public class Parser {
 
 	public Parser(Lexer l) {
 		lexer = l;
-		tokenList = l.allNextTokens();
+		try {
+			tokenList = l.allNextTokens();
+		} catch (LexingException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			SPLExpressionParser.packExpressions(tokenList);
 		} catch (ParsingException | IllegalThisException e) {

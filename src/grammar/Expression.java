@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import lexer.Lexer;
+import lexer.LexingException;
 import lexer.Token;
 import lexer.TokenType;
 
@@ -38,8 +39,9 @@ public class Expression {
 	 * References to the empty-word are done thru: null
 	 * @param expression the to be parsed String
 	 * @param syntax the ExpressionTree in which other nodes are stored
+	 * @throws LexingException 
 	 */
-	public Expression(String expression, ExpressionTree syntax) {
+	public Expression(String expression, ExpressionTree syntax) throws LexingException {
 		List<Object> array = new LinkedList<>();
 		int front=0;
 		int end=0;

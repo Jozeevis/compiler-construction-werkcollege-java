@@ -29,7 +29,7 @@ public class Lexer {
 				&& input.charAt(currentPosition) == c;
 	}
 
-	public Token nextToken() {
+	public Token nextToken() throws LexingException {
 		skipWhitespace();
 		if (currentPosition >= input.length()) {
 			return new Token(TokenType.TOK_EOF, lineNumber);
@@ -73,7 +73,7 @@ public class Lexer {
 			if (input.length() > currentPosition) {
 				if (input.charAt(currentPosition) == '/') {
 					currentPosition++;
-					while(input.length() < currentPosition && input.charAt(currentPosition) != '\n') {
+					while(input.length() > currentPosition && input.charAt(currentPosition) != '\n') {
 						currentPosition++;
 					}
 					lineNumber++;
@@ -86,7 +86,7 @@ public class Lexer {
 							lineNumber++;
 						currentPosition++;
 						if (currentPosition >= input.length()) {
-							return new TokenError("Multiline comment (/*) found but not ended (*/).");
+							throw new LexingException("Multiline comment (/*) found at line "+lineNumber+"but not ended (*/).");
 						}
 					}
 					currentPosition +=2;
@@ -164,8 +164,7 @@ public class Lexer {
 				currentPosition++;
 				return new Token(TokenType.TOK_OR, lineNumber);
 			}
-			return new TokenError("Unknown character in input: '"
-					+ input.charAt(currentPosition) + "'");
+			throw new LexingException("\"|\" encountered at line "+lineNumber+" but followed by unknown character: "+input.charAt(currentPosition));
 		}
 
 		
@@ -233,8 +232,8 @@ public class Lexer {
 					return new TokenChar(value, lineNumber);
 				}
 			}
-			return new TokenError("Unknown character in input: '"
-					+ input.charAt(currentPosition) + "'");
+			
+			
 		}
 
 		// End of statement
@@ -248,8 +247,8 @@ public class Lexer {
 			return lexIdentifier();
 		}
 
-		return new TokenError("Unknown character in input: '"
-				+ input.charAt(currentPosition) + "'");
+		throw new LexingException("\" encountered at line "+lineNumber+" but followed by unknown character: "+input.charAt(currentPosition));
+		
 	}
 
 	/**
@@ -372,7 +371,7 @@ public class Lexer {
 		return new TokenIdentifier(result, lineNumber);
 	}
 
-	public List<Token> allNextTokens() {
+	public List<Token> allNextTokens() throws LexingException {
 		List<Token> out = new LinkedList<>();
 		Token token;
 		while(!(token = nextToken()).getTokenType().equals(TokenType.TOK_EOF)) {

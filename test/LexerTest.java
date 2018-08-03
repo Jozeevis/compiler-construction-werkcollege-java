@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 import lexer.Lexer;
+import lexer.LexingException;
 import lexer.Token;
 import lexer.TokenBool;
 import lexer.TokenIdentifier;
@@ -11,13 +12,13 @@ import org.junit.Test;
 public class LexerTest {
 
 	@Test
-	public void testEmptyString() {
+	public void testEmptyString() throws LexingException {
 		Lexer l = new Lexer("");
 		assertEquals(TokenType.TOK_EOF, l.nextToken().getTokenType());
 	}
 
 	@Test
-	public void testSingleDigitInteger() {
+	public void testSingleDigitInteger() throws LexingException {
 		Lexer l = new Lexer("5");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_INT, t.getTokenType());
@@ -25,7 +26,7 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testMultiDigitInteger() {
+	public void testMultiDigitInteger() throws LexingException {
 		Lexer l = new Lexer("4545372");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_INT, t.getTokenType());
@@ -33,35 +34,35 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testSinglePlus() {
+	public void testSinglePlus() throws LexingException {
 		Lexer l = new Lexer("+");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_PLUS, t.getTokenType());
 	}
 
 	@Test
-	public void testSingleMinus() {
+	public void testSingleMinus() throws LexingException {
 		Lexer l = new Lexer("-");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_MINUS, t.getTokenType());
 	}
 	
 	@Test
-	public void testMapsTo() {
+	public void testMapsTo() throws LexingException {
 		Lexer l = new Lexer("->");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_MAPSTO, t.getTokenType());
 	}
 
 	@Test
-	public void testSingleMult() {
+	public void testSingleMult() throws LexingException {
 		Lexer l = new Lexer("*");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_MULT, t.getTokenType());
 	}
 
 	@Test
-	public void testMultipleIntegers() {
+	public void testMultipleIntegers() throws LexingException {
 		Lexer l = new Lexer("12 34");
 		Token t1 = l.nextToken();
 		Token t2 = l.nextToken();
@@ -72,7 +73,7 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testSimpleExpression() {
+	public void testSimpleExpression() throws LexingException {
 		Lexer l = new Lexer("1 + 12 + 300+4+");
 		Token t1 = l.nextToken();
 		Token t2 = l.nextToken();
@@ -95,7 +96,7 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testMixedPlussesAndMinusesExpression() {
+	public void testMixedPlussesAndMinusesExpression() throws LexingException {
 		Lexer l = new Lexer("1 - 12 + 300-4-");
 		Token t1 = l.nextToken();
 		Token t2 = l.nextToken();
@@ -118,7 +119,7 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testIdentifier() {
+	public void testIdentifier() throws LexingException {
 		Lexer l = new Lexer("missPiggy");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_IDENTIFIER, t.getTokenType());
@@ -126,7 +127,7 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testIdentifierWithDigits() {
+	public void testIdentifierWithDigits() throws LexingException {
 		Lexer l = new Lexer("mi55Piggy23");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_IDENTIFIER, t.getTokenType());
@@ -134,21 +135,21 @@ public class LexerTest {
 	}
 
 	@Test
-	public void testKeywordIf() {
+	public void testKeywordIf() throws LexingException {
 		Lexer l = new Lexer("if");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_KW_IF, t.getTokenType());
 	}
 
 	@Test
-	public void testKeywordPrefix() {
+	public void testKeywordPrefix() throws LexingException {
 		Lexer l = new Lexer("iffy");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_IDENTIFIER, t.getTokenType());
 	}
 
 	@Test
-	public void testBooleanConstantTrue() {
+	public void testBooleanConstantTrue() throws LexingException {
 		Lexer l = new Lexer("True");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_BOOL, t.getTokenType());
@@ -156,28 +157,28 @@ public class LexerTest {
 	}
 	
 	@Test
-	public void testSingleLineComment() {
+	public void testSingleLineComment() throws LexingException {
 		Lexer l = new Lexer("//adasdasdasdasdasd \n 1");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_INT, t.getTokenType());
 	}
 	
 	@Test
-	public void testMultyLineComment() {
+	public void testMultyLineComment() throws LexingException {
 		Lexer l = new Lexer("/*adasdasdas \n \n \ndasdasd \n */1");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_INT, t.getTokenType());
 	}
 	
 	@Test
-	public void testPrintKW() {
+	public void testPrintKW() throws LexingException {
 		Lexer l = new Lexer("print 3+3+4");
 		Token t = l.nextToken();
 		assertEquals(TokenType.TOK_KW_PRINT, t.getTokenType());
 	}
 	
 	@Test
-	public void testInputEdit() {
+	public void testInputEdit() throws LexingException {
 		Lexer l = new Lexer("");
 		l.input = "==";
 		Token t =  l.nextToken();
