@@ -71,6 +71,7 @@ public class Lexer {
 		if (match('/')) {
 			currentPosition++;
 			if (input.length() > currentPosition) {
+				// Single line comment
 				if (input.charAt(currentPosition) == '/') {
 					currentPosition++;
 					while(input.length() > currentPosition && input.charAt(currentPosition) != '\n') {
@@ -79,14 +80,17 @@ public class Lexer {
 					lineNumber++;
 					currentPosition++;
 					return nextToken();
-				} else if (input.charAt(currentPosition) == '*') {
+				} 
+				// Multi-line comment
+				else if (input.charAt(currentPosition) == '*') {
+					int commentStartLineNumber = lineNumber;
 					currentPosition++;
 					while(!(input.substring(currentPosition, currentPosition+2).equals("*/"))) {
 						if (input.charAt(currentPosition) == '\n')
 							lineNumber++;
 						currentPosition++;
 						if (currentPosition >= input.length()) {
-							throw new LexingException("Multiline comment (/*) found at line "+lineNumber+"but not ended (*/).");
+							throw new LexingException("Multiline comment (/*) found at line "+commentStartLineNumber+"but not ended (*/).");
 						}
 					}
 					currentPosition +=2;
@@ -221,6 +225,7 @@ public class Lexer {
 			currentPosition++;
 			return new Token(TokenType.TOK_COMMA, lineNumber);
 		}
+		
 		// Chars
 		if (match('\'')) {
 			currentPosition++;
@@ -232,8 +237,6 @@ public class Lexer {
 					return new TokenChar(value, lineNumber);
 				}
 			}
-			
-			
 		}
 
 		// End of statement
@@ -247,7 +250,7 @@ public class Lexer {
 			return lexIdentifier();
 		}
 
-		throw new LexingException("\" encountered at line "+lineNumber+" but followed by unknown character: "+input.charAt(currentPosition));
+		throw new LexingException("Unknown token encountered at line "+lineNumber+": "+input.charAt(currentPosition));
 		
 	}
 

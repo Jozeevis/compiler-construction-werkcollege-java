@@ -66,8 +66,8 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
 			addExpressionTo("~BoolExp1 ", "BoolExp2");
 			
-			addExpressionTo("'.hd'", "Field");
-			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.' 'hd'", "Field");
+			addExpressionTo("'.' 'tl'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
