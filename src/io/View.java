@@ -42,14 +42,16 @@ import tree.SyntaxTree;
 public class View {
 	
 	private final JFileChooser fileChooser;
-	
+	private final JFileChooser ssmChooser;
 	private File lastFileLocation = null;
 	
 		
 	public View() {
 		fileChooser = new JFileChooser();
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Simple Programming Language File",".spl"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Simple Programming Language File","spl"));
 		
+		ssmChooser = new JFileChooser();
+		ssmChooser.setFileFilter(new FileNameExtensionFilter("Simple Stack Machine code", "ssm"));
 		final JFrame frame = new JFrame("SPL Compiler Frame");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(1080, 920);
@@ -117,7 +119,20 @@ public class View {
 					System.out.println("=====");
 					
 					System.out.println(TreeProcessing.checkWellTyped(t));
-					System.out.println(CodeGenerator.generateCode(t));
+					List<String> codeLines = CodeGenerator.generateCode(t);
+					if (ssmChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+						File file = ssmChooser.getSelectedFile();
+						try {
+							FileWriter fw = new FileWriter(file);
+							System.out.print(textArea.getText());
+							for(String line : codeLines) 
+								fw.write(line);
+							fw.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+						
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
