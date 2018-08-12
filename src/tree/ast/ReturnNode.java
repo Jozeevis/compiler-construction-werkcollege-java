@@ -73,14 +73,14 @@ public class ReturnNode extends ASyntaxKnot {
 		// returnvalue (if any) on top of the stack
 		if (returnedValue != null) {
 			returnedValue.addCodeToStack(stack, counter);
-			stack.add("str 4");
+			stack.add("str 4\n");
 		}
-		stack.add("unlink");
+		stack.add("unlink\n");
 		if (returnedValue != null) {
-			stack.add("ldr 4");
-			stack.add("swp");
+			stack.add("ldr 4\n");
+			stack.add("swp\n");
 		}
-		stack.add("ret");
+		stack.add("ret\n");
 		
 	}
 

@@ -129,20 +129,20 @@ public class FunDeclNode extends ASyntaxKnot {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Label to skip the function body if the code comes here some other way
-		stack.add("bra " + branchAddress + "Skip");
+		stack.add("bra " + branchAddress + "Skip\n");
 		// Label to jump to the function body
-		stack.add(branchAddress + ": ldl 1");
-		stack.add("str 6");
-		stack.add("ldl 2");
-		stack.add("str 7");
-		stack.add("link " + (funArgs.length + varDecls.length+2));
-		stack.add("ldr 6");
-		stack.add("stl 1");
-		stack.add("ldr 7");
-		stack.add("stl 2");
-		stack.add("ldr 5");
-		stack.add("ldmh 0 " +funArgs.length);
-		stack.add("stml 3 " + funArgs.length);
+		stack.add(branchAddress + ": ldl 1\n");
+		stack.add("str 6\n");
+		stack.add("ldl 2\n");
+		stack.add("str 7\n");
+		stack.add("link " + (funArgs.length + varDecls.length+2) + "\n");
+		stack.add("ldr 6\n");
+		stack.add("stl 1\n");
+		stack.add("ldr 7\n");
+		stack.add("stl 2\n");
+		stack.add("ldr 5\n");
+		stack.add("ldmh 0 " +funArgs.length + "\n");
+		stack.add("stml 3 " + funArgs.length + "\n");
 		// Generate the code for the variable declarations at the beginning of the code
 		// body.
 		for (VarDeclNode varDeclaration : varDecls) {
@@ -152,11 +152,11 @@ public class FunDeclNode extends ASyntaxKnot {
 		body.addCodeToStack(stack, counter);
 		// Void functions don't need a return type, so we'll add one in just in case
 		if (funtype.returnType instanceof VoidType) {
-			stack.add("unlink");
-			stack.add("ret");
+			stack.add("unlink\n");
+			stack.add("ret\n");
 		}
 		// Label for the skip to go to
-		stack.add(branchAddress + "Skip: nop");
+		stack.add(branchAddress + "Skip: nop\n");
 	}
 	
 	@Override

@@ -42,7 +42,7 @@ public class SmallerEq extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("le");
+		stack.add("le\n");
 	}
 
 	@Override

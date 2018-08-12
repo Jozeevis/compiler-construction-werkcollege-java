@@ -28,7 +28,7 @@ public class NumConstant extends NoArg{
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc "+constant);
+		stack.add("ldc "+constant + "\n");
 	}
 
 	@Override

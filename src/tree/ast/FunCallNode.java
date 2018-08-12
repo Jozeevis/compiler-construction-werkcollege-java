@@ -67,7 +67,7 @@ public class FunCallNode extends ASyntaxKnot {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		funCall.addCodeToStack(stack, counter);
 		if (!isVoid)
-			stack.add("ajs -1");
+			stack.add("ajs -1\n");
 	}
 
 	@Override

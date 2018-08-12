@@ -36,13 +36,13 @@ public class IsEmpty extends OneArg {
         val.addCodeToStack(stack, counter);
 
         // Put zero on top of the stack
-        stack.add("ldc 0");
+        stack.add("ldc 0\n");
         // Check if the evaluated argument is equal to zero and add the result to the
         // stack (1 for true, 0 for false)
-        stack.add("eq");
-        stack.add("brf ENDLABEL" + count);
-        stack.add("ldc " + 0xFFFFFFFF);
-        stack.add("ENDLABEL" + count + ": nop");
+        stack.add("eq\n");
+        stack.add("brf ENDLABEL" + count + "\n");
+        stack.add("ldc " + 0xFFFFFFFF + "\n");
+        stack.add("ENDLABEL" + count + ": nop\n");
 	}
 
 	@Override

@@ -58,15 +58,15 @@ public class VarDeclNode extends ASyntaxKnot {
 		initialValue.addCodeToStack(stack, counter);
 		switch(scope) {
 		case GLOBAL:
-			stack.add("ldl 1");
-			stack.add("sta "+ (-linkNumber));
+			stack.add("ldl 1\n");
+			stack.add("sta "+ (-linkNumber) + "\n");
 			break;
 		case STRUCT:
-			stack.add("ldl 2");
-			stack.add("sta "+ (-linkNumber));
+			stack.add("ldl 2\n");
+			stack.add("sta "+ (-linkNumber) + "\n");
 			break;
 		case LOCAL:
-			stack.add("stl "+(3+linkNumber));
+			stack.add("stl "+(3+linkNumber) + "\n");
 			break;
 		default:
 			System.err.println("No case defined for scope: "+scope);

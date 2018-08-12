@@ -39,7 +39,7 @@ public class Negate extends OneArg {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		val.addCodeToStack(stack, counter);
-		stack.add("not");
+		stack.add("not\n");
 	}
 
 	@Override

@@ -54,15 +54,15 @@ public class Variable extends NoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		switch(scope) {
 		case GLOBAL:
-			stack.add("ldl 1");
-			stack.add("ldh "+ (-linkNumber));
+			stack.add("ldl 1\n");
+			stack.add("ldh "+ (-linkNumber) + "\n");
 			break;
 		case STRUCT:
-			stack.add("ldl 2");
-			stack.add("ldh "+ (-linkNumber));
+			stack.add("ldl 2\n");
+			stack.add("ldh "+ (-linkNumber) + "\n");
 			break;
 		case LOCAL:
-			stack.add("ldl "+(3+linkNumber));
+			stack.add("ldl "+(3+linkNumber) + "\n");
 			break;
 		
 		default:

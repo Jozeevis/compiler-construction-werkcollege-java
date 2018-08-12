@@ -29,7 +29,7 @@ public class ListHeadAccessor extends Accessor{
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldh -1");
+		stack.add("ldh -1\n");
 	}
 	
 }

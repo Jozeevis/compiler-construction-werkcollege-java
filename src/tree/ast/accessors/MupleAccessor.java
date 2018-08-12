@@ -46,7 +46,7 @@ public class MupleAccessor extends Accessor {
 	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldh "+ (-mupleSize+1+ index));
+		stack.add("ldh "+ (-mupleSize+1+ index) + "\n");
 	}
 
 }

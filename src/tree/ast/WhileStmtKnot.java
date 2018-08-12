@@ -49,18 +49,18 @@ public class WhileStmtKnot extends ASyntaxKnot {
 		counter.incr();
 
 		// Label for checking the condition loop
-		stack.add("CHECKLABEL" + counter.getCount());
+		stack.add("CHECKLABEL" + counter.getCount() + "\n");
 		// Generate the check expression body
 		check.addCodeToStack(stack, counter);
 		// If the condition is false, jump out of the loop
-		stack.add("brf ENDLABEL" + counter.getCount());
+		stack.add("brf ENDLABEL" + counter.getCount() + "\n");
 
 		body.addCodeToStack(stack, counter);
 		// Jump back to the while check
-		stack.add("bra CHECKLABEL" + counter.getCount());
+		stack.add("bra CHECKLABEL" + counter.getCount() + "\n");
 
 		// Label for jumping out of the loop
-		stack.add("ENDLABEL" + counter.getCount() + ": nop");
+		stack.add("ENDLABEL" + counter.getCount() + ": nop\n");
 	}
 
 	@Override

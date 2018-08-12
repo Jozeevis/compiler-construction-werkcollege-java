@@ -33,10 +33,10 @@ public class PrintNode extends ASyntaxKnot {
 		expression.addCodeToStack(stack, counter);
 		// If the argument is of type char, print the result as a unicode character
 		if (expressionType.matches(BaseType.instanceChar)) {
-			stack.add("trap 1");
+			stack.add("trap 1\n");
 		}
 		else {
-			stack.add("trap 0");
+			stack.add("trap 0\n");
 		}
 	}
 

@@ -42,7 +42,7 @@ public class Concat extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("stmh 2");
+		stack.add("stmh 2\n");
 	}
 
 	@Override

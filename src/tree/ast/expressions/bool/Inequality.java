@@ -42,7 +42,7 @@ public class Inequality extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("ne");
+		stack.add("ne\n");
 	}
 
 	@Override
