@@ -1,0 +1,101 @@
+Int globalA = 0;
+[Int] gIntList = & 5 : 6 : 7 : 8 : [];
+
+/* in-place update of list elements */
+incList(list) :: [Int] -> void
+{
+    while(!isEmpty(list))
+    {
+        list.hd = list.hd + 1;
+        list = list.tl;
+    }
+}
+
+/* in-place update of tuples */
+incNegTuple(t) :: (Int, Bool) -> void
+{
+    t.fst = t.fst + 1;
+    t.snd = !t.snd;
+}
+
+incNegTuple2(t) :: (Int, Int) -> Int
+{
+    t.fst = t.fst + 1;
+    t.snd = -t.snd;
+    return 0;
+}
+
+printIntList(list) :: [Int] -> void
+{
+    while(!isEmpty(list))
+    {
+        print(list.hd);
+        list = list.tl;
+    }
+}
+
+f(paramA) :: Int -> void
+{
+    print(paramA);
+    paramA = 1;
+    print(paramA);
+    paramA = paramA + 1;
+    print(paramA);
+}
+
+main()::->void
+{
+    Int localA = 0;
+    [Int] lIntList = & 1 : 2 : 3 : [];
+    (Int, Bool) lTuple1 = (5, True);
+    (Int, Int) lTuple2 = (5, 7);
+
+    // 0
+    print(globalA);
+    globalA = 1;
+    // 1
+    print(globalA);
+    globalA = globalA + 1;
+    // 2
+    print(globalA);
+
+    // 0
+    print(localA);
+    localA = 1;
+    // 1
+    print(localA);
+    localA = localA + 1;
+    // 2
+    print(localA);
+
+    // 0
+    // 1
+    // 2
+    f(0);
+
+    incList(lIntList);
+    // 2
+    // 3
+    // 4
+    printIntList(lIntList);
+    incList(gIntList);
+    // 6
+    // 7
+    // 8
+    // 9
+    printIntList(gIntList);
+
+    incNegTuple(lTuple1);
+    // 6
+    print(lTuple1.fst);
+    // False
+    print(lTuple1.snd);
+
+    incNegTuple2(lTuple2);
+    // 6
+    print(lTuple2.fst);
+    // -7
+    print(lTuple2.snd);
+	
+	return;
+}

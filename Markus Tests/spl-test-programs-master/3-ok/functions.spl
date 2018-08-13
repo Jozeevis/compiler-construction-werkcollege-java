@@ -1,0 +1,115 @@
+idInt(x) :: Int -> Int
+{
+    return x;
+}
+
+inc(x) :: Int -> Int
+{
+    return x + 1;
+}
+
+xor(a, b) :: Bool Bool -> Bool
+{
+    return (a || b) && !(a && b);
+}
+
+idBool(x) :: Bool -> Bool
+{
+    return x;
+}
+
+idListInt(x) :: [Int] -> [Int]
+{
+    return x;
+}
+
+idTupleIntBool(x) :: (Int,Bool) -> (Int,Bool)
+{
+    return x;
+}
+
+unpack(x) :: ((Int,(Int,Int)),Int) -> ((Int, Int), (Int, Int))
+{
+    return ((x.fst.fst, x.fst.snd.fst), (x.fst.snd.snd, x.snd));
+}
+
+/* Reverse a list */
+reverse (list) :: [Int] -> [Int] {
+    [Int] accu = [];
+    while (!isEmpty(list)) {
+        accu = list.hd : accu;
+        list = list.tl;
+    }
+    return accu;
+}
+
+/* Calculate the sum of a list of integers */
+sum (list) :: [Int] -> Int
+{
+    if( isEmpty(list) )
+    {
+        return 0;
+    }
+    else
+    {
+        return list.hd + sum(list.tl);
+    }
+}
+
+/* Calculate the product of a list of integers */
+product (list) :: [Int] -> Int
+{
+    if( isEmpty(list) )
+    {
+        return 1;
+    }
+    else
+    {
+        return list.hd * product(list.tl);
+    }
+}
+
+printIntList(list) :: [Int] -> Void
+{
+    while(!isEmpty(list))
+    {
+        print(list.hd);
+        list = list.tl;
+    }
+}
+
+printIntListRec(list) :: [Int] -> Void
+{
+    if(!isEmpty(list))
+    {
+        print(list.hd);
+        printIntListRec(list.tl);
+    }
+}
+
+
+main()::->Void
+{
+    [Int] a = idListInt(1:2:3:[]);
+    (Int,Bool) b = idTupleIntBool((5,True));
+    [Int] c = 1:3:5:[];
+    print(idInt(5));
+    print(idBool(True));
+    print(a.hd);
+    print(b.fst);
+    print(b.snd);
+
+    print(inc(3));
+    print(inc(inc(inc(3))));
+
+    /* 9 */
+    print(sum(c));
+    print(sum(reverse(c)));
+    /* 15 */
+    print(product(c));
+
+    printIntList(c);
+    printIntList(reverse(c));
+
+    printIntListRec(c);
+}

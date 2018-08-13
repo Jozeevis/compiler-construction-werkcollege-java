@@ -1,0 +1,67 @@
+link 2
+stmh 0 0
+stl 1
+bsr Fmain
+halt
+bra FtestSkip
+Ftest: ldl 1
+str 6
+ldl 2
+str 7
+link 4
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 1
+stml 3 1
+ldc 0
+stl 4
+ldl 3
+ldc 1
+gt
+brf ELSELABEL1
+ldc 100
+stl 4
+bra ENDLABEL1
+ELSELABEL1: nop
+ldc 20
+stl 4
+ENDLABEL1: nop
+ldl 4
+str 4
+unlink
+ldr 4
+swp
+ret
+FtestSkip: nop
+bra FmainSkip
+Fmain: ldl 1
+str 6
+ldl 2
+str 7
+link 2
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 0
+stml 3 0
+ldc 50
+stmh 0 1
+str 5
+bsr Ftest
+trap 0
+ldc 50
+neg
+stmh 0 1
+str 5
+bsr Ftest
+trap 0
+unlink
+ret
+unlink
+ret
+FmainSkip: nop

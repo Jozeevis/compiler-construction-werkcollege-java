@@ -1,0 +1,16 @@
+main() :: -> void
+{
+    // This might or might not work, depending on your implementation. Explain why or why not!
+    /*Int while = 10;*/
+    /*
+    Bool if = True;
+    if(if) {} else { }
+    */
+
+    // These should be parse errors
+    /*if if(True) {} else {}*/
+    /*if(True) {} else else {}*/
+    /*while;*/
+    /*10;*/
+    /*True;*/
+}

@@ -1,0 +1,17 @@
+f() :: -> Void
+{
+    Int a = 0;
+    print(a);
+    a = 42;
+    print(a);
+}
+
+main() :: -> Void
+{
+    Int a = 0;
+    print(a);
+    a = 42;
+    print(a);
+
+    f();
+}

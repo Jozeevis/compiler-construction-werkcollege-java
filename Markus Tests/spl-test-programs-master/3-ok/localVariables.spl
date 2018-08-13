@@ -1,0 +1,51 @@
+
+f() :: -> Void
+{
+    Int a = 1;
+
+    Bool b = True;
+
+    [Int] c = 3 : [];
+
+    [Bool] d = False : [];
+
+    (Int, Int) aa = (5, 3);
+    (Int, Bool) ab = (aa.fst + 10, 7 < 3);
+    ((Int, Int), Int) ac = ((6,4),42);
+    ((Bool, Bool), (Int, Int)) ad = ((True, False), aa);
+    ([Int], Int) ae = (1:2:3:[], 7);
+
+    // 5
+    print( aa.fst );
+    // 3
+    print( aa.snd );
+
+    // 15
+    print( ab.fst );
+    // False
+    print( ab.snd );
+
+    // 6
+    print( ac.fst.fst );
+    // 4
+    print( ac.fst.snd );
+    // 42
+    print( ac.snd );
+
+    // True
+    print( ad.fst.fst );
+    // False
+    print( ad.fst.snd );
+    // 5
+    print( ad.snd.fst );
+    // 3
+    print( ad.snd.snd );
+
+    // 1
+    print( ae.fst.hd );
+}
+
+main() :: -> Void
+{
+    f();
+}

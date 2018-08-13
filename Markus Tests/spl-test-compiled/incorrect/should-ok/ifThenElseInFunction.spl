@@ -1,0 +1,21 @@
+
+f(x) :: Int -> Int
+{
+    if( x < 10 )
+    {
+        return 7;
+    }
+    else
+    {
+        return 10 + 1;
+    }
+}
+
+main()::->void
+{
+    /* 7 */
+    print(f(5));
+    /* 11 */
+    print(f(15));
+return;
+}

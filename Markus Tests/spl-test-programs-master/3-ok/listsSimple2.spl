@@ -1,0 +1,12 @@
+main()::->Void
+{
+    [Int] a = 7:8:9:[];
+
+    // 7
+    print(a.hd);
+
+    a.hd = 8;
+
+    // 8
+    print(a.hd);
+}

@@ -1,0 +1,25 @@
+
+main()::->void
+{
+    [Int] a = & 7:[];
+    [Int] b = & 10:a;
+
+    // 7
+    print(a.hd);
+    // 10
+    print(b.hd);
+    // 7
+    print(b.tl.hd);
+
+    a.hd = 8;
+    b.hd = 11;
+
+    // 8
+    print(a.hd);
+    // 11
+    print(b.hd);
+    // 8
+    print(b.tl.hd);
+
+return;
+}

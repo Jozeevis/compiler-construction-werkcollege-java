@@ -1,0 +1,41 @@
+link 2
+stmh 0 0
+stl 1
+bsr Fmain
+halt
+bra FmainSkip
+Fmain: ldl 1
+str 6
+ldl 2
+str 7
+link 2
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 0
+stml 3 0
+ldc -1
+brf ELSELABEL1
+ldc 42
+trap 0
+bra ENDLABEL1
+ELSELABEL1: nop
+ldc 100
+trap 0
+ENDLABEL1: nop
+ldc 0
+brf ELSELABEL2
+ldc 13
+trap 0
+bra ENDLABEL2
+ELSELABEL2: nop
+ldc 20
+trap 0
+ENDLABEL2: nop
+unlink
+ret
+unlink
+ret
+FmainSkip: nop

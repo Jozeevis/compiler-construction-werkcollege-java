@@ -1,0 +1,17 @@
+f(x) :: Int -> Int
+{
+    // Int ~ Bool
+    return f(True);
+    /*return f(10);*/
+}
+
+g(x) :: Bool -> Bool
+{
+    // Int ~ Bool
+    return 1 + g(True);
+    /*return True + g(True);*/
+}
+
+main() :: -> Void
+{
+}

@@ -1,0 +1,18 @@
+main :: -> Void
+{
+    // For those with monomorphic type checking with var keyword
+    var x = [];
+    // The same problem if you allow polymorphic types
+    // [a] x = [];
+    [Int] y = 1:[];
+    [Bool] z = True:[];
+
+    // What is the type of x at this point? Is the following allowed?
+    x = y;
+    // Now x points to a list of integers. Is the following allowed?
+    z = z:x;
+    // Now z is a list with a Bool and an Integer. This should be forbidden.
+
+    // The point to take home: types of local variables should never be generalized. The assignment
+    // x = y must change the type of x to [Int], so that z = z:x fails.
+}

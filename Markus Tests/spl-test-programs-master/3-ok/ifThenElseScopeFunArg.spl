@@ -1,0 +1,21 @@
+test(x) :: Int -> Int
+{
+    if( x > 1 )
+    {
+        x = 100;
+    }
+    else
+    {
+        x = 20;
+    }
+    return x;
+}
+
+main()::->Void
+{
+    // 100
+    print(test(50));
+
+    // 20
+    print(test(-50));
+}

@@ -1,0 +1,37 @@
+main()::->Void
+{
+    [Int] a = [];
+    [Int] b = 7:[];
+    [Int] c = 2:b;
+    [(Int,Int)] d = (1,1) : (2,2) : (3,3) : [];
+    [ (Int, [Int]) ] e = (1,b) : (2,c) : (3,[]) : [];
+    Int f = c.tl.hd;
+    [[Int]] g = a : b : c : [];
+
+    // True
+    print( isEmpty(a) );
+
+    // 7
+    print( b.hd );
+    // False
+    print( isEmpty(b) );
+    // True
+    print( isEmpty(b.tl) );
+
+    // 2
+    print( c.hd );
+    // 7
+    print( c.tl.hd );
+    // False
+    print( isEmpty(c.tl) );
+
+    // 7
+    print(f);
+
+    // 7
+    print(g.tl.hd.hd);
+    // 2
+    print(g.tl.tl.hd.hd);
+    // 7
+    print(g.tl.tl.hd.tl.hd);
+}

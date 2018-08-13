@@ -1,0 +1,18 @@
+main() :: -> Void
+{
+    // ~ means the line should give a unification error
+    [Int] a = 1:2:[];
+    [Bool] b = True:False:[];
+    [Int] c = [];
+    // Int ~ Bool
+    [Int] e = True:[];
+    // [Int] ~ [Bool]
+    [Int] f = 10:b;
+    // [Bool] ~ [Int]
+    [Int] d = b:c;
+
+    // [a] ~ Int
+    print(isEmpty(a.hd));
+    // [a] ~ Bool
+    print(isEmpty(True));
+}

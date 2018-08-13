@@ -1,0 +1,50 @@
+/* Reverse a list */
+reverse (list) :: [Int] -> [Int] {
+    [Int] accu = [];
+    while (!isEmpty(list)) {
+        accu = list.hd : accu;
+        list = list.tl;
+    }
+    return accu;
+}
+
+/* Calculate the sum of a list of integers */
+sum (list) :: [Int] -> Int
+{
+    if( isEmpty(list) )
+    {
+        return 0;
+    }
+    else
+    {
+        return list.hd + sum(list.tl);
+    }
+}
+
+/* Calculate the product of a list of integers */
+product (list) :: [Int] -> Int
+{
+    if( isEmpty(list) )
+    {
+        return 1;
+    }
+    else
+    {
+        return list.hd * product(list.tl);
+    }
+}
+
+
+main()::->Void
+{
+    [Int] c = 1:3:5:[];
+
+    // 9 
+    print(sum(c));
+    // 9
+    print(sum(reverse(c)));
+    // 15 
+    print(product(c));
+    // 15
+    print(product(reverse(c)));
+}

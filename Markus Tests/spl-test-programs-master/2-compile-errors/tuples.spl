@@ -1,0 +1,26 @@
+main() :: -> Void
+{
+    Int a1 = 10;
+    Bool a2 = True;
+    (Int, Bool) b = (10, True);
+    // (Int, Bool) ~ (Int, Int)
+    (Int, Bool) c = (10, 10);
+    // (Int, Bool) ~ (Bool, Bool)
+    (Int, Bool) d = (True, True);
+
+    // (a,b) ~ Int
+    Int e1 = a1.fst;
+    // (a,b) ~ Int
+    Int e2 = a1.snd;
+    // (a,b) ~ Bool
+    Bool f1 = a2.fst;
+    // (a,b) ~ Bool
+    Bool f2 = a2.snd;
+    // Int ~ Bool
+    print( b.snd + 7 );
+
+    // Int ~ Bool
+    b.fst = False;
+    // Bool ~ Int
+    b.snd = 70;
+}

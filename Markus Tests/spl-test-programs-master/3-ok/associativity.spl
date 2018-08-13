@@ -1,0 +1,22 @@
+main () :: -> Void
+{
+    /* this should print 0 */
+    print(3 - 2 - 1);
+
+    /* this should print 0 */
+    print((3 - 2) - 1);
+
+    /* this should print 2 */
+    print(3 - (2 - 1));
+
+
+
+    /* this should print 1 */
+    print(12 / 6 / 2);
+
+    /* this should print 1 */
+    print((12 / 6) / 2);
+
+    /* this should print 4 */
+    print(12 / (6 / 2));
+}

@@ -1,0 +1,5 @@
+main() :: -> Void
+{
+    ((Int, Int), Int) a = ((5,7), 3);
+    print(a.fst.fst);
+}

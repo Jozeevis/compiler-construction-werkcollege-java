@@ -1,0 +1,16 @@
+
+main () :: -> void
+{
+    Int a = 1;
+    Int a1 = 2;
+    Int a1a = 3;
+
+    // 1
+    print(a);
+    // 2
+    print(a1);
+    // 3
+    print(a1a);
+	
+	return;
+}

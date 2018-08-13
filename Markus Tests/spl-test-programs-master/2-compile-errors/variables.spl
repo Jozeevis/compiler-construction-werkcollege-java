@@ -1,0 +1,9 @@
+main() :: -> Void
+{
+    Int a = 1;
+    // duplicate variable; not necessarily an error
+    Bool a = True;
+
+    // undefined identifier
+    print(b);
+}

@@ -1,0 +1,14 @@
+
+main()::->void
+{
+    /* 100 */
+    if( False )
+    {
+        print(42);
+    }
+    else
+    {
+        print(100);
+    }
+return;
+}

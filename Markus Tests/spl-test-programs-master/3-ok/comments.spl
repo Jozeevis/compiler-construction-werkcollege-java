@@ -1,0 +1,33 @@
+main () :: -> Void
+{
+  // this is a line comment
+
+  print(1);
+
+  /* this is a block comment
+   * it spans multiple lines
+   * until the end
+   */
+
+  print(2);
+
+  /* another block comment */
+
+  print(3);
+
+  /**/
+
+  print(4);
+
+  // tricky /* example
+
+  print(5);
+
+  // end of tricky */ example
+
+  print(6);
+
+  /* another tricky example // */
+
+  print(7);
+}

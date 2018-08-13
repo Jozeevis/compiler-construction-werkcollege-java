@@ -1,0 +1,51 @@
+
+main () :: -> void
+{
+    [Int] a = & 1 : 2 + 3 : 4 : [];
+    [Bool] b = & False : 5 < 3 : False : [];
+
+    /* 11 */
+    print(5*2+1);
+
+    /* 6 */
+    print(10/2+1);
+
+    /* True */
+    print(5 > 1 + 1);
+    print(5 > (1 + 1));
+    print(5 > 2);
+
+    /* 5 */
+    print( a.tl.hd );
+
+    /* False */
+    print( b.tl.hd );
+
+    /* -2 */
+    print(-5+3);
+
+    /* 5 */
+    print(3--2);
+
+    /* 1 */
+    print(3---2);
+
+    /* True */
+    print( False && True || True );
+    /* True */
+    print( (False && True) || True );
+    /* False */
+    print( False && (True || True) );
+    /* True */
+    print( True || True && False );
+
+    /* False */
+    print( 5 < 1 && True );
+    /* True */
+    print( 5 > 1 && True );
+
+    /* True */
+    print( False || 1 + 1 < 5 && True );
+
+return;
+}

@@ -1,0 +1,14 @@
+main()::->void
+{
+    if( True )
+    {
+        Int a = 10;
+        print(a);
+    }
+    else
+    {
+        print(100);
+    }
+	
+	return;
+}

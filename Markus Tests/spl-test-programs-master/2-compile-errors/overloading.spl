@@ -1,0 +1,28 @@
+main() :: -> Void
+{
+    (Int, Int) a = (1, 1);
+    (Int, Int) b = (1, 1);
+    [Int] c = 1:2:[];
+    [Int] d = [];
+    [Bool] e = [];
+
+    // This may or may not work, depending on your implementation.
+    // Compile error is ok here.
+    // If your compiler accepts this explain why!
+    print( a == b );
+    print( c == d );
+    print(a);
+    print(c);
+    print(e);
+
+    // Each of these lines should definitely give a compile error
+    // Bool ~ Int
+    print( True == 10 );
+    // [Int] ~ Int
+    print( d == 2 );
+    // (Int, Int) ~ Int
+    print( (1,1) == 1 );
+    // [Int] ~ [Bool]
+    print( d == e );
+
+}

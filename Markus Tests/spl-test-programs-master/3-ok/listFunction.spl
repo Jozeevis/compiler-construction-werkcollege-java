@@ -1,0 +1,24 @@
+printListIterative(list) :: [Int] -> Void
+{
+    while(!isEmpty(list))
+    {
+        print(list.hd);
+        list = list.tl;
+    }
+}
+
+printListRecursive(list) :: [Int] -> Void
+{
+    if(!isEmpty(list))
+    {
+        print(list.hd);
+        printListRecursive(list.tl);
+    }
+}
+
+main() :: -> Void
+{
+    [Int] a = 7:8:9:10:[];
+    printListIterative(a);
+    printListRecursive(a);
+}

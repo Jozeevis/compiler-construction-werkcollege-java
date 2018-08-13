@@ -1,0 +1,80 @@
+// Each of the commented lines should give a compile error
+
+f(x) :: Int -> Bool
+{
+    return False;
+}
+
+g(x,y) :: Int Int -> Int
+{
+    // Int ~ Bool
+    return x < y;
+    /*return 10;*/
+}
+
+h() :: -> Bool
+{
+    if( True )
+    {
+        // Bool ~ Int
+        return 10;
+        /*return True;*/
+    }
+    else
+    {
+        return False;
+    }
+}
+
+i(x, y) :: Int Int -> Int
+{
+    return x + y;
+}
+
+// too many arguments
+j(x, y) :: Int -> Int
+/*j(x, y) :: Int Int -> Int*/
+{
+    return x + y;
+}
+
+// not enough arguments
+k(x) :: Int Int -> Int
+/*k(x) :: Int -> Int*/
+{
+    return x;
+}
+
+// nothing returned from main branch
+l(x) :: Int -> Int {
+    x = x + 1;
+    /* return x; */
+}
+
+// nothing returned from condition branch
+m(x) :: Int -> Int {
+    if (x < 4)
+    {
+        x = x + 1;
+    }
+    else
+    {
+        return x;
+    }
+}
+
+
+main() :: -> Void
+{
+    // Int ~ Bool
+    print(f(True));
+    // Int ~ Int -> Bool
+    print(f(f));
+    // Int ~ Bool
+    print(f(10) + 10);
+
+    // not enough arguments
+    i(10);
+    // too many arguments
+    i(10, 20, 30);
+}

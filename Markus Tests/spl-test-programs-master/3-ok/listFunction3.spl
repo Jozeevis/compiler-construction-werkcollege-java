@@ -1,0 +1,10 @@
+
+printHead(list) :: [Int] -> Void
+{
+    print(list.hd);
+}
+
+main() :: -> Void
+{
+    printHead(42:[]);
+}

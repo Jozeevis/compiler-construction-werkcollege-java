@@ -1,0 +1,36 @@
+link 2
+ldc 0
+stmh 0 1
+stl 1
+bsr Fmain
+halt
+ldc 0
+ldl 1
+sta 0
+bra FmainSkip
+Fmain: ldl 1
+str 6
+ldl 2
+str 7
+link 2
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 0
+stml 3 0
+ldl 1
+ldh 0
+trap 0
+ldc 42
+ldl 1
+sta 0
+ldl 1
+ldh 0
+trap 0
+unlink
+ret
+unlink
+ret
+FmainSkip: nop

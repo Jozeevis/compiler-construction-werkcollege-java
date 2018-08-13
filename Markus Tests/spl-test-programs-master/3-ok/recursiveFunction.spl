@@ -1,0 +1,25 @@
+sum(x) :: Int -> Int
+{
+    if( x < 1 )
+    {
+        return 0;
+    }
+    else
+    {
+        return x + sum(x - 1);
+    }
+}
+
+main()::->Void
+{
+    /* 6 */
+    print(sum(3));
+    /* 10 */
+    print(sum(4));
+    /* 5050 */
+    print(sum(100));
+    /* 0 */
+    print(sum(0));
+    /* 0 */
+    print(sum(-1));
+}

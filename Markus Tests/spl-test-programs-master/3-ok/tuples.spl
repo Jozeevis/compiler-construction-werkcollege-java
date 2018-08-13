@@ -1,0 +1,33 @@
+main() :: -> Void
+{
+    (Int, Int) a = (5, 3);
+    (Int, Bool) b0 = (10, True);
+    (Int, Bool) b = (a.fst + 10, 7 < 3);
+    ((Int, Int), Int) c = ((5,3),42);
+    ((Bool, Bool), (Int, Int)) d = ((True, False), a);
+    ([Int], Int) e = (1:2:3:[], 7);
+
+    Int f = a.fst;
+    Int g = c.fst.snd;
+    Bool h = d.fst.snd;
+    Int i = e.fst.hd;
+
+    print( a.fst );
+    print( a.snd );
+    print( a . fst );
+    print( a . snd );
+
+    print( b.fst );
+    print( b.snd );
+
+    print( c.fst.fst );
+    print( c.fst.snd );
+    print( c.snd );
+
+    print( d.fst.fst );
+    print( d.fst.snd );
+    print( d.snd.fst );
+    print( d.snd.snd );
+
+    print( e.fst.hd );
+}

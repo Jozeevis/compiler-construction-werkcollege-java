@@ -1,0 +1,8 @@
+main()::->Void
+{
+    [Int] a = 7:8:[];
+    [Int] b = a.tl;
+
+    // 7
+    print(b.hd);
+}

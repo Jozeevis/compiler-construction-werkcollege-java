@@ -1,0 +1,23 @@
+main() :: -> Void
+{
+    (Int, Int) a = (5, 3);
+    (Int, Bool) b = (10, True);
+    (Bool, Int) c = (False, 20);
+
+    // 5
+    print(a.fst);
+    // 3
+    print(a.snd);
+
+    // 10
+    print(b.fst);
+    // True
+    print(True);
+    print(b.snd);
+
+    // False
+    print(False);
+    print(c.fst);
+    // 20
+    print(c.snd);
+}

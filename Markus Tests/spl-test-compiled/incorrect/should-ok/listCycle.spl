@@ -1,0 +1,24 @@
+
+printNumElements(list, n) :: [Int] Int -> void
+{
+    while( !isEmpty(list) && n > 0 )
+    {
+        print(list.hd);
+        list = list.tl;
+        n = n - 1;
+    }
+}
+
+main() :: -> void
+{
+    [Int] a = & 3:4:5:[];
+    a.tl.tl.tl = a;
+
+    printNumElements(a, 10);
+
+    a.tl.tl.tl.tl.tl.hd = 7;
+
+    printNumElements(a, 10);
+
+return;
+}

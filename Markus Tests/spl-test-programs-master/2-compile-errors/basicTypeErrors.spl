@@ -1,0 +1,59 @@
+main() :: -> void
+{
+    // ~ means unification error
+
+    // Int ~ Bool
+    Int a = True;
+    // Bool ~ Int
+    Bool b = 10;
+    Int c = 0;
+    [Int] d = 1:2:3:[];
+    [Bool] e = True:False:[];
+
+    // Int ~ Bool
+    c = True;
+
+    // Int ~ [Int]
+    print( 0 + d );
+    // Int ~ [Int]
+    print( 0 + d.tl );
+    // Int ~ Bool
+    print(True + False);
+
+    // Int ~ [Bool]
+    print( e * 1 );
+    // Int ~ [Int]
+    print( 1 * d );
+    // Int ~ Bool
+    print( True * True );
+    // Int ~ Bool
+    print( 10 * True );
+
+    // Int ~ Bool
+    print( 10 < True );
+    // Int ~ Bool
+    print( False < 10 );
+    // Int ~ Bool
+    print( False < True );
+
+    // Bool ~ Int
+    print( 10 || True );
+    // Bool ~ Int
+    print( True || 5 );
+    // Bool ~ Int
+    print( 10 || 5 );
+
+    // Bool ~ Int
+    print( 10 && False );
+    // Bool ~ Int
+    print( False && 10 );
+    // Bool ~ Int
+    print( 20 && 10 );
+
+    // Bool ~ Int
+    while( 10 ) { }
+    // Bool ~ Int
+    if( 10 ) {} else {}
+	
+	return;
+}
