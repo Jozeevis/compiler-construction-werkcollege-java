@@ -48,7 +48,7 @@ public class Multiply extends TwoArg {
         }
         // x * y = x*y if x,y are constants
         else if (left instanceof NumConstant && right instanceof NumConstant) {
-            return new NumConstant( ((NumConstant)left).constant + ((NumConstant)right).constant);
+            return new NumConstant( ((NumConstant)left).constant * ((NumConstant)right).constant);
         } 
         else {
             return this;

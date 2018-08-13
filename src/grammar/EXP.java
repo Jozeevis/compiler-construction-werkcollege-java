@@ -71,7 +71,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
-			addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
+			addExpressionTo("'!' ~BoolExp1 ", "negation", "BoolExp1");
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
@@ -89,7 +89,7 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" ~Neg", "NumFld");
 			
 			addExpressionTo(" ~NumSng", "Neg");
-			addExpressionTo("'-' ~NumSng", "negative", "Neg");
+			addExpressionTo("'-' ~Neg", "negative", "Neg");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");
