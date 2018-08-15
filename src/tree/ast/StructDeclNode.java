@@ -121,21 +121,21 @@ public class StructDeclNode extends ASyntaxKnot {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		// Label to skip the struct declaration if the code comes here some other way
-		stack.add("bra " + branchAddress + "Skip");
+		stack.add("bra " + branchAddress + "Skip\n");
 		//load the global environment address
-		stack.add(branchAddress + ": ldl 1");
-		stack.add("str 6");
-		stack.add("link " + (cArgs.length + varDecls.length+2));
+		stack.add(branchAddress + ": ldl 1\n");
+		stack.add("str 6\n");
+		stack.add("link " + (cArgs.length + varDecls.length+2) + "\n");
 		
 		//store the global environment address in the new local memory
-		stack.add("ldr 6");
-		stack.add("stl 1");
-		stack.add("ldr 5");
-		stack.add("stml 3 " + cArgs.length);
+		stack.add("ldr 6\n");
+		stack.add("stl 1\n");
+		stack.add("ldr 5\n");
+		stack.add("stml 3 " + cArgs.length + "\n");
 		for(int i=0; i<attributes.length;i++)
-			stack.add("ldc 0");
-		stack.add("stmh "+attributes.length);
-		stack.add("stl 2");
+			stack.add("ldc 0\n");
+		stack.add("stmh "+attributes.length + "\n");
+		stack.add("stl 2\n");
 		for(VarDeclNode attribute : attributes) {
 			attribute.addCodeToStack(stack, counter);
 		}
@@ -145,20 +145,20 @@ public class StructDeclNode extends ASyntaxKnot {
 		// Generate the code of the constructor body
 		body.addCodeToStack(stack, counter);
 		//Put the address of the struct on top of the stack.
-		stack.add("ldl 2");
-		stack.add("str 4");
-		stack.add("unlink");
-		stack.add("ldr 4");
-		stack.add("swp");
+		stack.add("ldl 2\n");
+		stack.add("str 4\n");
+		stack.add("unlink\n");
+		stack.add("ldr 4\n");
+		stack.add("swp\n");
 		//Return back to where we were.
-		stack.add("ret");
+		stack.add("ret\n");
 		
 		// Generate the code for all the functions in the struct
 		for(FunDeclNode funDecl : functions) {
 			funDecl.addCodeToStack(stack, counter);
 		}
 		// Label for the skip to go to
-		stack.add(branchAddress + "Skip: nop");
+		stack.add(branchAddress + "Skip: nop\n");
 	}
 
 	@Override

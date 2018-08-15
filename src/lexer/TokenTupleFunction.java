@@ -17,9 +17,9 @@ public class TokenTupleFunction extends TokenField {
 	@Override
 	public void addCodeToStack(List<String> stack) {
 		if (type == TupleFunction.TUPLEFUNC_FIRST) {
-			stack.add("ldh -1");
+			stack.add("ldh -1\n");
 		} else {
-			stack.add("ldh 0");
+			stack.add("ldh 0\n");
 		}
 	}
 }

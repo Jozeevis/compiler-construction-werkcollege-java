@@ -20,13 +20,10 @@ public class XTest {
 	
 	@Test
 	public void testX() {
-		String code = "	main () ::->void { \r\n" + 
-				"	[Int] list = & 1 : 2 : [];"
-				+ " list.tl = & 3 : [];"
-				+ " return;\r\n"+ 
-				"	}" ;
+		String code = "	main () ::->void {print 'a'; print(8/4/2);}" ;
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
+		System.out.println("code parsed");
 		try {
 			
 			SyntaxTree t = TreeProcessing.processIntoAST(p.tree.root);

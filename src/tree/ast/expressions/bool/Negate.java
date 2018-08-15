@@ -39,13 +39,13 @@ public class Negate extends OneArg {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		val.addCodeToStack(stack, counter);
-		stack.add("not");
+		stack.add("not\n");
 	}
 
 	@Override
 	public Type checkTypes(IDDeclarationBlock domain) throws TypeException, DeclarationException {
 		Type expressionType;
-		if (!(expressionType = val.checkTypes(domain)).equals(BaseType.instanceInt))
+		if (!(expressionType = val.checkTypes(domain)).equals(BaseType.instanceBool))
 			throw new TypeException("Expression was of type: "+expressionType+" while type Bool was expected.");
 		return BaseType.instanceBool;
 	}

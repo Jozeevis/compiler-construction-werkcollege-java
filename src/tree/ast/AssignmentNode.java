@@ -67,10 +67,10 @@ public class AssignmentNode extends ASyntaxKnot {
 		// Save the result in the heap address given by the linknumber
 		switch(scope) {
 		case GLOBAL:
-			stack.add("ldl 1");
+			stack.add("ldl 1\n");
 			break;
 		case STRUCT:
-			stack.add("ldl 2");
+			stack.add("ldl 2\n");
 			break;
 		case LOCAL:
 			
@@ -79,14 +79,13 @@ public class AssignmentNode extends ASyntaxKnot {
 			System.err.println("No case defined for scope: "+scope);
 			break;
 		}
-		//System.out.println("kaasplankje:"+ accessors.length);
 		for(Accessor accessor : accessors) {
 			accessor.addCodeToStack(stack, null);
 		}
 		if (scope == Scope.LOCAL)
-			stack.add("stl "+(3+linkNumber));
+			stack.add("stl "+(3+linkNumber) + "\n");
 		else
-			stack.add("sta "+ (-linkNumber));
+			stack.add("sta "+ (-linkNumber) + "\n");
 	}
 
 

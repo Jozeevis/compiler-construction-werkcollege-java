@@ -28,7 +28,7 @@ public class BoolConstant extends NoArg {
 
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc "+ (constant? 0xFFFFFFFF:0));
+		stack.add("ldc "+ (constant? 0xFFFFFFFF:0)+"\n");
 	}
 
 

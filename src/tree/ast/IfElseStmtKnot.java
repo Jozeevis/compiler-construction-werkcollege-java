@@ -46,7 +46,7 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 		ifBody = oldKnot.children[5].getASTEquivalent(this);
 		// Check if there is an else to this if-statement
 		if (oldKnot.children.length > 7) {
-			elseBody = oldKnot.children[8].getASTEquivalent(this);
+			elseBody = oldKnot.children[9].getASTEquivalent(this);
 		} else {
 			elseBody = null;
 		}
@@ -78,21 +78,22 @@ public class IfElseStmtKnot extends ASyntaxKnot {
 		// Number that will be used for all labels in this statement
 		counter.incr();
 		// Check if the condition is false, if so jump to elselabel
-		stack.add("brf ELSELABEL" + counter.getCount());
+		stack.add("brf ELSELABEL" + counter.getCount() + "\n");
 
 		// Add the code for the ifbody
 		ifBody.addCodeToStack(stack, counter);
 		// Skip the elsebody
-		stack.add("bra ENDLABEL" + counter.getCount());
+		stack.add("bra ENDLABEL" + counter.getCount() + "\n");
 
 		// Label used when the condition is false to skip the if-body
-		stack.add("ELSELABEL" + counter.getCount() + ": nop");
+		stack.add("ELSELABEL" + counter.getCount() + ": nop\n");
 		// Add the code for the elsebody
+		System.out.println(elseBody);
 		if (elseBody != null)
 			elseBody.addCodeToStack(stack, counter);
 
 		// Label used when the condition is true to skip the else-body
-		stack.add("ENDLABEL" + counter.getCount() + ": nop");
+		stack.add("ENDLABEL" + counter.getCount() + ": nop\n");
 	}
 
 	@Override

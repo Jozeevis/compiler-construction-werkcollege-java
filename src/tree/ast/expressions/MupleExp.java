@@ -37,7 +37,7 @@ public class MupleExp extends BaseExpr {
 		for(BaseExpr exp: exps) {
 			exp.addCodeToStack(stack, counter);
 		}
-		stack.add("stmh "+exps.length);
+		stack.add("stmh "+exps.length + "\n");
 	}
 
 	@Override

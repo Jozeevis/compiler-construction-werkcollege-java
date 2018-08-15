@@ -57,7 +57,7 @@ public class Modulo extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("mod");
+		stack.add("mod\n");
 	}
 	
 	@Override

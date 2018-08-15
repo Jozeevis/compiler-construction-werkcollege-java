@@ -45,7 +45,7 @@ public class Divide extends TwoArg {
         } 
         // x / y = x/y if x,y are constants
         else if (left instanceof NumConstant & right instanceof NumConstant) {
-            return new NumConstant( ((NumConstant)left).constant % ((NumConstant)right).constant);
+            return new NumConstant( ((NumConstant)left).constant / ((NumConstant)right).constant);
         } 
         else {
         	return this;
@@ -56,7 +56,7 @@ public class Divide extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("div");
+		stack.add("div\n");
 	}
 
 	@Override

@@ -28,6 +28,7 @@ public class Minus extends TwoArg {
 
     @Override
     public BaseExpr optimize() {
+    	System.out.println("================================================\n"+this+"================================================\n");
         left = left.optimize();
         right = right.optimize();
         // x - 0 = x
@@ -51,7 +52,7 @@ public class Minus extends TwoArg {
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		left.addCodeToStack(stack, counter);
 		right.addCodeToStack(stack, counter);
-		stack.add("sub");
+		stack.add("sub\n");
 	}
 	
 	@Override

@@ -8,12 +8,15 @@ import lexer.TokenBool;
 import lexer.TokenChar;
 import lexer.TokenIdentifier;
 import lexer.TokenInteger;
+import lexer.TokenType;
 import processing.DeclarationException;
+import processing.TreeProcessing;
 import processing.TypeException;
 import tree.IDDeclarationBlock;
 import tree.SyntaxExpressionKnot;
 import tree.SyntaxKnot;
 import tree.SyntaxLeaf;
+import tree.SyntaxNode;
 import tree.ast.LabelCounter;
 import tree.ast.expressions.bool.And;
 import tree.ast.expressions.bool.BoolConstant;
@@ -115,6 +118,23 @@ public abstract class BaseExpr {
 			case "boolean":
 				return new BoolConstant(((TokenBool) ((SyntaxLeaf) knot.children[0]).leaf).value);
 			// NumRng
+			case "mdm":
+				mdm : {List<SyntaxNode> right = TreeProcessing.extractFromStarNode((SyntaxKnot) knot.children[1]);
+				if (right.size() == 0)
+					return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				BaseExpr leftExpr = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				System.out.println(leftExpr +"\n and now looping");
+				for(SyntaxNode rightPart : right) {
+					
+					if (((SyntaxExpressionKnot) rightPart).children[0].reduceToToken().getTokenType() == TokenType.TOK_MOD) {
+						leftExpr = new Modulo(leftExpr, convertToExpr((SyntaxExpressionKnot) ((SyntaxExpressionKnot) rightPart).children[1]));
+					} else if (((SyntaxExpressionKnot) rightPart).children[0].reduceToToken().getTokenType() == TokenType.TOK_MULT)
+						leftExpr = new Multiply(leftExpr, convertToExpr((SyntaxExpressionKnot) ((SyntaxExpressionKnot) rightPart).children[1]));
+					else
+						leftExpr = new Divide(leftExpr, convertToExpr((SyntaxExpressionKnot) ((SyntaxExpressionKnot) rightPart).children[1]));
+					System.out.println(leftExpr + "    and go");
+				}
+				return leftExpr;}
 			case "modulo":
 				return new Modulo(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
 						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
@@ -125,12 +145,22 @@ public abstract class BaseExpr {
 				return new Multiply(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
 						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
 			// NumFld
-			case "plus":
-				return new Add(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
-			case "minus":
-				return new Minus(convertToExpr((SyntaxExpressionKnot) knot.children[0]),
-						convertToExpr((SyntaxExpressionKnot) knot.children[2]));
+			case "plusminus":
+				List<SyntaxNode> right = TreeProcessing.extractFromStarNode((SyntaxKnot) knot.children[1]);
+				if (right.size() == 0)
+					return convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				BaseExpr leftExpr = convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				System.out.println(leftExpr +"\n and now looping");
+				for(SyntaxNode rightPart : right) {
+					
+					if (((SyntaxExpressionKnot) rightPart).children[0].reduceToToken().getTokenType() == TokenType.TOK_PLUS) {
+						leftExpr = new Add(leftExpr, convertToExpr((SyntaxExpressionKnot) ((SyntaxExpressionKnot) rightPart).children[1]));
+					} else
+						leftExpr = new Minus(leftExpr, convertToExpr((SyntaxExpressionKnot) ((SyntaxExpressionKnot) rightPart).children[1]));
+					System.out.println(leftExpr + "    and go");
+				}
+				System.out.println(leftExpr);
+				return leftExpr;
 			//Neg
 			case "negative":
 				return new Negative(convertToExpr((SyntaxExpressionKnot) knot.children[1]));

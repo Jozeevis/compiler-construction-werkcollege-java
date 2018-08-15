@@ -23,9 +23,13 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("SetDef"));
 		addNode(new Node("BoolExp2"));
 		addNode(new Node("NumRng"));
+		addNode(new Node("PlusMinus"));
+		addNode(new StarNode("PlusMinus", this));
 		addNode(new Node("BoolExp1"));
 		addNode(new Node("BoolExp0"));
 		addNode(new Node("NumFld"));
+		addNode(new Node("MDM"));
+		addNode(new StarNode("MDM", this));
 		addNode(new Node("NumSng"));
 		addNode(new Node("Type"));
 		addNode(new Node("FunCall"));
@@ -66,12 +70,12 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
 			addExpressionTo("~BoolExp1 ", "BoolExp2");
 			
-			addExpressionTo("'.hd'", "Field");
-			addExpressionTo("'.tl'", "Field");
+			addExpressionTo("'.' 'hd'", "Field");
+			addExpressionTo("'.' 'tl'", "Field");
 			addExpressionTo("'.' .TOK_IDENTIFIER ", "Field");
 			addExpressionTo("'.' '[' .TOK_INT ']'", "Field");
 			
-			addExpressionTo("'!' ~BoolExp0 ", "negation", "BoolExp1");
+			addExpressionTo("'!' ~BoolExp1 ", "negation", "BoolExp1");
 			addExpressionTo("~BoolExp0 ", "BoolExp1");
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
@@ -79,17 +83,19 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
 			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
-			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
-			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
-			addExpressionTo(" ~NumFld ", "NumRng");
+			addExpressionTo(" ~NumFld ~PlusMinusStar", "plusminus", "NumRng");
 			
-			addExpressionTo(" ~Neg'%' ~NumFld ", "modulo", "NumFld");
-			addExpressionTo(" ~Neg '/' ~NumFld ", "divide", "NumFld");
-			addExpressionTo(" ~Neg '*' ~NumFld ", "multiply", "NumFld");
-			addExpressionTo(" ~Neg", "NumFld");
+			addExpressionTo(" '+' ~NumFld", "PlusMinus");
+			addExpressionTo(" '-' ~NumFld", "PlusMinus");
+			
+			addExpressionTo(" ~Neg ~MDMStar", "mdm", "NumFld");
+			
+			addExpressionTo(" '%' ~Neg", "MDM");
+			addExpressionTo(" '/' ~Neg", "MDM");
+			addExpressionTo(" '*' ~Neg", "MDM");
 			
 			addExpressionTo(" ~NumSng", "Neg");
-			addExpressionTo("'-' ~NumSng", "negative", "Neg");
+			addExpressionTo("'-' ~Neg", "negative", "Neg");
 			
 			addExpressionTo(" .TOK_INT ", "int", "NumSng");
 			addExpressionTo(" .TOK_CHAR ", "char", "NumSng");

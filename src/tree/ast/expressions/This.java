@@ -38,7 +38,7 @@ public class This extends NoArg {
 	 */
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldl 1");
+		stack.add("ldl 1\n");
 
 	}
 

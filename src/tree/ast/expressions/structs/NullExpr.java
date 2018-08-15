@@ -25,7 +25,7 @@ public class NullExpr extends  NoArg {
 	
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldc 0");
+		stack.add("ldc 0\n");
 	}
 
 	@Override

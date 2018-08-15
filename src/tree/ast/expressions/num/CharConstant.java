@@ -28,7 +28,7 @@ public class CharConstant extends NoArg {
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
 		//stack.add("ldc "+String.format("%04x", (int) value));
-		stack.add("ldc "+(int)value);
+		stack.add("ldc "+(int)value+"\n");
 	}
 
 	@Override

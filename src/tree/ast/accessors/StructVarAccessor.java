@@ -49,7 +49,7 @@ public class StructVarAccessor extends Accessor {
 	
 	@Override
 	public void addCodeToStack(List<String> stack, LabelCounter counter) {
-		stack.add("ldh " + -1 * offset);
+		stack.add("ldh " + -1 * offset + "\n");
 	}
 
 }
