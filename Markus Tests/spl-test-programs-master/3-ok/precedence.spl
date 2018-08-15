@@ -1,8 +1,7 @@
 
+
 main () :: -> void
 {
-    [Int] a = & 1 : 2 + 3 : 4 : [];
-    [Bool] b = & False : 5 < 3 : False : [];
 
     /* 11 */
     print(5*2+1);
@@ -15,11 +14,6 @@ main () :: -> void
     print(5 > (1 + 1));
     print(5 > 2);
 
-    /* 5 */
-    print( a.tl.hd );
-
-    /* False */
-    print( b.tl.hd );
 
     /* -2 */
     print(-5+3);
@@ -40,12 +34,12 @@ main () :: -> void
     print( True || True && False );
 
     /* False */
-    print( 5 < 1 && True );
+    print( (5 < 1) && True );
     /* True */
-    print( 5 > 1 && True );
+    print( (5 > 1) && True );
 
     /* True */
-    print( False || 1 + 1 < 5 && True );
+    print( False || (1 + 1 < 5) && True );
 
 return;
 }

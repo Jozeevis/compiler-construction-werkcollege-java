@@ -1,0 +1,60 @@
+link 2
+stmh 0 0
+stl 1
+bsr Fmain
+halt
+bra FfSkip
+Ff: ldl 1
+str 6
+ldl 2
+str 7
+link 3
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 0
+stml 3 0
+ldc 0
+stl 3
+ldl 3
+trap 0
+ldc 42
+stl 3
+ldl 3
+trap 0
+unlink
+ret
+unlink
+ret
+FfSkip: nop
+bra FmainSkip
+Fmain: ldl 1
+str 6
+ldl 2
+str 7
+link 3
+ldr 6
+stl 1
+ldr 7
+stl 2
+ldr 5
+ldmh 0 0
+stml 3 0
+ldc 0
+stl 3
+ldl 3
+trap 0
+ldc 42
+stl 3
+ldl 3
+trap 0
+stmh 0 0
+str 5
+bsr Ff
+unlink
+ret
+unlink
+ret
+FmainSkip: nop

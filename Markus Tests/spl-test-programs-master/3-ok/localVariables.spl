@@ -1,5 +1,4 @@
-
-f() :: -> Void
+f() :: -> void
 {
     Int a = 1;
 
@@ -43,9 +42,12 @@ f() :: -> Void
 
     // 1
     print( ae.fst.hd );
+return;
 }
 
-main() :: -> Void
+main() :: -> void
 {
     f();
+
+return;
 }

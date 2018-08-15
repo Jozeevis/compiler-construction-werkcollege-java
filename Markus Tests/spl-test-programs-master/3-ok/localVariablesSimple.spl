@@ -1,12 +1,15 @@
-f() :: -> Void
+
+f() :: -> void
 {
     Int a = 0;
     print(a);
     a = 42;
     print(a);
+
+return;
 }
 
-main() :: -> Void
+main() :: -> void
 {
     Int a = 0;
     print(a);
@@ -14,4 +17,6 @@ main() :: -> Void
     print(a);
 
     f();
+
+return;
 }
