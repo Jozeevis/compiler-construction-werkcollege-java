@@ -44,7 +44,7 @@ neg
 neg
 sub
 trap 0
-ldc 0
+ldc -1
 trap 0
 ldc -1
 trap 0
