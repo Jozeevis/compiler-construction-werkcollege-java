@@ -21,8 +21,10 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("Field"));
 		addNode(new StarNode("Field", this));
 		addNode(new Node("SetDef"));
-		addNode(new Node("BoolExp2"));
 		addNode(new Node("NumRng"));
+		addNode(new Node("BoolExp4"));
+		addNode(new Node("BoolExp3"));
+		addNode(new Node("BoolExp2"));
 		addNode(new Node("BoolExp1"));
 		addNode(new Node("BoolExp0"));
 		addNode(new Node("NumFld"));
@@ -34,7 +36,7 @@ public class EXP extends ExpressionTree {
 		addNode(new Node("CallUp"));
 		
 		try {
-			addExpressionTo("~BoolExp2", "BoolExp", "Exp");
+			addExpressionTo("~BoolExp4", "BoolExp", "Exp");
 			addExpressionTo("~NumRng", "NumExp","Exp");
 			addExpressionTo("~SetExp", "SetExp", "Exp");
 			addExpressionTo("'(' ~Mexp ')'", "MupleExp","Exp");
@@ -56,15 +58,19 @@ public class EXP extends ExpressionTree {
 			addExpressionTo("'[' ']'", "emptySet", "SetDef");
 			addExpressionTo(".TOK_IDENTIFIER ~FieldStar", "variable", "SetDef");
 			
+			addExpressionTo("~NumRng '==' ~NumRng ", "eq", "BoolExp4");
+			addExpressionTo("~NumRng '!=' ~NumRng ", "neq", "BoolExp4");
+			addExpressionTo("~NumRng '<' ~NumRng ", "smaller", "BoolExp4");
+			addExpressionTo("~NumRng '>' ~NumRng ", "larger", "BoolExp4");
+			addExpressionTo("~NumRng '<=' ~NumRng ", "smallerEq", "BoolExp4");
+			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp4");
+			addExpressionTo("~BoolExp3 ", "BoolExp4");
+			
+			addExpressionTo("~BoolExp2 '||' ~BoolExp3 ", "or", "BoolExp3");
+			addExpressionTo("~BoolExp2", "BoolExp3");
+			
 			addExpressionTo("~BoolExp1 '&&' ~BoolExp2 ", "and", "BoolExp2");
-			addExpressionTo("~BoolExp1 '||' ~BoolExp2 ", "or", "BoolExp2");
-			addExpressionTo("~NumRng '==' ~NumRng ", "eq", "BoolExp2");
-			addExpressionTo("~NumRng '!=' ~NumRng ", "neq", "BoolExp2");
-			addExpressionTo("~NumRng '<' ~NumRng ", "smaller", "BoolExp2");
-			addExpressionTo("~NumRng '>' ~NumRng ", "larger", "BoolExp2");
-			addExpressionTo("~NumRng '<=' ~NumRng ", "smallerEq", "BoolExp2");
-			addExpressionTo("~NumRng '>=' ~NumRng ", "largerEq", "BoolExp2");
-			addExpressionTo("~BoolExp1 ", "BoolExp2");
+			addExpressionTo("~BoolExp1", "BoolExp2");
 			
 			addExpressionTo("'.' 'hd'", "Field");
 			addExpressionTo("'.' 'tl'", "Field");
@@ -76,7 +82,7 @@ public class EXP extends ExpressionTree {
 			
 			addExpressionTo(".TOK_BOOL ", "boolean", "BoolExp0");
 			addExpressionTo("~CallUp ~FieldStar","callup","BoolExp0");
-			addExpressionTo(" '(' ~BoolExp2 ')' ", "brackets", "BoolExp0");
+			addExpressionTo(" '(' ~BoolExp4 ')' ", "brackets", "BoolExp0");
 			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
 			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
