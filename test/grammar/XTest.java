@@ -20,7 +20,7 @@ public class XTest {
 	
 	@Test
 	public void testX() {
-		String code = "	main () ::->void {print 'a'; print(8/4/2);}" ;
+		String code = " Int a = 2;	main () ::->void {print a;}" ;
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
 		System.out.println("code parsed");

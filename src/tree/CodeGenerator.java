@@ -16,14 +16,15 @@ public class CodeGenerator {
 		List<String> stack = new LinkedList<String>();
 		/** A counter used to keep track of what label we're at. */
 		LabelCounter counter = new LabelCounter();
+		
 		stack.add("link 2\n");
 		for(int i=0; i<tree.nrOfGlobals; i++)
 			stack.add("ldc 0\n");
 		stack.add("stmh 0 "+tree.nrOfGlobals+ "\n");
 		stack.add("stl 1\n");
+		tree.root.addCodeToStack(stack, counter);
 		stack.add("bsr "+tree.mainAddress+ "\n");
 		stack.add("halt\n");
-		tree.root.addCodeToStack(stack, counter);
 		return stack;
 	}
 	
