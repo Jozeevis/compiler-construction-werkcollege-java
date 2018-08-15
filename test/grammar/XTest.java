@@ -3,6 +3,8 @@
  */
 package grammar;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import lexer.Lexer;
@@ -20,7 +22,8 @@ public class XTest {
 	
 	@Test
 	public void testX() {
-		String code = " [Int] a = &1:2:3:4:[]; main () ::->void {print 't'; print a.tl.tl.hd;}" ;
+		//String code = " Dog { [Int] securityCode = &1:[]; Dog() {print securityCode.hd;}} main () ::->void {Dog dog = new Dog(); print dog.securityCode.hd;}" ;
+		String code = "main () ::->void {[Int] a = &3:[]; print 't'; a.tl = &9:6:4:20:[]; print a.tl.tl.tl.tl.hd;}";
 		Lexer l = new Lexer(code);
 		Parser p = new Parser(l);
 		System.out.println("code parsed");
@@ -32,7 +35,11 @@ public class XTest {
 			System.out.println("=====");
 			
 			System.out.println(TreeProcessing.checkWellTyped(t));
-			System.out.println(CodeGenerator.generateCode(t));
+			System.out.println("=====");
+			List<String> ssm =  CodeGenerator.generateCode(t);
+			for(String ssmLine : ssm) {
+				System.out.print(ssmLine);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

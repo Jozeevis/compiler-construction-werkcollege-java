@@ -25,5 +25,12 @@ public abstract class Accessor {
 	 * @param counter TODO
 	 */
 	public abstract void addCodeToStack(List<String> stack, LabelCounter counter);
+	
+	/**
+	 * The addCodetoStack for an accessor, that is used to get de assignment address.
+	 * @param stack
+	 * @param counter
+	 */
+	public abstract void addAssignmentCodeToStack(List<String> stack, LabelCounter counter);
 
 }

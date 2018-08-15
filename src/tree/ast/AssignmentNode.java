@@ -68,24 +68,42 @@ public class AssignmentNode extends ASyntaxKnot {
 		switch(scope) {
 		case GLOBAL:
 			stack.add("ldl 1\n");
-			break;
+			stack.add("ldc "+linkNumber+" \n");
+			stack.add("sub\n");
+			for(int i=0; i< accessors.length; i++) {
+				stack.add("ldh 0 \n");
+				accessors[i].addAssignmentCodeToStack(stack, counter);
+			}
+			stack.add("sta 0 \n");
+			return;
 		case STRUCT:
 			stack.add("ldl 2\n");
-			break;
+			stack.add("ldc "+linkNumber+" \n");
+			stack.add("sub\n");
+			for(int i=0; i< accessors.length; i++) {
+				stack.add("ldh 0 \n");
+				accessors[i].addAssignmentCodeToStack(stack, counter);
+			}
+			stack.add("sta 0 \n");
+			return;
 		case LOCAL:
-			
-			break;
+			if (accessors.length == 0) {
+				stack.add("stl "+(3+linkNumber) + "\n");
+				return;
+			} else {
+				stack.add("ldl "+(3+linkNumber)+ "\n");
+				accessors[0].addAssignmentCodeToStack(stack, counter);
+				for(int i=1; i< accessors.length; i++) {
+					stack.add("ldh 0 \n");
+					accessors[i].addAssignmentCodeToStack(stack, counter);
+				}
+				stack.add("sta 0 \n");
+				return;
+			}
 		default:
 			System.err.println("No case defined for scope: "+scope);
 			break;
 		}
-		for(Accessor accessor : accessors) {
-			accessor.addCodeToStack(stack, null);
-		}
-		if (scope == Scope.LOCAL)
-			stack.add("stl "+(3+linkNumber) + "\n");
-		else
-			stack.add("sta "+ (-linkNumber) + "\n");
 	}
 
 
