@@ -28,6 +28,7 @@ public class Minus extends TwoArg {
 
     @Override
     public BaseExpr optimize() {
+    	System.out.println("================================================\n"+this+"================================================\n");
         left = left.optimize();
         right = right.optimize();
         // x - 0 = x

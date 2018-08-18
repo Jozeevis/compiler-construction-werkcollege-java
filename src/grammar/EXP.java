@@ -22,12 +22,16 @@ public class EXP extends ExpressionTree {
 		addNode(new StarNode("Field", this));
 		addNode(new Node("SetDef"));
 		addNode(new Node("NumRng"));
+		addNode(new Node("PlusMinus"));
+		addNode(new StarNode("PlusMinus", this));
 		addNode(new Node("BoolExp4"));
 		addNode(new Node("BoolExp3"));
 		addNode(new Node("BoolExp2"));
 		addNode(new Node("BoolExp1"));
 		addNode(new Node("BoolExp0"));
 		addNode(new Node("NumFld"));
+		addNode(new Node("MDM"));
+		addNode(new StarNode("MDM", this));
 		addNode(new Node("NumSng"));
 		addNode(new Node("Type"));
 		addNode(new Node("FunCall"));
@@ -85,14 +89,16 @@ public class EXP extends ExpressionTree {
 			addExpressionTo(" '(' ~BoolExp4 ')' ", "brackets", "BoolExp0");
 			addExpressionTo(" 'isEmpty' ~SetDef", "isempty", "BoolExp0");
 			
-			addExpressionTo(" ~NumFld '+' ~NumRng ", "plus", "NumRng");
-			addExpressionTo(" ~NumFld '-' ~NumRng ", "minus", "NumRng");
-			addExpressionTo(" ~NumFld ", "NumRng");
+			addExpressionTo(" ~NumFld ~PlusMinusStar", "plusminus", "NumRng");
 			
-			addExpressionTo(" ~Neg'%' ~NumFld ", "modulo", "NumFld");
-			addExpressionTo(" ~Neg '/' ~NumFld ", "divide", "NumFld");
-			addExpressionTo(" ~Neg '*' ~NumFld ", "multiply", "NumFld");
-			addExpressionTo(" ~Neg", "NumFld");
+			addExpressionTo(" '+' ~NumFld", "PlusMinus");
+			addExpressionTo(" '-' ~NumFld", "PlusMinus");
+			
+			addExpressionTo(" ~Neg ~MDMStar", "mdm", "NumFld");
+			
+			addExpressionTo(" '%' ~Neg", "MDM");
+			addExpressionTo(" '/' ~Neg", "MDM");
+			addExpressionTo(" '*' ~Neg", "MDM");
 			
 			addExpressionTo(" ~NumSng", "Neg");
 			addExpressionTo("'-' ~Neg", "negative", "Neg");

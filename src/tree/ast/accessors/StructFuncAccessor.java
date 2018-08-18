@@ -46,4 +46,9 @@ public class StructFuncAccessor extends Accessor {
 		funcall.addCodeToStack(stack, counter);
 	}
 
+	@Override
+	public void addAssignmentCodeToStack(List<String> stack, LabelCounter counter) {
+		System.err.println("Struct Func Accessors are not supported for assignment use.");
+	}
+
 }
