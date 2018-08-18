@@ -181,7 +181,8 @@ public abstract class BaseExpr {
 				}
 				concats.add(0, convertToExpr((SyntaxExpressionKnot) plusKnot.children[0]));
 				// Convert the left element into a basic expression.
-				BaseExpr out = EmptyList.instanceOf; //convertToExpr((SyntaxExpressionKnot) knot.children[0]);
+				
+				BaseExpr out = convertToExpr((SyntaxExpressionKnot) knot.children[2]); //convertToExpr((SyntaxExpressionKnot) knot.children[0]);
 				// Iterate through the values we want to concatenate.
 				for (BaseExpr concat : concats) {
 					out = new Concat(concat, out);
