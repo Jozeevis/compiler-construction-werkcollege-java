@@ -52,4 +52,12 @@ public class StructVarAccessor extends Accessor {
 		stack.add("ldh " + -1 * offset + "\n");
 	}
 
+	@Override
+	public void addAssignmentCodeToStack(List<String> stack, LabelCounter counter) {
+		//Given that the address of the current list is on the stack
+		stack.add("ldc "+offset+" \n");
+		stack.add("sub \n");
+		//Now the address that is used to store the head variable, is on top of the stack.
+	}
+
 }

@@ -34,7 +34,7 @@ public class Concat extends TwoArg {
 	 */
 	@Override
 	public BaseExpr optimize() {
-		left.optimize();
+		left = left.optimize();
 		return this;
 	}
 
